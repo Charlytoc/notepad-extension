@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Rigobot GPT",
+  "name": "Notes by Charly",
   "description": "Create your own GPT bot, traing it with your own data and use it to generate text for your organization.",
   "version": "1.0.6",
   "action": {
@@ -12,6 +12,15 @@
     "32": "src/assets/icon-32.png",
     "48": "src/assets/icon-48.png",
     "128": "src/assets/icon-128.png"
+  },
+  "commands": {
+    "open_popup": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "Command+M"
+      },
+      "description": "Open the popup window"
+    }
   },
   "permissions": [
     "storage"

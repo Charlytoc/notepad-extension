@@ -1,93 +1,69 @@
 // Must be called html
 let html = () => {
-    const token = localStorage.getItem('token');
-    const name = localStorage.getItem('name')
-    const [error, setError] = useState('Error')
+    // const [notes, setNotes] = useState( || [])
+    const [fetched, setFetched] = useState(false)
 
-    actions.handleEmailChange = (e) => {
-        loginObject.email = e.target.value
-    }
-    if (token && name) {
-        window.location.href = 'organizations.html'
-    }
-    actions.handlePasswordChange = (e) => {
-        loginObject.password = e.target.value
+    const data = JSON.parse(localStorage.getItem('data')) || [];
+   
+   
 
-    }
-    const loginObject = {}
-
-    actions.forgotPassword = () => {
-        chrome.tabs.create({url: `https://breathecode.herokuapp.com/v1/auth/password/reset?url=https://4geeks.com/login`});
-    }
-
-    actions.login = (e) => {
-        // fetch(API_URL+'/v1/auth/login/', { THIS IS THE NEW ONE
-        fetch(API_URL+'/v1/auth/login/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                extension: true,
-                username: loginObject.email,
-                password: loginObject.password
-            })
-          })
-          .then(response => {
-            if (response.ok) {
-                return response.json()
+    actions.addNote = (e) => {
+        if (e.keyCode === 13) { // check if Enter key was pressed
+            const inputValue = e.target.value // get the value of the input field and remove any leading/trailing spaces
+            if (inputValue) { // check that the input value is not empty
+                let data = JSON.parse(localStorage.getItem('data')) || []; // get the existing data array from localStorage, or initialize an empty array if it doesn't exist
+                data.push(inputValue); // add the input value to the data array
+                localStorage.setItem('data', JSON.stringify(data)); // save the updated data array back to localStorage
+                location.reload()
+                
             }
-            else {
-                throw new Error(response.status)
-            }
-          })
-          .then((data) =>{
-            localStorage.setItem('name', data.name)
-            localStorage.setItem('token', data.token)
-            localStorage.setItem('organization', data.organization.id)
-            localStorage.setItem('organizationName', data.organization.name)
-            window.location.href = 'templates.html'
-          } ).
-          catch((error) => {
-            if (error.message.startsWith('401')) {
-                setError(`Please verify your email and password`);
-                const errorModal = document.querySelector(".error")
-                errorModal.style.animationPlayState = 'running';
-            }
-            if (error.message.startsWith('400')) {
-                setError(`Please create an account first`);
-                const errorModal = document.querySelector(".error")
-                errorModal.style.animationPlayState = 'running';
-            }
-            else {
-                setError(`Please verify your password. ${error}`)
-                const errorModal = document.querySelector(".error")
-                errorModal.style.animationPlayState = 'running';
-            }
-          })
+        }
     }
-
-
-        
-    return `<div class="home">
-    <img src="src/assets/rigobot-logo.png" />
-    <div><h1>Please log in</h1>
-    <input  id="email-input" placeholder="Email" type="email" />
-    <input  id="password-input" placeholder="Password" type="password" />
-    <button id="login-button">Login</button>
-    <div class="error">${error}</div>
-    <div class="signup">
-    <a id="forgot-password" class="backwards">Forgot password?</a>
-    <p>Don't have an account? <a class="backwards " href="signup.html"> Sign up here </a></p>
+    actions.deleteNote = (e) => {
+        const index = parseInt(e.target.dataset.noteId);
+        console.log(data[index], index, e.target.dataset)
+        data.splice(index, 1);
+        localStorage.setItem('data', JSON.stringify(data))
+        location.reload()
+    }
+    actions.copyNote = (e) => {
+        const index = parseInt(e.target.dataset.noteId);
+        const text = data[index]
+        navigator.clipboard.writeText(text)
+        .then(() => {
+        console.log('Text copied to clipboard');
+        })
+        .catch((err) => {
+        console.error('Failed to copy text: ', err);
+        });
+    }
+    // ${data.map((item, index) => `<span>${item}</span>`)}
+    return `<div class="home principal">
+    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i></h2>
+    <div class="navigation">
+    <a href="calendar.html" class="link">calendar</a>
+    <a class="link current">easy-copies</a>
+    <a href="tasks.html" class="link">tasks for today</a>
+    <a href="calendar.html" class="link">month goals</a>
     </div>
+    <input  id="note-input" placeholder="press enter to add the easy-copy" type="text" />
+    ${data.map((item, index) => 
+    `<div  class="note">
+    <p>${item}</p>
+    <div><button class=""><i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i></button>
+    <button class=""><i data-note-id=${index}  class="fa-solid fa-copy copy-note"></i></button>
     </div>
+    </div>`).join(' ')}
     </div>`;
 }
 
 document.addEventListener("render", ()=>{
-    document.querySelector("#email-input").addEventListener('keyup', actions.handleEmailChange);
-    document.querySelector("#password-input").addEventListener('change', actions.handlePasswordChange);
-    document.querySelector("#login-button").addEventListener('click', actions.login);
-    document.querySelector("#forgot-password").addEventListener('click', actions.forgotPassword);
+    document.querySelector("#note-input").addEventListener('keyup', actions.addNote);
+    document.querySelectorAll(".erase-note").forEach((button) => {
+        button.addEventListener("click", actions.deleteNote);
+      });
+    document.querySelectorAll(".copy-note").forEach((button) => {
+        button.addEventListener("click", actions.copyNote);
+      });
 
 })

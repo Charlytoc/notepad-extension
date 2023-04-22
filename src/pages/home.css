@@ -1,52 +1,49 @@
-/* 
-   Important! The component class name always have to be lowercase 
-   and it has to match the js and css file names 
-*/
-.home > div > *:not(.signup) {
 
-   margin-top: 7px;
-}
-.home {
-   margin: 0 auto;
-   height: 100%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   flex-direction: column;
-  
-}
-.home > div {
-   margin: 3vh auto;
-   text-align: left;
-   width: 80%;
-   text-align: center;
-}
-
-
- .home > div > h1 {
-   font-size: 24px;
- }
- .home > div > input, button {
-   padding: 10px;
+.home > input {
+   background-color: #043f47;
+   color: var(--color-rose);
    width: 100%;
- }
- .home > div > button {
-   width: 100%;
-   background-color: var(--color-one);
-   color: white;
-   padding: 10px;
+   padding: 5px;
    border-radius: 3px;
    border: 0;
+
+}
+.home > input::placeholder {
+   color: rgba(245, 245, 245, 0.832);
+   font-weight: 400 !important;
+}
+.home > input:focus {
+   border: 1px solid var(--chat-primary-color);
+   outline: none;
+   font-weight: 600;
+}
+.note {
+   padding: 5px;
+   font-size: 13px;
+   color: rgba(255, 255, 255, 0.885);
+   font-weight: bold;
+   display: grid;
+   grid-template-columns: 90% 10%;
+   word-break: break-all;
+   gap: 3px;
+
+}
+.note > div:last-child {
+   display: flex;
+   align-items: end;
+   justify-content: space-between; 
+ }
+ .note > div:last-child button {
+   display: inline-block;
+ }
+.note > div:last-child button {
+   background-color: transparent;
+   border: none;
+   color: var(--color-rose);
+   margin-left: 2px;
+   cursor: pointer;
+}
+.note > div:last-child button:hover {
+   color: white;
 }
 
-.signup {
-   margin-top: 10px;
-   text-align: left;
-   font-weight: 400;
-}
-.signup > *:first-child  {
-   display: inline-block;
-   cursor: pointer;
-   text-decoration: underline;
-   margin-bottom: 10px;
-}

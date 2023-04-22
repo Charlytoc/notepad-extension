@@ -1,23 +1,7 @@
 {
   "pages": [
     {
-      "name": "addRepo",
-      "hasStyles": true
-    },
-    {
-      "name": "bookmark",
-      "hasStyles": true
-    },
-    {
-      "name": "forgot",
-      "hasStyles": true
-    },
-    {
-      "name": "generate",
-      "hasStyles": true
-    },
-    {
-      "name": "organizations",
+      "name": "calendar",
       "hasStyles": true
     },
     {
@@ -25,23 +9,7 @@
       "hasStyles": true
     },
     {
-      "name": "signup",
-      "hasStyles": true
-    },
-    {
-      "name": "templates",
-      "hasStyles": true
-    },
-    {
-      "name": "thanks",
-      "hasStyles": true
-    },
-    {
-      "name": "topics",
-      "hasStyles": true
-    },
-    {
-      "name": "train",
+      "name": "tasks",
       "hasStyles": true
     }
   ]

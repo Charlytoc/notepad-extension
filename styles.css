@@ -1,187 +1,59 @@
 :root {
-    --color-one: #2F80ED;
-    --standard-padding: 10px;
-    --color-one-opaque: #2f81ed29;
+    --color-rose: rgb(255, 0, 98);
+    --chat-primary-color: #85c5ce;
+    --color-bg: #001013;
 }
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+html {
+    color-scheme: dark;
+}
 body {
-    width: 325px;
-    height: 430px;
+    width: fit-content;
+    height: fit-content;
     font-family: 'Lato', sans-serif;
     overflow-y: hidden;
-    /* background-color: #2F80ED; */
+    background-color: var(--color-bg)
 }
 #root {
     width: 100%;
     height: 100%;
-}
-button:hover {
-    cursor: pointer;
-    opacity: 0.9;
-}
-.header {
-    display: flex;
-    background-color: #E0E0E0;
-}
-.header a {
-    padding: 10px;
-    display: block;
-    width: 50%;
-    text-align: center;
-    background-color: #E0E0E0;
-    text-decoration: none;
-    color: black;
-    font-weight: 700;
-}
-.header:not(.train-header) a:first-child {
-    border-top-right-radius: 8px;
-    background-color: white;
-}
-.train-header a:last-child {
-    border-top-left-radius: 8px;
-    background-color: white;
+    overflow: hidden;
 }
 
-footer {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 70px;
-    position: sticky;
-    bottom: 0;
-    background-color: white;
-    /* margin-top: 40px; */
+.navigation {
+    display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: var(--standard-padding);
-}
-
-footer > div:first-child {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 10px;
-    align-items: center;
-}
-footer > div:last-child {
-    width: 50%;
-    justify-content: right;
-    align-items: center;
-}
-footer > div:last-child button {
-    padding: 4px 8px;
-    border: 0;
-    color: white;
-    background-color: #828282;
-    border-radius: 3px;
-}
-footer > div > div >div {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-footer > div > div > div > button {
-    background-color: white;
-    border: 0;
-    color: var(--color-one);
-    display: flex;
-    align-items: center;
-}
-footer > div  img {
-    height: 25px;
-}
-
-a.backwards.lighter {
-    color: black;
-    opacity: 0.8;
+    padding: 6px;
+ }
+ .navigation > a {
+    color: var(--chat-primary-color);
+    font-weight: bold;
     text-decoration: none;
- }
- a.backwards {
-    color: rgba(0, 0, 0, 0.596);
-    display: inline-block;
-    opacity: 0.8;
- }
-
- a.backwards.right:hover {
-    transform: translateX(5px) !important;
-    transition: all 0.2s;
- }
- a.backwards.left:hover {
-    transform: translateX(-5px) !important;
-    transition: all 0.2s;
- }
- a.backwards:hover {
-    opacity: 1;
-    cursor: pointer;
-    color: var(--color-one);
-    scale: 1.02;
-    transition: all 0.2s;
+    padding: 3px;
+    border-radius: 5px;
+    border-top: 0;
+    border-bottom: 0;
  }
 
- .error {
-    transform: translateX(500px);
-    animation: downup 5s ease-in-out 1;
-    animation-play-state: paused;
-    background-color: #cbcbcb;
-    padding: var(--standard-padding);
-    border-radius: 3px;
-    color: rgb(0, 0, 0);
+.current {
+    color: var(--color-rose) !important;
+    border: 1px solid var(--color-rose);
+}
+.principal {
+    background-color: var(--color-bg);
+   width: 325px;
+   height: 430px;
+}
+.principal > h2 {
+    color: var(--chat-primary-color);
+    text-align: center;
+    padding: 5px;
+ }
+ .rose {
     font-weight: 700;
-    position: absolute;
-    z-index: 2;
+    color: var(--color-rose);
  }
- .completions-toggle {
-    display: inline-block;
-    background-color: #EB5757;
-    padding: 3px 6px;
-    margin-left: 3px;
-    color: white;
-    border-radius: 4px;
- }
- @keyframes downup {
-    0%{
-       transform: translateX(500px);
-       display: block;
-    }
-    15%{
-       transform: translateX(0px);
-    }
-    85%{
-       transform: translateX(0px);
-    }
-    100%{
-       display: none;
-       transform: translateX(500px);
-       animation-play-state: paused;
-    }
- }
-
- ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background: transparent
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: #E0E0E0;
-    border-radius: 10px;
-
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: gray
-  }
-
-.pill {
-    background-color: var(--color-one);
-    color: rgb(255, 255, 255);
-    padding: var(--standard-padding);
-    text-decoration: none;
-    display: inline-block;
-    margin: 0 auto;
-    border-radius: 3px;
-
-}

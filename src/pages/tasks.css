@@ -1,0 +1,58 @@
+
+.home > input {
+    background-color: #043f47;
+    color: var(--color-rose);
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 0;
+    margin-bottom: 2px;
+
+ }
+ .home  input::placeholder {
+    color: rgba(245, 245, 245, 0.832);
+    font-weight: 400 !important;
+ }
+ .home  input:focus {
+    border: 1px solid var(--chat-primary-color);
+    outline: none;
+    font-weight: bold;
+ }
+ .sticker-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+    overflow: hidden;
+ }
+ .sticker-board > div {
+    padding: 2px;
+    word-break: break-all;
+    border-radius: 5px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    gap: 3px;
+    background-color: rgb(5, 52, 76);
+ }
+ .sticker-board > div > h3 {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 14px;
+    line-height: 13px;
+    letter-spacing: 1.5px;
+    word-break: keep-all;
+
+ }
+ .sticker-board > div > i {
+   color: #d51669;
+   cursor: pointer;
+   display: block;
+   text-align: center;
+
+ }
+ .sticker-board > div > i:hover {
+   color: whitesmoke;
+ }

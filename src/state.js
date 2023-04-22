@@ -3,13 +3,13 @@ let currentRefCount = 0;
 window.actions = {};
 
 // const API_URL = 'https://rigobot.herokuapp.com'
-const API_URL = 'https://8000-charlytoc-rigobot-69418a075xy.ws-us94.gitpod.io'
+const API_URL = 'https://8000-charlytoc-rigobot-sahoq82otnu.ws-us95.gitpod.io'
 
 
 
 const RENDER_EVENT = new Event('render')
 const render = () => {
-    // console.log("Calling render, state values are ", window.stateValues)
+
     document.querySelector('#root').innerHTML = html();
     currentRefCount = 0;
     document.dispatchEvent(RENDER_EVENT);
@@ -37,3 +37,6 @@ const useState = (defaultValue) => {
 }
 
 window.onload = render();
+
+
+
