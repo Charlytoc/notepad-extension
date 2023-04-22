@@ -46,13 +46,12 @@
     word-break: keep-all;
 
  }
- .sticker-board > div > i {
+ .sticker-board > div > div > i {
    color: var(--color-rose);
    cursor: pointer;
-   display: block;
    text-align: center;
 
  }
- .sticker-board > div > i:hover {
+ .sticker-board > div > div>  i:hover {
    color: whitesmoke;
  }
