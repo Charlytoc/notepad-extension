@@ -7,9 +7,10 @@
     border: 1px solid rgb(5, 52, 76); 
     padding: 9px; 
     text-align: center;
-    border-radius: 5%;
+    border-radius: 10%;
   }
 .today {
     color: var(--color-rose);
     font-weight: bold;
+    font-size: 14px;
 }

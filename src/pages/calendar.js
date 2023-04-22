@@ -39,13 +39,13 @@ const calendar = makeCalendar(firstDayOfMonth, daysInMonth)
             <a href="calendar.html" class="link">month goals</a>
             </div>
              <div class="grid-calendar">
-            <div class="today">sun</div>
-            <div class="today">mon</div>
-            <div class="today">tue</div>
-            <div class="today">wed</div>
-            <div class="today">thu</div>
-            <div class="today">fri</div>
-            <div class="today">sat</div>
+            <div class="today">s</div>
+            <div class="today">m</div>
+            <div class="today">t</div>
+            <div class="today">w</div>
+            <div class="today">t</div>
+            <div class="today">f</div>
+            <div class="today">s</div>
                     ${
                         calendar.map((item) => item === dayOfMonth ? `<div class="today">${item}</div>` : `<div>${item}</div>`).join(' ')
                     }

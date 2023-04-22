@@ -39,14 +39,14 @@ let html = () => {
     }
     // ${data.map((item, index) => `<span>${item}</span>`)}
     return `<div class="home principal">
-    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i></h2>
+    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i> - by charlytoc</h2>
     <div class="navigation">
     <a href="calendar.html" class="link">calendar</a>
     <a class="link current">easy-copies</a>
     <a href="tasks.html" class="link">tasks for today</a>
     <a href="calendar.html" class="link">month goals</a>
     </div>
-    <input  id="note-input" placeholder="press enter to add the easy-copy" type="text" />
+    <input  id="note-input" placeholder="press enter to add an easy-copy" type="text" />
     ${data.map((item, index) => 
     `<div  class="note">
     <p>${item}</p>

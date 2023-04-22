@@ -53,7 +53,7 @@ let html = () => {
     }
 
     return `<div class="home principal">
-    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i></h2>
+    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i> - by charlytoc</h2>
     <div class="navigation">
     <a href="calendar.html" class="link">calendar</a>
     <a href="home.html" class="link">easy-copies</a>

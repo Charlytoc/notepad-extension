@@ -47,7 +47,7 @@
 
  }
  .sticker-board > div > i {
-   color: #d51669;
+   color: var(--color-rose);
    cursor: pointer;
    display: block;
    text-align: center;
