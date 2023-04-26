@@ -45,7 +45,7 @@ let html = () => {
 
     const returnSticker = (item, index) => {
         return `<div class="${item.class}">
-                    <h3>${item.title}</h3>
+                    <div><span>${item.title}</span></div>
                     <div>
                     <i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i>
                     <i data-note-id=${index} class="fa-solid fa-square-check mark-as-done"></i>

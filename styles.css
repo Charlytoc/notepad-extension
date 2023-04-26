@@ -46,7 +46,7 @@ body {
 .principal {
     background-color: var(--color-bg);
    width: 325px;
-   height: 430px;
+   min-height: 420px;
 }
 .principal > h2 {
     color: var(--chat-primary-color);
