@@ -1,21 +1,25 @@
 // Must be called html
+
+
 const navigation = () => `<div class="navigation">
 <a href="calendar.html" class="link">calendar</a>
-<a href="home.html" class="link ">easy-copies</a>
-<a href="tasks.html" class="link current">tasks for today</a>
-<a href="monthGoals.html" class="link">month goals</a>
+<a href="home.html"  class="link ">easy-copies</a>
+<a href="tasks.html" class="link">tasks for today</a>
+<a href="monthGoals.html" class="link current">month goals</a>
 </div>
 `
 let html = () => {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const tasks = JSON.parse(localStorage.getItem('goals')) || [];
    
-    const task = {    }
+    const task = {
+        
+    }
     actions.handleTitle = (e) => {
         task.title = e.target.value;
         if (e.keyCode === 13 && task.title) {
-            let data = JSON.parse(localStorage.getItem('tasks')) || []; 
+            let data = JSON.parse(localStorage.getItem('goals')) || []; 
             data.push(task);
-            localStorage.setItem('tasks', JSON.stringify(data));
+            localStorage.setItem('goals', JSON.stringify(data));
             location.reload()
         }
     }
@@ -24,9 +28,9 @@ let html = () => {
         if (e.keyCode === 13) { 
             const inputValue = e.target.value 
             if (inputValue) { 
-                let data = JSON.parse(localStorage.getItem('tasks')) || []; 
+                let data = JSON.parse(localStorage.getItem('goals')) || []; 
                 data.push(inputValue); 
-                localStorage.setItem('tasks', JSON.stringify(data)); 
+                localStorage.setItem('goals', JSON.stringify(data)); 
                 location.reload()
                 
             }
@@ -36,7 +40,7 @@ let html = () => {
         const index = parseInt(e.target.dataset.noteId);
         console.log(tasks[index], index, e.target.dataset)
         tasks.splice(index, 1);
-        localStorage.setItem('tasks', JSON.stringify(tasks))
+        localStorage.setItem('goals', JSON.stringify(tasks))
         location.reload()
     }
     actions.markAsDone = (e) => {
@@ -44,7 +48,7 @@ let html = () => {
         tasks[index].class === "done" ? tasks[index].class = "" : tasks[index].class = "done"
         
         console.log(tasks[index], index, e.target.dataset)
-        localStorage.setItem('tasks', JSON.stringify(tasks))
+        localStorage.setItem('goals', JSON.stringify(tasks))
         location.reload()
     }
 
@@ -61,7 +65,7 @@ let html = () => {
     return `<div class="home principal">
     <h2>notepad <i class="fa-regular fa-comment-dots rose"></i> - by charlytoc</h2>
     ${navigation()}
-    <input  id="title-input" placeholder="it's easy to do simple tasks than harder ones!" type="text" />
+    <input  id="title-input" placeholder="Focus in this notes to be succesful" type="text" />
     <section class="sticker-board">
     ${tasks.map((item, index)=> returnSticker(item, index)).join(' ')}
     </section>

@@ -24,8 +24,6 @@ const fabricateModifier = (internalIndex) => {
         if (renderize) {
             render()
         }
-        
-        
     };
     return setter;
 }
@@ -37,6 +35,4 @@ const useState = (defaultValue) => {
 }
 
 window.onload = render();
-
-
 

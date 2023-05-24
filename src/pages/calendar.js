@@ -1,4 +1,13 @@
 // Must be called html
+
+
+const navigation = () => `<div class="navigation">
+<a href="calendar.html" class="link current">calendar</a>
+<a href="home.html" class="link ">easy-copies</a>
+<a href="tasks.html" class="link">tasks for today</a>
+<a href="monthGoals.html" class="link">month goals</a>
+</div>
+`
 let html = () => {
 
     const days = {
@@ -32,12 +41,7 @@ const calendar = makeCalendar(firstDayOfMonth, daysInMonth)
 
         return `<div class="calendar principal">
         <h2>notepad <i class="fa-regular fa-comment-dots rose"></i></h2>
-             <div class="navigation">
-            <a class="link current">calendar</a>
-            <a href="home.html" class="link">easy-copies</a>
-            <a href="tasks.html" class="link">tasks for today</a>
-            <a href="calendar.html" class="link">month goals</a>
-            </div>
+            ${navigation()}
              <div class="grid-calendar">
             <div class="today">s</div>
             <div class="today">m</div>

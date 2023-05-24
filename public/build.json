@@ -9,6 +9,10 @@
       "hasStyles": true
     },
     {
+      "name": "monthGoals",
+      "hasStyles": true
+    },
+    {
       "name": "tasks",
       "hasStyles": true
     }

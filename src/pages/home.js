@@ -1,11 +1,24 @@
 // Must be called html
+
+
+
+const navigation = () => `<div class="navigation">
+<a href="calendar.html" class="link">calendar</a>
+<a class="link current">easy-copies</a>
+<a href="tasks.html" class="link">tasks for today</a>
+<a href="monthGoals.html" class="link">month goals</a>
+</div>
+`
 let html = () => {
     // const [notes, setNotes] = useState( || [])
     const [fetched, setFetched] = useState(false)
 
     const data = JSON.parse(localStorage.getItem('data')) || [];
    
-   
+   const easyCopy = {
+        name: "",
+        link:""
+   }
 
     actions.addNote = (e) => {
         if (e.keyCode === 13) { // check if Enter key was pressed
@@ -40,12 +53,7 @@ let html = () => {
     // ${data.map((item, index) => `<span>${item}</span>`)}
     return `<div class="home principal">
     <h2>notepad <i class="fa-regular fa-comment-dots rose"></i> - by charlytoc</h2>
-    <div class="navigation">
-    <a href="calendar.html" class="link">calendar</a>
-    <a class="link current">easy-copies</a>
-    <a href="tasks.html" class="link">tasks for today</a>
-    <a href="calendar.html" class="link">month goals</a>
-    </div>
+    ${navigation()}
     <input  id="note-input" placeholder="press enter to add an easy-copy" type="text" />
     ${data.map((item, index) => 
     `<div  class="note">
