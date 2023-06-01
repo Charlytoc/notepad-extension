@@ -59,7 +59,7 @@ let html = () => {
     }
 
     return `<div class="home principal">
-    <h2>notepad <i class="fa-regular fa-comment-dots rose"></i> - by charlytoc</h2>
+    <h2>Notepad <i class="fa-regular fa-comment-dots rose"></i> - by Charlytoc</h2>
     ${navigation()}
     <input  id="title-input" placeholder="it's easy to do simple tasks than harder ones!" type="text" />
     <section class="sticker-board">

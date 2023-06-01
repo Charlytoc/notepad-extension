@@ -40,7 +40,7 @@ const makeCalendar = (firstDay, numberOfDays) => {
 const calendar = makeCalendar(firstDayOfMonth, daysInMonth)
 
         return `<div class="calendar principal">
-        <h2>notepad <i class="fa-regular fa-comment-dots rose"></i></h2>
+        <h2>Notepad <i class="fa-regular fa-comment-dots rose"></i> - by Charlytoc</h2>
             ${navigation()}
              <div class="grid-calendar">
             <div class="today">s</div>

@@ -1,11 +1,13 @@
 
 .home > input {
-   background-color: #043f47;
+   
    color: var(--color-rose);
    width: 100%;
    padding: 5px;
    border-radius: 3px;
    border: 0;
+   margin-top: 3px;
+   font-weight: bold;
 
 }
 .home > input::placeholder {
@@ -17,21 +19,28 @@
    outline: none;
    font-weight: 600;
 }
+.note-container {
+   display: flex;
+   gap: 3px;
+   margin-top: 3px;
+}
 .note {
    padding: 5px;
    font-size: 13px;
+   background-color: rgba(19, 154, 147, 0.472);
    color: rgba(255, 255, 255, 0.885);
    font-weight: bold;
-   display: grid;
-   grid-template-columns: 90% 10%;
+   display: flex;
+   flex-direction: column;
    word-break: break-all;
    gap: 3px;
-
+   border-radius: 5px;
 }
 .note > div:last-child {
    display: flex;
    align-items: end;
-   justify-content: space-between; 
+   justify-content: center; 
+   
  }
  .note > div:last-child button {
    display: inline-block;
