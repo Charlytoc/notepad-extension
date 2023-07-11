@@ -1,9 +1,13 @@
 :root {
-    --color-rose: rgb(255, 0, 98);
-    --chat-primary-color: #85c5ce;
-    --color-bg: #001013;
-    --font-head: 'Cabin Condensed', sans-serif;
-    --font-text: 'Advent Pro', sans-serif;
+    --color-rose: rgb(255, 0, 38);
+    --chat-primary-color: #001316;
+    --color-bg: #ffffff;
+    --input-color-gray: #73757630;
+    --font-head:'Montserrat', sans-serif;
+    --font-text: 'Asap', sans-serif;
+    --font-thin: 'Advent Pro', sans-serif;
+    --font-to-title: 'Montserrat', sans-serif;
+    --font-to-read: 'Roboto Condensed', sans-serif;
 }
 * {
     margin: 0;
@@ -16,7 +20,7 @@ html {
 body {
     width: fit-content;
     height: fit-content;
-    font-family: var(--font-text);
+    /* font-family: var(--font-text); */
     overflow-y: hidden;
     background-color: var(--color-bg)
 }
@@ -27,23 +31,29 @@ body {
 }
 
 .navigation {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: space-around;
+   
  }
  .navigation > a {
+    text-align: center;
+    font-family: var(--font-text);
     color: var(--chat-primary-color);
-    font-weight: bold;
     text-decoration: none;
+    font-size: 20px;
     padding: 3px;
-    border-radius: 5px;
-    border-top: 0;
-    border-bottom: 0;
+    /* border-radius: 5px; */
+ }
+ .navigation > a:hover {
+    background-color: rgba(229, 228, 228, 0.615);
  }
 
 .current {
-    color: var(--color-rose) !important;
-    border: 1px solid var(--color-rose);
+    color: rgb(187, 15, 69);
+    font-weight: 700;
+    font-size: 20px;
+    font-family: var(--font-to-title);
 }
 .principal {
     background-color: var(--color-bg);
@@ -52,7 +62,6 @@ body {
    padding: 3px;
 }
 .principal > h2 {
-    color: var(--chat-primary-color);
     text-align: center;
     padding: 5px;
    
@@ -66,14 +75,40 @@ body {
     opacity: 0.7;
  }
  h1, h2 {
-    font-family: var(--font-head);
-    font-weight: bold;
+    /* font-family: var(--font-head); */
+    /* font-weight: bold; */
+    color: rgb(23, 23, 23);
  }
  input {
     font-family: var(--font-text);
-    background-color: #043f47b1;
+    background-color: var(--input-color-gray);
+    color: rgb(0, 0, 0) !important;
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 0;
+    margin-top: 3px;
+    font-weight: bold;
+ }
+ input:hover {
+    border: 0;
+    outline: 0;
  }
  p {
-    font-family: var(--font-head);
-    font-size: 20px;
+    font-family: var(--font-thin);
+    font-size: 18px;
+ }
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 2px;
+    
+}
+::-webkit-scrollbar-thumb {
+    background-color: #001316;
+    max-height: 5px !important;
+}
+
+input::placeholder {
+    color: rgb(74, 73, 73);
+    font-weight: 400 !important;
  }

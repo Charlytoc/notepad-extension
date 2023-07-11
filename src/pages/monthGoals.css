@@ -1,13 +1,4 @@
 
-.home > input {
-    color: var(--color-rose);
-    width: 100%;
-    padding: 5px;
-    border-radius: 3px;
-    border: 0;
-    margin-bottom: 2px;
-
- }
  .home  input::placeholder {
     color: rgba(245, 245, 245, 0.832);
     font-weight: 400 !important;

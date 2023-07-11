@@ -9,9 +9,37 @@ const navigation = () => `<div class="navigation">
 <a href="monthGoals.html" class="link">month goals</a>
 </div>
 `
+
+
+const modal = (id) => {
+    console.log(id);
+    return `
+    <div id="modal-${id}" class="copied-modal">
+    Copied to clipboard!
+    </div>
+    `
+}
+
+const noteComponent = (item, index) => `
+<div data-note-id=${index} class="note">
+${modal(index)}
+<p>${item.name}</p>
+<div><button class=""><i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i></button>
+<button class=""><i data-note-id=${index}  class="fa-solid fa-copy copy-note"></i></button>
+</div>
+</div>
+ `
+
 let html = () => {
 
     const [fetched, setFetched] = useState(false)
+
+    const CURRENT_WINDOW = 'HOME'
+    const LAST_WINDOW = localStorage.getItem('LAST_WINDOW');
+    if (LAST_WINDOW !== CURRENT_WINDOW) {
+        localStorage.setItem('LAST_WINDOW', CURRENT_WINDOW);
+    }
+
 
     const data = JSON.parse(localStorage.getItem('data')) || [];
    
@@ -19,7 +47,10 @@ let html = () => {
         name: "",
         link:""
    }
-
+   
+   chrome.commands.onCommand.addListener((command) => {
+    console.log(`Command "${command}" triggered`);
+  });
     actions.addNote = (e) => {
         if (e.keyCode === 13) { // check if Enter key was pressed
             const inputValue = e.target.value // get the value of the input field and remove any leading/trailing spaces
@@ -38,7 +69,7 @@ let html = () => {
     }
     actions.deleteNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
-        console.log(data[index], index, e.target.dataset)
+        // console.log(data[index], index, e.target.dataset)
         data.splice(index, 1);
         localStorage.setItem('data', JSON.stringify(data))
         location.reload()
@@ -48,7 +79,11 @@ let html = () => {
         const text = data[index].link
         navigator.clipboard.writeText(text)
         .then(() => {
-        console.log('Text copied to clipboard');
+            const copyModal = document.querySelector(`#modal-${index}`);
+            // copyModal.classList += ' animate-disappear';            
+            console.log(copyModal);
+            copyModal.style.animationPlayState = 'running';
+
         })
         .catch((err) => {
         console.error('Failed to copy text: ', err);
@@ -58,16 +93,10 @@ let html = () => {
     return `<div class="home principal">
     <h2>Notepad <i class="fa-regular fa-comment-dots rose"></i> - by Charlytoc</h2>
     ${navigation()}
-    <input  id="name-input" placeholder="What you want to display" type="text" />
-    <input  id="note-input" placeholder="What you want to save" type="text" />
+    <input  id="name-input" placeholder="what you want to display" type="text" />
+    <input  id="note-input" placeholder="what you want to save" type="text" />
     <section class="note-container">
-    ${data.map((item, index) => 
-        `<div  class="note">
-        <p>${item.name}</p>
-        <div><button class=""><i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i></button>
-        <button class=""><i data-note-id=${index}  class="fa-solid fa-copy copy-note"></i></button>
-        </div>
-        </div>`).join(' ')}
+    ${data.map(noteComponent).join(' ')}
     </section>
     </div>`;
 }

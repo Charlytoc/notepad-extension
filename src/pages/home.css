@@ -1,40 +1,35 @@
 
-.home > input {
-   
-   color: var(--color-rose);
-   width: 100%;
-   padding: 5px;
-   border-radius: 3px;
-   border: 0;
-   margin-top: 3px;
-   font-weight: bold;
 
-}
-.home > input::placeholder {
-   color: rgba(245, 245, 245, 0.832);
-   font-weight: 400 !important;
-}
 .home > input:focus {
    border: 1px solid var(--chat-primary-color);
    outline: none;
    font-weight: 600;
 }
 .note-container {
-   display: flex;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
    gap: 3px;
+   background-color: transparent;
+   flex-wrap: wrap;
    margin-top: 3px;
 }
 .note {
-   padding: 5px;
-   font-size: 13px;
-   background-color: rgba(19, 154, 147, 0.472);
-   color: rgba(255, 255, 255, 0.885);
+   padding: 6px;
+   background-color: #f1ebebe0;
+   color: rgb(40, 40, 40);
    font-weight: bold;
    display: flex;
+   text-align: center;
    flex-direction: column;
    word-break: break-all;
    gap: 3px;
    border-radius: 5px;
+   flex-grow: 1;
+   font-size: 10px !important;
+   position: relative;
+}
+.note:hover {
+   background-color: aliceblue;
 }
 .note > div:last-child {
    display: flex;
@@ -42,17 +37,39 @@
    justify-content: center; 
    
  }
- .note > div:last-child button {
-   display: inline-block;
- }
 .note > div:last-child button {
    background-color: transparent;
    border: none;
-   color: var(--color-rose);
+   color: rgba(250, 0, 0, 0.337);
    margin-left: 2px;
+   display: inline-block;
    cursor: pointer;
 }
 .note > div:last-child button:hover {
-   color: white;
+   color: rgb(250, 0, 0);
+}
+
+.copied-modal {
+   background-color: rgba(223, 218, 218, 0.917);
+   color: rgb(0, 0, 0);
+   position: absolute;
+   visibility: hidden;
+   padding: 6px;
+   width: 150px;
+   border-radius: 5px;
+   animation: appear-disappear 1s ease-in-out 1;
+   animation-play-state: paused;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+}
+
+@keyframes appear-disappear {
+   0%{
+      visibility: hidden;
+   }
+   100%{
+      visibility: visible;
+   }
 }
 

@@ -9,11 +9,11 @@
       "hasStyles": true
     },
     {
-      "name": "monthGoals",
+      "name": "tasks",
       "hasStyles": true
     },
     {
-      "name": "tasks",
+      "name": "monthGoals",
       "hasStyles": true
     }
   ]

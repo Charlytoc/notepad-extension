@@ -49,8 +49,8 @@ let html = () => {
     }
 
     const returnSticker = (item, index) => {
-        return `<div class="${item.class}">
-                    <div><span>${item.title}</span></div>
+        return `<div class="sticker ${item.class}">
+                    <p>${item.title}</p>
                     <div>
                     <i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i>
                     <i data-note-id=${index} class="fa-solid fa-square-check mark-as-done"></i>
