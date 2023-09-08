@@ -9,11 +9,15 @@
       "hasStyles": true
     },
     {
-      "name": "tasks",
+      "name": "monthGoals",
       "hasStyles": true
     },
     {
-      "name": "monthGoals",
+      "name": "notetaker",
+      "hasStyles": true
+    },
+    {
+      "name": "tasks",
       "hasStyles": true
     }
   ]

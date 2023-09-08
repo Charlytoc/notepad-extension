@@ -1,16 +1,6 @@
 // Must be called html
 
 
-
-const navigation = () => `<div class="navigation">
-<a href="calendar.html" class="link">calendar</a>
-<a class="link current">easy-copies</a>
-<a href="tasks.html" class="link">tasks for today</a>
-<a href="monthGoals.html" class="link">month goals</a>
-</div>
-`
-
-
 const modal = (id) => {
     console.log(id);
     return `
@@ -47,10 +37,7 @@ let html = () => {
         name: "",
         link:""
    }
-   
-   chrome.commands.onCommand.addListener((command) => {
-    console.log(`Command "${command}" triggered`);
-  });
+
     actions.addNote = (e) => {
         if (e.keyCode === 13) { // check if Enter key was pressed
             const inputValue = e.target.value // get the value of the input field and remove any leading/trailing spaces
@@ -91,10 +78,10 @@ let html = () => {
     }
     // ${data.map((item, index) => `<span>${item}</span>`)}
     return `<div class="home principal">
-    <h2>Notepad <i class="fa-regular fa-comment-dots rose"></i> - by Charlytoc</h2>
+    
     ${navigation()}
-    <input  id="name-input" placeholder="what you want to display" type="text" />
-    <input  id="note-input" placeholder="what you want to save" type="text" />
+    <input  id="name-input" placeholder="Title of the new note" type="text" />
+    <input  id="note-input" placeholder="Write here the content to save and press enter" type="text" />
     <section class="note-container">
     ${data.map(noteComponent).join(' ')}
     </section>

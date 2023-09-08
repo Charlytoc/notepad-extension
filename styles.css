@@ -1,13 +1,15 @@
 :root {
-    --color-rose: rgb(255, 0, 38);
-    --chat-primary-color: #001316;
-    --color-bg: #ffffff;
-    --input-color-gray: #73757630;
-    --font-head:'Montserrat', sans-serif;
-    --font-text: 'Asap', sans-serif;
-    --font-thin: 'Advent Pro', sans-serif;
-    --font-to-title: 'Montserrat', sans-serif;
-    --font-to-read: 'Roboto Condensed', sans-serif;
+    --color-action: #c33e3e;
+    --color-background: #b9b9b9;
+    --color-text-black: #000000;
+    --color-text-white: #ffffff;
+    --color-secondary: #ceb9b98f;
+    --color-text-secondary: #474747;
+
+    --font-family-title: 'Noto Sans', sans-serif;
+    --font-family-text: 'Space Grotesk', sans-serif;   
+    
+    --background-color-opaque: #b5b5b54d;
 }
 * {
     margin: 0;
@@ -15,48 +17,46 @@
     box-sizing: border-box;
 }
 html {
-    color-scheme: dark;
+    color-scheme: light;
 }
 body {
     width: fit-content;
     height: fit-content;
-    /* font-family: var(--font-text); */
+    font-family: var(--font-text);
     overflow-y: hidden;
-    background-color: var(--color-bg)
 }
 #root {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    /* opacity: 0.5; */
+    background-color: #474747;
 }
 
-.navigation {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: space-around;
-   
- }
- .navigation > a {
-    text-align: center;
-    font-family: var(--font-text);
-    color: var(--chat-primary-color);
+a {
+    color: var(--color-text-white);
     text-decoration: none;
-    font-size: 20px;
-    padding: 3px;
-    /* border-radius: 5px; */
- }
- .navigation > a:hover {
-    background-color: rgba(229, 228, 228, 0.615);
- }
+    font-family: var(--font-family-text);
+}
+
+p {
+    font-family: var(--font-family-text);
+    font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-text);
+}
+input, textarea {
+    font-family: var(--font-family-text);
+}
 
 .current {
-    color: rgb(187, 15, 69);
-    font-weight: 700;
-    font-size: 20px;
-    font-family: var(--font-to-title);
+    color: var(--color-action);
 }
 .principal {
-    background-color: var(--color-bg);
+   background-image: url(src/assets/background.png);
+   background-size: cover;
    width: 500px;
    min-height: 600px;
    padding: 3px;
@@ -64,40 +64,36 @@ body {
 .principal > h2 {
     text-align: center;
     padding: 5px;
+    border-radius: 7px;
+    /* border: 1px solid green; */
+    backdrop-filter: blur(5px);
+    background: var(--background-color-opaque);
+    color: #001316;
+    font-weight: bold;
    
  }
  .rose {
     font-weight: 700;
-    color: var(--color-rose);
+    color: var(--color-action);
  }
  .done {
-    background-color: rgba(9, 41, 65, 0.653) !important;
+    background-color: var(--color-text-secondary) !important;
     opacity: 0.7;
  }
- h1, h2 {
-    /* font-family: var(--font-head); */
-    /* font-weight: bold; */
-    color: rgb(23, 23, 23);
- }
+
  input {
-    font-family: var(--font-text);
-    background-color: var(--input-color-gray);
-    color: rgb(0, 0, 0) !important;
+    font-family: var(--font-family-text);
+    color: var(--color-text-black) !important;
     width: 100%;
+    background-color: transparent;
     padding: 5px;
     border-radius: 3px;
-    border: 0;
+    border: 1px solid var(--color-secondary);
     margin-top: 3px;
     font-weight: bold;
  }
- input:hover {
-    border: 0;
-    outline: 0;
- }
- p {
-    font-family: var(--font-thin);
-    font-size: 18px;
- }
+
+
 ::-webkit-scrollbar {
     background-color: transparent;
     width: 2px;
@@ -109,6 +105,42 @@ body {
 }
 
 input::placeholder {
-    color: rgb(74, 73, 73);
     font-weight: 400 !important;
+    color: #474747;
  }
+
+ .background-container {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   display: flex;
+   align-items: center;
+   z-index: -1;
+   > img {
+    max-width: 100%;
+}
+
+}
+
+.navigation {
+    display: flex;
+    margin-top: 3px;
+    justify-content: space-around;
+    >a {
+        display: block;
+        padding: 5px;
+        color: var(--color-text-black);
+        
+    }
+}
+
+.current {
+    color: var(--color-text-black) !important;
+    /* background-color: white; */
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--background-color-opaque);
+    border-radius: 7px;
+    font-weight: bold;
+}

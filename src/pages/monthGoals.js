@@ -1,13 +1,6 @@
 // Must be called html
 
 
-const navigation = () => `<div class="navigation">
-<a href="calendar.html" class="link">calendar</a>
-<a href="home.html"  class="link ">easy-copies</a>
-<a href="tasks.html" class="link">tasks for today</a>
-<a href="monthGoals.html" class="link current">month goals</a>
-</div>
-`
 let html = () => {
     const tasks = JSON.parse(localStorage.getItem('goals')) || [];
    
@@ -63,7 +56,6 @@ let html = () => {
     }
 
     return `<div class="home principal">
-    <h2>Notepad <i class="fa-regular fa-comment-dots rose"></i> - by Charlytoc</h2>
     ${navigation()}
     <input  id="title-input" placeholder="Focus in this notes to be succesful" type="text" />
     <section class="sticker-board">
