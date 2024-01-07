@@ -1,13 +1,4 @@
 
- .home  input::placeholder {
-    color: rgba(245, 245, 245, 0.832);
-    font-weight: 400 !important;
- }
- .home  input:focus {
-    border: 1px solid var(--chat-primary-color);
-    outline: none;
-    font-weight: bold;
- }
  .sticker-board {
     display: flex;
     gap: 2px;
@@ -24,11 +15,11 @@
     display: flex;
     align-items: center;
     height: 100%;
+    color: var(--color-black);
     gap: 3px;
-    background-color: rgb(24, 57, 100);
+    background-color: var(--notes-bg-color);
  }
  .sticker-board > div > div:first-child {
-    color: whitesmoke;
     text-align: center;
     height: 100%;
     justify-content: center;
@@ -45,11 +36,11 @@
    
  }
  .sticker-board > div > div > i {
-   color: var(--color-rose);
+   color: var(--color-text-secondary);
    cursor: pointer;
    text-align: center;
 
  }
  .sticker-board > div > div>  i:hover {
-   color: whitesmoke;
+   color: var(--color-action);
  }

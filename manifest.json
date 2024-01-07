@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Notes by Charly",
+  "name": "Notes by Charlytoc",
   "description": "Create your own GPT bot, traing it with your own data and use it to generate text for your organization.",
   "version": "1.0.6",
   "action": {
@@ -14,11 +14,12 @@
     "128": "src/assets/icon-128.png"
   },
   "permissions": [
-    "storage", "activeTab", "audioCapture"
+    "storage", "activeTab"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self' ; script-src-elem 'self' 'unsafe-inline'"
   },
+  
   
   "output": "public"
 }

@@ -56,7 +56,7 @@ let html = () => {
     }
 
     return `<div class="home principal">
-    ${navigation()}
+    ${navigation("monthGoals.html")}
     <input  id="title-input" placeholder="Focus in this notes to be succesful" type="text" />
     <section class="sticker-board">
     ${tasks.map((item, index)=> returnSticker(item, index)).join(' ')}

@@ -1,13 +1,8 @@
-/* Increase input focus styles */
-
-
 .home > input:focus {
-   /* border: 1px solid var(--color-action); */
    outline: none;
    font-weight: 600;
-
 }
-/* Adjust note container layout */
+
 .note-container {
    display: grid;
    grid-template-columns: repeat(3, 1fr);
@@ -16,7 +11,7 @@
    gap: 3px;
    margin-top: 3px;
 }  
-/* Update note styles */
+
 .note {
    padding: 5px;
    backdrop-filter: blur(2px);
@@ -28,24 +23,23 @@
    border: 1px solid transparent;
    background-color: transparent;
 }
-/* Add hover effect to note */
+
 .note:hover {
-   background-color: rgba(255, 255, 255, 0.204);
-   border: 1px solid rgba(109, 109, 109, 0.517);
-   backdrop-filter: blur(10px);
-   box-shadow: 2px 2px 3px rgba(109, 109, 109, 0.517);
+   background-color: var(--notes-bg-color);
+   color: black;
+   /* box-shadow: 2px 2px 3px rgba(109, 109, 109, 0.517); */
 }
 
 .note > div:last-child button {
    background-color: transparent;
    border: none;
    color: rgba(96, 96, 96, 0.674);
-   margin-left: 4px; /* Increase margin for better spacing */
+   margin-left: 4px; 
    display: inline-block;
    cursor: pointer;
    opacity: 0.6;
 }
-/* Add hover effect to button */
+
 .note > div:last-child button:focus,.note > div:last-child button:hover  {
    opacity: 1;
    color: var(--color-action);
@@ -54,14 +48,12 @@
    scale: 1.2;
 }
 
-
-/* Adjust copied modal styles */
 .copied-modal {
    background-color: rgba(223, 218, 218, 0.917);
    color: rgb(0, 0, 0);
    position: absolute;
    visibility: hidden;
-   padding: 10px; /* Increase padding for better spacing */
+   padding: 10px; 
    width: 150px;
    border-radius: 5px;
    animation: appear-disappear 1s ease-in-out 1;

@@ -3,24 +3,17 @@ let currentRefCount = 0;
 window.actions = {};
 
 // const API_URL = 'https://rigobot.herokuapp.com'
-const API_URL = 'https://8000-charlytoc-rigobot-sahoq82otnu.ws-us95.gitpod.io'
-
-
 
 const RENDER_EVENT = new Event('render')
 const render = () => {
-
     document.querySelector('#root').innerHTML = html();
     currentRefCount = 0;
     document.dispatchEvent(RENDER_EVENT);
 }
 
-
 const fabricateModifier = (internalIndex) => {
-    // console.log("fabricating hook state for variable with ref: "+internalIndex)
-    const setter = (value, renderize=true) => {
+    const setter = (value, renderize = true) => {
         window.stateValues[internalIndex] = value;
-        // console.log("updating value for ref "+internalIndex+" with ", value, window.stateValues )
         if (renderize) {
             render()
         }
@@ -29,9 +22,9 @@ const fabricateModifier = (internalIndex) => {
 }
 
 const useState = (defaultValue) => {
-    if(!window.stateValues[currentRefCount]) window.stateValues.push(defaultValue);
+    if (!window.stateValues[currentRefCount]) window.stateValues.push(defaultValue);
     currentRefCount++;
-    return [ window.stateValues[currentRefCount-1], fabricateModifier(currentRefCount-1) ];
+    return [window.stateValues[currentRefCount - 1], fabricateModifier(currentRefCount - 1)];
 }
 
 /**
@@ -75,15 +68,37 @@ function getValueFromLocalStorage(ls_key) {
     }
 }
 
-const navigation = () => `
-<h2>Charlytoc's notepad</h2>
-<div class="navigation">
-<a href="home.html" class="link ">easy-copies</a>
-<a href="tasks.html" class="link">tasks for today</a>
-<a href="monthGoals.html" class="link">month goals</a>
-<a href="notetaker.html" class="link">notetaker</a>
-</div>
-`
+const navigation = (activeUrl) => {
+
+    const windows = [
+        {
+            name: "easy-copies",
+            url: "home.html"
+        },
+        {
+            name: "tasks for today",
+            url: "tasks.html"
+        },
+        {
+            name: "month goals",
+            url: "monthGoals.html"
+        },
+        {
+            name: "notetaker",
+            url: "notetaker.html"
+        }
+    ]
+
+    return `
+    <h2>Charlytoc's notepad</h2>
+    <div class="navigation">
+
+    ${windows.map((window)=>{
+        return `<a href="${window.url}" class="link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
+    }).join('')}
+    </div>
+    `
+}
 
 window.onload = render();
 

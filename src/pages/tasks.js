@@ -53,7 +53,7 @@ let html = () => {
     }
 
     return `<div class="home principal">
-    ${navigation()}
+    ${navigation("tasks.html")}
     <input  id="title-input" placeholder="it's easy to do simple tasks than harder ones!" type="text" />
     <section class="sticker-board">
     ${tasks.map((item, index)=> returnSticker(item, index)).join(' ')}

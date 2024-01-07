@@ -7,7 +7,7 @@ let html = () => {
     }
     return `
     <main class="principal">
-        ${navigation()}
+        ${navigation("notetaker.html")}
         <textarea id="scratchpad">${scratchpadContent}</textarea>
     </main>
 
