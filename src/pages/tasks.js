@@ -20,14 +20,6 @@ let html = () => {
         location.reload()
     }
 
-    actions.addNote = (e) => {
-        if (e.keyCode === 13) {
-            const inputValue = e.target.value
-            if (inputValue) {
-                addNote(inputValue)
-            }
-        }
-    }
     actions.deleteNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
         clearAlarm(tasks[index].title);
@@ -65,24 +57,24 @@ let html = () => {
         document.getElementById('show-form-button').style.display = "none";
     }
 
-
-    return `<div class="tasks principal">
+    
+    return `<div class="tasks principal" tabindex="-1">
     ${navigation("tasks.html")}
-    <button tabindex="0" class="simple-button self-center" id="show-form-button">Add a task</button>
+    <button tabindex="1" class="simple-button self-center" id="show-form-button">Add a task</button>
     <form id="add-task-form">
         <span>Add a meaningful title to help you remember what to do</span>
-        <input  id="title-input" placeholder="i.e: Wash the plates" type="text" />
+        <input  id="title-input" placeholder="i.e: Wash the plates" type="text" required/>
         <span>Set a timer to remind you when to do it</span>
         <section class="time-section">
-        <span>hours</span>
-        <span>minutes</span>
-        <span>seconds</span>
-        <input placeholder="i.e: 2" type="number" id="hours-input" min="0" max="24" value="3" required>
-        <input type="number" placeholder="i.e: 59" id="minutes-input" min="0" max="60" value="30" required>
-        <input type="number" placeholder="i.e: 32" id="seconds-input" min="0" max="60" value="32" required>
+            <span>hours</span>
+            <span>minutes</span>
+            <span>seconds</span>
+            <input placeholder="i.e: 2" type="number" id="hours-input" min="0" max="24" value="3" required>
+            <input type="number" placeholder="i.e: 59" id="minutes-input" min="0" max="60" value="30" required>
+            <input type="number" placeholder="i.e: 32" id="seconds-input" min="0" max="60" value="32" required>
         </section>
-        <p>Repeat each <input class="inline" type="number" placeholder="i.e: 32" id="period-input" min="1" value="5" required /> minutes</p>
-        <button type="submit" class="simple-button">Add task</button>
+        <p>Repeat each <input class="inline cm-1" type="number" placeholder="i.e: 32" id="period-input" min="1" value="5" required /> minutes</p>
+        <button tabindex="0" type="submit" class="simple-button">Add task</button>
     </form>
         
     <section class="sticker-board">

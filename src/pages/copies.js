@@ -6,12 +6,22 @@ const modal = (id) => {
     `
 }
 
+const linkComponent = (href) => {
+    return `<a tabindex="-1" href="${href}" target="_blank"><i class="fa-solid fa-up-right-from-square"></i></a>`
+}
+
 const noteComponent = (item, index) => `
 <div data-note-id=${index} tabindex=0 class="note">
 ${modal(index)}
 <p>${item.name}</p>
-<div><button class="" tabindex="-1"><i data-note-id=${index} class="fa-solid fa-trash erase-note"></i></button>
-<button class="" tabindex="-1"><i data-note-id=${index}  class="fa-solid fa-copy copy-note"></i></button>
+<div>
+    <button class="" tabindex="-1">
+        <i data-note-id=${index} class="fa-solid fa-trash erase-note"></i>
+    </button>
+    <button class="" tabindex="-1">
+        <i data-note-id=${index}  class="fa-solid fa-copy copy-note"></i>
+    </button>
+    ${item.link.includes("http") ? linkComponent(item.link) : ""}
 </div>
 </div>
  `
@@ -110,7 +120,7 @@ let html = () => {
             });
     }
     return `<div class="home principal">
-    ${navigation('home.html')}
+    ${navigation('copies.html')}
     <input  id="name-input" placeholder="Title of the new note" type="text" />
     <textarea rows=1  id="note-input" placeholder="Write here the content to save and press enter" type="text" ></textarea>
     <section class="note-container">

@@ -21,25 +21,26 @@
    &:hover, &:focus {
       background-color: var(--color-action);
       color: var(--color-action-contrast);
-      & > div:last-child button {
+      & > div:last-child button, & > div:last-child a {
          color: var(--color-action-contrast);
          opacity: 1;
       }  
    }
 }
 
-.note > div:last-child button {
+.note > div:last-child button, .note > div:last-child a {
    background-color: transparent;
    border: none;
    color: var(--font-secondary-color);
    margin-left: 10px; 
    display: inline-block;
    cursor: pointer;
-}
 
-.note > div:last-child button:hover  {
-   color: var(--color-action-contrast);
-   scale: 1.3;
+   &:hover {
+      color: var(--color-action-contrast);
+      scale: 1.3;
+      transition: all 0.2s ease-in-out;
+   }
 }
 
 .copied-modal {

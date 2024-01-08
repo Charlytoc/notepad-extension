@@ -77,7 +77,7 @@ const navigation = (activeUrl) => {
         },
         {
             name: "easy-copies",
-            url: "home.html"
+            url: "copies.html"
         },
         {
             name: "tasks for today",
