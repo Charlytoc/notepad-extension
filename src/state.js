@@ -94,7 +94,7 @@ const navigation = (activeUrl) => {
     <div class="navigation">
 
     ${windows.map((window)=>{
-        return `<a href="${window.url}" class="link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
+        return `<a tabindex="-1" href="${window.url}" class="link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
     </div>
     `
