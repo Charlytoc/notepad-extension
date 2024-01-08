@@ -72,16 +72,16 @@ const navigation = (activeUrl) => {
 
     const windows = [
         {
+            name: "calendar",
+            url: "calendar.html"
+        },
+        {
             name: "easy-copies",
             url: "home.html"
         },
         {
             name: "tasks for today",
             url: "tasks.html"
-        },
-        {
-            name: "month goals",
-            url: "monthGoals.html"
         },
         {
             name: "notetaker",
@@ -94,7 +94,7 @@ const navigation = (activeUrl) => {
     <div class="navigation">
 
     ${windows.map((window) => {
-        return `<a tabindex="-1" href="${window.url}" class="link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
+        return `<a tabindex="-1" href="${window.url}" class="${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
     </div>
     `
@@ -136,13 +136,13 @@ function saveInLs(name, object) {
 
 
 
-const alarm = (title, timeToFireInMilisecond) => {
+const alarm = (title, timeToFireInMilisecond, periodInMinutes=5) => {
     const updateAlarms = (alarms) => {
         saveInLs("alarms", { ...alarms, [title]: "Hey Charly, remember to make this now! 😤" })
     }
     retrieveFromLs("alarms", updateAlarms);
 
-    chrome.alarms.create(title, { when: Date.now() + timeToFireInMilisecond, periodInMinutes: 5 });
+    chrome.alarms.create(title, { when: Date.now() + timeToFireInMilisecond, periodInMinutes: periodInMinutes });
 }
 
 const clearAlarm = (title) => {

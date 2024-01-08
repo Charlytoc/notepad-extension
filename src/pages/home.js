@@ -17,11 +17,11 @@ ${modal(index)}
  `
 
 let html = () => {
-    const CURRENT_WINDOW = 'HOME'
-    const LAST_WINDOW = localStorage.getItem('LAST_WINDOW');
-    if (LAST_WINDOW !== CURRENT_WINDOW) {
-        localStorage.setItem('LAST_WINDOW', CURRENT_WINDOW);
-    }
+    // const CURRENT_WINDOW = 'HOME'
+    // const LAST_WINDOW = localStorage.getItem('LAST_WINDOW');
+    // if (LAST_WINDOW !== CURRENT_WINDOW) {
+    //     localStorage.setItem('LAST_WINDOW', CURRENT_WINDOW);
+    // }
 
     const data = JSON.parse(localStorage.getItem('data')) || [];
 

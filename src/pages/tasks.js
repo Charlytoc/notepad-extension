@@ -1,11 +1,12 @@
 // Must be called html
 const returnSticker = (item, index) => {
-    return `<div class="sticker ${item.class}">
+    return `<div class="sticker ${item.done ? "done" : null}">
+                <section >
+                    <input data-note-id=${index} type="checkbox" class="checkbox mark-as-done" ${item.done ? "checked" : null} />
+                    <i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i>
+                
+                </section>
                 <p>${item.title}</p>
-                <div>
-                <i  data-note-id=${index} class="fa-solid fa-trash erase-note"></i>
-                <i data-note-id=${index} class="fa-solid fa-square-check mark-as-done"></i>
-                </div>
             </div>`
 }
 
@@ -38,6 +39,7 @@ let html = () => {
     actions.markAsDone = (e) => {
         const index = parseInt(e.target.dataset.noteId);
         tasks[index].class === "done" ? tasks[index].class = "" : tasks[index].class = "done"
+        tasks[index].done ? tasks[index].done = false : tasks[index].done = true;
 
         clearAlarm(tasks[index].title)
         localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -50,10 +52,11 @@ let html = () => {
         const hours = document.getElementById('hours-input').value;
         const minutes = document.getElementById('minutes-input').value;
         const seconds = document.getElementById('seconds-input').value;
+        const period = parseInt(document.getElementById('period-input').value);
 
         const milliseconds = (parseInt(hours) * 60 * 60 * 1000) + (parseInt(minutes) * 60 * 1000) + parseInt(seconds) * 1000;
 
-        alarm(title, milliseconds);
+        alarm(title, milliseconds, period);
         addNote(title);
     }
 
@@ -71,16 +74,17 @@ let html = () => {
         <input  id="title-input" placeholder="i.e: Wash the plates" type="text" />
         <span>Set a timer to remind you when to do it</span>
         <section class="time-section">
-            <span>hours</span>
-            <span>minutes</span>
-            <span>seconds</span>
-            <input placeholder="i.e: 2" type="number" id="hours-input" min="0" max="24" value="3" required>
-            <input type="number" placeholder="i.e: 59" id="minutes-input" min="0" max="60" value="30" required>
-            <input type="number" placeholder="i.e: 32" id="seconds-input" min="0" max="60" value="32" required>
+        <span>hours</span>
+        <span>minutes</span>
+        <span>seconds</span>
+        <input placeholder="i.e: 2" type="number" id="hours-input" min="0" max="24" value="3" required>
+        <input type="number" placeholder="i.e: 59" id="minutes-input" min="0" max="60" value="30" required>
+        <input type="number" placeholder="i.e: 32" id="seconds-input" min="0" max="60" value="32" required>
         </section>
-    <button type="submit" class="simple-button">Add task</button>
+        <p>Repeat each <input class="inline" type="number" placeholder="i.e: 32" id="period-input" min="1" value="5" required /> minutes</p>
+        <button type="submit" class="simple-button">Add task</button>
     </form>
-
+        
     <section class="sticker-board">
     ${tasks.map((item, index) => returnSticker(item, index)).join(' ')}
     </section>
@@ -88,15 +92,12 @@ let html = () => {
 }
 
 document.addEventListener("render", () => {
-    // document.querySelector("#title-input").addEventListener('keyup', actions.handleTitle);
-
     document.querySelectorAll(".erase-note").forEach((button) => {
         button.addEventListener("click", actions.deleteNote);
     });
     document.querySelectorAll(".mark-as-done").forEach((button) => {
         button.addEventListener("click", actions.markAsDone);
     });
-
     document.querySelector("#add-task-form").addEventListener('submit', actions.addTask)
     document.querySelector("#show-form-button").addEventListener('click', actions.showForm)
 

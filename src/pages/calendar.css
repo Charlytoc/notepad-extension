@@ -4,13 +4,20 @@
     grid-template-columns: repeat(7, 1fr);
 }
 .grid-calendar div {
-    border: 1px solid rgb(5, 52, 76); 
+    border: 1px solid var(--font-secondary-color); 
     padding: 9px; 
     text-align: center;
-    border-radius: 10%;
   }
 .today {
-    color: var(--color-rose);
+    color: var(--color-action-contrast);
+    background-color: var(--color-action);
     font-weight: bold;
     font-size: 14px;
+}
+
+.day-marker {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--font-secondary-color);
+    background-color: var(--unselected-notes-bg-color);
 }

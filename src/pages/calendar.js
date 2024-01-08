@@ -1,16 +1,27 @@
 // Must be called html
+const days = {
+    0: "Sun",
+    1: "Mon",
+    2: "Tue",
+    3: "Wed",
+    4: "Thu",
+    5: "Fri",
+    6: "Sat",
+}
+
+const daysHeader = () => {
+    return Object.values(days).map((day) => `<div class="day-marker">${day}</div>`).join('')
+}
+
+const makeDay = (day, today) => {
+    if (day === today) {
+        return `<div class="today">${day}</div>`
+    }
+    return `<div>${day}</div>`
+}
 
 let html = () => {
 
-    const days = {
-        0: "Sunday",
-        1: "Monday",
-        2: "Tuesday",
-        3: "Wednesday",
-        4: "Thursday",
-        5: "Friday",
-        6: "Saturday",
-    }
 
 
     const date = new Date();
@@ -19,37 +30,26 @@ let html = () => {
     const dayOfMonth = date.getDate();
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-const makeCalendar = (firstDay, numberOfDays) => {
-    let whiteSpaces = firstDay - 1
-    const calendar = Array.from({ length: numberOfDays }, (_, i) => i + 1);
-    while (whiteSpaces >= 0) {
-        calendar.unshift(' ')
-        whiteSpaces -= 1
+    const makeCalendar = (firstDay, numberOfDays) => {
+        let whiteSpaces = firstDay - 1
+        const calendar = Array.from({ length: numberOfDays }, (_, i) => i + 1);
+        while (whiteSpaces >= 0) {
+            calendar.unshift(' ')
+            whiteSpaces -= 1
+        }
+        return calendar
     }
-    return calendar
-}
 
-const calendar = makeCalendar(firstDayOfMonth, daysInMonth)
+    const calendar = makeCalendar(firstDayOfMonth, daysInMonth)
 
-        return `<div class="calendar principal">
-            ${navigation()}
-             <div class="grid-calendar">
-            <div class="today">s</div>
-            <div class="today">m</div>
-            <div class="today">t</div>
-            <div class="today">w</div>
-            <div class="today">t</div>
-            <div class="today">f</div>
-            <div class="today">s</div>
-                    ${
-                        calendar.map((item) => item === dayOfMonth ? `<div class="today">${item}</div>` : `<div>${item}</div>`).join(' ')
-                    }
-                    
+    return `<main class="calendar principal">
+                ${navigation("calendar.html")}
+                <div class="grid-calendar">
+                    ${daysHeader()}
+                    ${calendar.map((item) => makeDay(item, dayOfMonth)).join(' ')}
                 </div>
-                </div>`;
+            </main>`;
 }
 
-document.addEventListener("render", ()=>{
-
-
+document.addEventListener("render", () => {
 })
