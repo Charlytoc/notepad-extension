@@ -90,6 +90,10 @@ let html = () => {
         localStorage.setItem('data', JSON.stringify(data))
         location.reload()
     }
+    actions.notifyUser = (e) => {
+        // notify({title: "Hello bro", message: "You are doing great!"})
+        // alarm("Hello bro, this alarm will be fired was fired in 10 seconds", "You are doing great!", 1000)
+    }
 
     actions.copyNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
@@ -120,6 +124,7 @@ document.addEventListener("render", () => {
     document.querySelector("#name-input").addEventListener('keyup', actions.addName);
     document.querySelectorAll(".note").forEach((note) => {
         note.addEventListener("keyup", actions.handleKeyup);
+        note.addEventListener("click", actions.notifyUser);
     })
     document.querySelectorAll(".erase-note").forEach((button) => {
         button.addEventListener("click", actions.deleteNote);

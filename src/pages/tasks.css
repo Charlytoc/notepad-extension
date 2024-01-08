@@ -40,3 +40,28 @@
  .sticker-board > div > div>  i:hover {
    color: var(--color-action);
  }
+
+ 
+ #add-task-form {
+  display: none;
+  margin-top: 10px;
+  text-align: center;
+  > * {
+    margin-top: 4px;
+  }
+  
+
+  & .time-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    /* text-align: center; */
+
+  }
+ }
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}

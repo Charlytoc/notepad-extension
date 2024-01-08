@@ -93,7 +93,7 @@ const navigation = (activeUrl) => {
     <h2>Charlytoc's notepad</h2>
     <div class="navigation">
 
-    ${windows.map((window)=>{
+    ${windows.map((window) => {
         return `<a tabindex="-1" href="${window.url}" class="link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
     </div>
@@ -102,3 +102,51 @@ const navigation = (activeUrl) => {
 
 window.onload = render();
 
+
+const notify = (opts) => {
+    chrome.notifications.create('', {
+        title: opts.title,
+        message: opts.message,
+        iconUrl: 'icon.png',
+        type: 'basic'
+    }, function (notificationId) {
+        console.log('Notification created with ID:', notificationId);
+    });
+}
+
+function retrieveFromLs(name, callback) {
+    // name: string - the key of the object to retrieve from chrome.storage.local
+    // callback: function - a function to call with the retrieved object
+    chrome.storage.local.get([name], function (result) {
+        callback(result[name]);
+    });
+}
+
+
+/**
+ * 
+ * @param {name} name: string 
+ * @param {object}  object: object 
+ */
+function saveInLs(name, object) {
+    // name: string - the key under which to store the object
+    // object: any - the object to be stored in chrome.storage.local
+    chrome.storage.local.set({ [name]: object });
+}
+
+
+
+const alarm = (title, timeToFireInMilisecond) => {
+    const updateAlarms = (alarms) => {
+        saveInLs("alarms", { ...alarms, [title]: "Hey Charly, remember to make this now! 😤" })
+    }
+    retrieveFromLs("alarms", updateAlarms);
+
+    chrome.alarms.create(title, { when: Date.now() + timeToFireInMilisecond, periodInMinutes: 5 });
+}
+
+const clearAlarm = (title) => {
+    chrome.alarms.clear(title, function (wasCleared) {
+        console.log(`Alarm ${title} was cleared: ${wasCleared}`);
+    });
+}

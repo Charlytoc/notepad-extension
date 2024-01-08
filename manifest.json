@@ -1,8 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Notes by Charlytoc",
-  "description": "Create your own GPT bot, traing it with your own data and use it to generate text for your organization.",
+  "description": "A simple note taking extension that saves your notes in your browser and help you remember things to do",
   "version": "1.0.6",
+  "background": {
+    "service_worker": "src/background.js"
+  },
   "action": {
     "default_popup": "home.html",
     "default_icon": "icon.png"
@@ -14,7 +17,7 @@
     "128": "src/assets/icon-128.png"
   },
   "permissions": [
-    "storage", "activeTab"
+    "storage", "activeTab", "notifications", "alarms"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self' ; script-src-elem 'self' 'unsafe-inline'"
