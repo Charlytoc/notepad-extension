@@ -15,15 +15,12 @@ const daysHeader = () => {
 
 const makeDay = (day, today) => {
     if (day === today) {
-        return `<div class="today">${day}</div>`
+        return `<div class="day today">${day}</div>`
     }
-    return `<div>${day}</div>`
+    return `<div class="day">${day}</div>`
 }
 
 let html = () => {
-
-
-
     const date = new Date();
     const currentYear = date.getFullYear();
     const currentMonth = date.getMonth();
@@ -52,4 +49,9 @@ let html = () => {
 }
 
 document.addEventListener("render", () => {
+    document.querySelectorAll('.day').forEach((day) => {
+        day.addEventListener('click', (e) => {
+            window.location.href = `day.html?day=${e.target.innerText}&month=${new Date().getMonth()}`
+        })
+    })
 })

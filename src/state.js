@@ -2,13 +2,52 @@ window.stateValues = []
 let currentRefCount = 0;
 window.actions = {};
 
-// const API_URL = 'https://rigobot.herokuapp.com'
+const makeTheme = (theme) => {
+    if (!theme) {
+        theme = getValueFromLocalStorage("theme");
+    }
+    addThemeToBody(theme);
+}
+const removePreviousThemes = () => {
+    document.body.classList.forEach(className => {
+        if (className.startsWith('theme-')) {
+            document.body.classList.remove(className);
+            className = className.replace('theme-', '');
+            document.body.classList.remove(className);
+        }
+    });
+}
 
+const addThemeToBody = (newTheme) => {
+    // console.log(document.body.classList.value);
+    document.body.classList.add(`theme-${newTheme}`);
+    document.body.classList.add(`${newTheme}`);
+    saveDataToLocalStorage("theme", newTheme);
+}
+
+const listenForThemeChange = () => {
+    document.querySelectorAll('.theme-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const desiredTheme= this.getAttribute('data-theme')
+            // console.log(`desiredTheme: ${desiredTheme}`);
+            // addThemeToBody(desiredTheme)
+            saveDataToLocalStorage("theme", desiredTheme);
+            render();
+            removePreviousThemes();
+            makeTheme(desiredTheme)
+        });
+    });
+}
+
+
+// const API_URL = 'https://rigobot.herokuapp.com'
 const RENDER_EVENT = new Event('render')
 const render = () => {
     document.querySelector('#root').innerHTML = html();
     currentRefCount = 0;
     document.dispatchEvent(RENDER_EVENT);
+    makeTheme();
+    listenForThemeChange();
 }
 
 const fabricateModifier = (internalIndex) => {
@@ -40,7 +79,7 @@ function saveDataToLocalStorage(ls_key, data_to_save) {
         // Save the data in local storage using the provided key
         localStorage.setItem(ls_key, dataString);
         // Log a success message
-        console.log(`Data saved successfully with key: ${ls_key}`);
+        // console.log(`Data saved successfully with key: ${ls_key}`);
     } catch (error) {
         // Log an error message if any exception occurs
         console.error(`Error saving data with key: ${ls_key}`, error);
@@ -68,12 +107,12 @@ function getValueFromLocalStorage(ls_key) {
     }
 }
 
-const navigation = (activeUrl) => {
 
+const navigation = (activeUrl) => {
     const windows = [
         {
             name: "calendar",
-            url: "calendar.html"
+            url: "calendar.html?hello=world"
         },
         {
             name: "easy-copies",
@@ -86,13 +125,16 @@ const navigation = (activeUrl) => {
         {
             name: "notetaker",
             url: "notetaker.html"
+        },
+        {
+            name: "⚙️",
+            url: "menu.html"
         }
     ]
-
+     
     return `
-    <h2>Charlytoc's notepad</h2>
+    <h2> Charlytoc's notepad 🗒️</h2>
     <div class="navigation">
-
     ${windows.map((window) => {
         return `<a tabindex="-1" href="${window.url}" class="${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
@@ -101,7 +143,6 @@ const navigation = (activeUrl) => {
 }
 
 window.onload = render();
-
 
 const notify = (opts) => {
     chrome.notifications.create('', {
@@ -129,24 +170,35 @@ function retrieveFromLs(name, callback) {
  * @param {object}  object: object 
  */
 function saveInLs(name, object) {
-    // name: string - the key under which to store the object
-    // object: any - the object to be stored in chrome.storage.local
     chrome.storage.local.set({ [name]: object });
 }
 
-
-
-const alarm = (title, timeToFireInMilisecond, periodInMinutes=5) => {
+const alarm = (title,message, dateInMilliseconds, periodInMinutes=5) => {
     const updateAlarms = (alarms) => {
-        saveInLs("alarms", { ...alarms, [title]: "Hey Charly, remember to make this now! 😤" })
+        saveInLs("alarms", { ...alarms, [title]: message })
     }
     retrieveFromLs("alarms", updateAlarms);
 
-    chrome.alarms.create(title, { when: Date.now() + timeToFireInMilisecond, periodInMinutes: periodInMinutes });
+    chrome.alarms.create(title, { when: dateInMilliseconds, periodInMinutes: periodInMinutes });
 }
 
 const clearAlarm = (title) => {
     chrome.alarms.clear(title, function (wasCleared) {
         console.log(`Alarm ${title} was cleared: ${wasCleared}`);
     });
+}
+
+
+
+
+function getDataFromChromeStorage(key, callback) {
+  chrome.storage.local.get([key], function(result) {
+    callback(result[key]);
+  });
+}
+
+function saveDataToChromeStorage(key, data) {
+  chrome.storage.local.set({ [key]: data }, function() {
+    console.log('Data saved ', data);
+  });
 }

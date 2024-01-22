@@ -5,15 +5,27 @@
       "hasStyles": true
     },
     {
+      "name": "chat",
+      "hasStyles": true
+    },
+    {
       "name": "copies",
       "hasStyles": true
     },
     {
-      "name": "notetaker",
+      "name": "day",
+      "hasStyles": true
+    },
+    {
+      "name": "menu",
       "hasStyles": true
     },
     {
       "name": "tasks",
+      "hasStyles": true
+    },
+    {
+      "name": "notetaker",
       "hasStyles": true
     }
   ]

@@ -1,79 +1,32 @@
-.tasks {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
+#todo-form {
+  display: none;
 }
 
- .sticker-board {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 2px;
-    padding: 2px;
-    overflow: hidden;
-    width: 99%;
-   }
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
- .sticker {
-    padding: 5px;
-    border-radius: var(--global-border-radious);
-    word-break: break-all;
-    display: grid;
-    background-color: var(--notes-bg-color);
-    color: var(--color-action-contrast);
-
-    grid-template-columns: 25px 1fr;
-    align-items: center;
-    overflow-wrap: break-word;
-    gap: 3px;
-    > section {
-      display: grid;
-      place-content: center;
-      gap: 5px;
-      max-height: 100px;
-      > input[type="checkbox"] {
-        /* accent-color: var(--color-action); */
-        cursor: pointer;
-        border: 1px solid var(--color-action);
-        &:checked {
-          accent-color: transparent;
-        }
-      }
-    }
-    &.done {
-      background-color: var(--unselected-notes-bg-color);
-      opacity: 0.8;
-      color: var(--font-secondary-color);
-
-      & i:hover {
-        color: var(--color-action);
-        
-      }
-    }
-    & i {
-      cursor: pointer;
-      color: var(--font-color-secondary);
-
-      &:hover {
-        color: var(--color-action-contrast);
-        scale: 1.3;
-      }
-    }
- }
+.todos-container {
+  display: grid;
+  width: 100vw;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
 
 
- 
- #add-task-form {
-  display: none;
-  margin-top: 10px;
+.todo {
+  background-color: var(--notes-bg-color);
+  padding: 5px;
+  color: var(--color-action-contrast);
+  border-radius: var(--global-border-radious);
   text-align: center;
-  font-weight: bold;
-  > * {
-    margin-top: 4px;
-  }
-  & .time-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-  }
- }
+  background-color: var(--bg-unselected-object);
 
+  & .todo-extra-info {
+      display: flex;
+      justify-content: space-between;
+  }
+
+}

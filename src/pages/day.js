@@ -1,24 +1,3 @@
-const timeToMinutes = (time) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
-};
-
-const getMillisecondsToFire = (time, day, month) => {
-  const currentYear = new Date().getFullYear();
-  const [hours, minutes] = time.split(':').map(Number);
-  const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
-  // Calculate the difference in milliseconds
-  return date.getTime() - Date.now();
-};
-
-const getDateInMilliseconds = (time, day, month) => {
-  const currentYear = new Date().getFullYear();
-  const [hours, minutes] = time.split(':').map(Number);
-  const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
-  return date.getTime();
-};
-
-
 const TODOS_STORAGE_KEY = "TODOS_STORAGE"
 
 const toggleFormTodo = (action) => {
@@ -35,6 +14,7 @@ const toggleFormTodo = (action) => {
     actions[action]()
 }
 
+
 const months = {
     0: 'January',
     1: 'February',
@@ -49,6 +29,7 @@ const months = {
     10: 'November',
     11: 'December'
 };
+
 
 const todoListComponent = (todos) => {
     return `
@@ -68,11 +49,13 @@ const todoListComponent = (todos) => {
     `
 }
 
-let html = () => {
-    const date = new Date();
-    let day =date.getDate();
-    let month = date.getMonth();
 
+
+
+let html = () => {
+    let params = new URLSearchParams(window.location.search);
+    let day = params.get('day');
+    let month = params.get('month');
     const [todos, setTodos] = useState({})
     const [fetched, setFetched] = useState(false)
 
@@ -87,7 +70,6 @@ let html = () => {
     actions.deleteTodo = (e) => {
         const todoIndex = e.target.dataset.todoIndex;
         const newTodos = todos;
-        clearAlarm(newTodos[todoIndex].title)
         newTodos[month][day].splice(todoIndex, 1);
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
@@ -112,7 +94,12 @@ let html = () => {
         if (!newTodos[month][day]) {
             newTodos[month][day] = []
         }
-        
+        // Convert time string to minutes for comparison
+        const timeToMinutes = (time) => {
+            const [hours, minutes] = time.split(':').map(Number);
+            return hours * 60 + minutes;
+        };
+        // Insert todo in the correct position based on time
         const insertIndex = newTodos[month][day].findIndex(existingTodo =>
             timeToMinutes(existingTodo.time) > timeToMinutes(todoData.time)
         );
@@ -122,18 +109,6 @@ let html = () => {
             newTodos[month][day].splice(insertIndex, 0, todoData);
         }
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
-
-
-        const dateInMilliseconds = getDateInMilliseconds(todoData.time, day, month);
-
-        const periodInMinutes = Number(todoData.period) === 0 ? 1 : Number(todoData.period);
-
-        alarm(todoData.title,
-            todoData.description,
-            dateInMilliseconds,
-            periodInMinutes
-            );
-
         setTodos(newTodos);
     }
 
@@ -142,15 +117,16 @@ let html = () => {
     }
 
     return `<main class="day principal">
-        ${navigation("tasks.html")}
-
-        <button tabindex="1" class="simple-button w-100" id="show-form-button">Add a task</button>
+        <div class="header">
+            <a href="calendar.html">Back to calendar</a>
+            <h3>${day} of ${months[month]}</h3>
+        </div>
+        <button tabindex="1" class="simple-button self-center" id="show-form-button">Add a task</button>
         <form id="todo-form">
-            <input type="text" name="title" placeholder="Todo title">
-            <textarea name="description" placeholder="Todo description"></textarea>
-            <input type="time" name="time" placeholder="Todo time"/>
-            <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
-            <button class="simple-button" id="add-todo">Add todo</button>
+        <input type="text" name="title" placeholder="Todo title">
+        <textarea name="description" placeholder="Todo description"></textarea>
+        <input type="time" name="time" placeholder="Todo time"/>
+        <button class="simple-button" id="add-todo">Add todo</button>
         </form>
         <h2>Todos</h2>
         <section class="todos-container">

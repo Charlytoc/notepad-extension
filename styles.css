@@ -1,25 +1,18 @@
 :root {
   /* This is the color used in hovers and focus state of elements, it helps the user knows that something is actionable */
   --color-action: white;
-
   /* This is the color used to contrast with the action color when an element is using the action color, it helps to distinguish the content easily */
   --color-action-contrast: black;
   /* Primary color used for most of the fonts */
   --font-primary-color: white;
-
   /* Secondary color used for not main content texts */
-  --font-secondary-color: #c2c2c281;
-
-
+  --font-secondary-color: #df080881;
   /* These are the colors  used to mark a note as DONE */
   --done-bg-color: var(--font-secondary-color);
   --done-font-color: var(--color-action-contrast);
 
-  /* Background color of the app */
-  --bg-color: #020c14;
-  
   /* Background color of the notes of all sections when they are active or selected */
-  --notes-bg-color: var(--color-action);
+  --notes-bg-color: #e3e3e3;
 
   /* Background color of the notes of all sections when they are unselected or inactive */
   --unselected-notes-bg-color: rgba(226, 226, 226, 0.03);
@@ -38,6 +31,37 @@
   color: var(--font-primary-color);
 }
 
+:root:has(body.dark) {
+  --color-action: hsl(240, 46%, 53%);
+  --bg-color: hsl(240, 96%, 10%);
+  --color-active: var(--color-action);
+  --font-color: white;
+  --font-primary-color: var(--font-color);
+  --font-secondary-color: #d3d1d1aa;
+  --color-action-contrast: var(--font-primary-color);
+  --color-remarkable: rgb(15, 141, 131);
+  --bg-unselected-object: hsla(240, 46%, 53%, 0.166);;
+  
+  --font-size-large: 18px;
+  --font-size-medium: 14px;
+  --font-size-small: 10px;
+  color: var(--font-color);
+  font-family: var(--font-text);
+}
+:root:has(body.light) {
+  --color-action: rgb(255, 142, 187);
+  --color-remarkable: rgb(245, 187, 210);
+  --color-active: var(--color-action);
+  --bg-color: #ffffff;
+  --font-color: #000000;
+  --font-primary-color: var(--font-color);
+  --font-secondary-color: #4e4e4e;
+  --color-action-contrast: rgb(255, 255, 255);
+
+  --font-size-title: 30px;
+  --font-size-text: 10px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -51,7 +75,7 @@ html {
 body {
   width: fit-content;
   height: fit-content;
-  font-family: var(--font-text);
+
   overflow-y: hidden;
 }
 
@@ -64,12 +88,13 @@ body {
 a {
   text-decoration: none;
   font-family: var(--font-family-text);
-  color: var(--color-action);
+  color: var(--font-color);
 }
 
 p {
   font-family: var(--font-family-text);
   font-weight: bold;
+  /* color: var(--font-color); */
 }
 
 h1,
@@ -91,7 +116,7 @@ textarea {
   border: 1px solid var(--font-secondary-color);
   background-color: transparent;
   color: var(--font-primary-color);
-  
+
   &:hover,
   &:focus {
     outline: none;
@@ -101,7 +126,6 @@ textarea {
     color: var(--font-secondary-color);
   }
 }
-
 
 .current {
   color: var(--color-action);
@@ -130,19 +154,47 @@ textarea {
 
 .navigation {
   display: flex;
-  margin: 3px 0px;
+  margin: 10px 0px;
   justify-content: space-around;
   > a {
+    border-radius: var(--global-border-radious);
     display: block;
     padding: 5px;
+    &:hover {
+      background-color: var(--color-action);
+      color: var(--color-action-contrast);
+    }
   }
 }
 
 .active {
+  
+  position: relative;
   color: var(--color-action-contrast) !important;
-  background-color: var(--color-action);
-  border-radius: var(--global-border-radious);
-  font-weight: bold;
+  background-color: var(--color-remarkable);
+
+  &::after,
+  &::before {
+    --border-radius: 10px;
+    content: "";
+    position: absolute;
+    width: var(--border-radius);
+    aspect-ratio: 1;
+    /* top: 0; */
+  }
+
+  &::after {
+    --border-radius: 0 0 0 100vw;
+    /* box-shadow: 10px 10px 0 10px rgb(255, 0, 0); */
+    right: calc(var(--border-radius) * -1);
+    background-color: yellow;
+  }
+  &::before {
+    --border-radius: 100vw 0 0;
+    /* box-shadow: 10px 10px 0 10px rgb(255, 0, 0); */
+    left: calc(var(--border-radius) * -1);
+    background-color: purple;
+  }
 }
 
 .simple-button {
@@ -153,13 +205,15 @@ textarea {
   background-color: transparent;
   cursor: pointer;
   font-weight: 600;
-
-  &:hover, &:focus   {
-    background-color: var(--color-action);
-    color: var(--color-action-contrast);
-
+  &.centered {
+    margin-inline: auto;
   }
 
+  &:hover,
+  &:focus {
+    background-color: var(--color-action);
+    color: var(--color-action-contrast);
+  }
 }
 
 .inline {
@@ -175,4 +229,13 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.theme-palette {
+  background-color: var(--bg-color);
+  width: fit-content;
 }

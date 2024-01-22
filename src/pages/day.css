@@ -1,0 +1,44 @@
+#todo-form {
+    display: none;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.day {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+}
+
+.todos-container {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+.todo {
+    background-color: var(--notes-bg-color);
+    padding: 5px;
+    color: var(--color-action-contrast);
+    border-radius: var(--global-border-radious);
+    text-align: center;
+    > p {
+        font-weight: 400;
+    }
+
+    & .todo-extra-info {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+}

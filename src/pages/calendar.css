@@ -21,3 +21,7 @@
     color: var(--font-secondary-color);
     background-color: var(--unselected-notes-bg-color);
 }
+
+.day {
+    cursor: pointer;
+}
