@@ -1,44 +1,48 @@
-const changeThemeComponent = () => {
+const themeOptions = [
+    {
+        name: "Dark",
+        value: "dark"
+    },
+    {
+        name: "Light",
+        value: "light"
+    },
+]
+
+const changeThemeComponent = (currentTheme) => {
     return `
     <div class="theme-palette">
+        <h2>Theme</h2>
         <ul>
-            <li class="theme-option" data-theme="dark">Dark</li>
-            <li class="theme-option" data-theme="light">Light</li>
+            ${themeOptions.map((themeOption) => {
+        return `<li class="theme-option ${currentTheme === themeOption.value ? "active" : ""}" data-theme="${themeOption.value}">${themeOption.name}</li>`
+    }).join('')}
         </ul>
     </div>
-    `
+`
 }
 
+
+const THEME_KEY = "theme"
+
+
 let html = () => {
-    const [todos, setTodos] = useState({})
-    const [fetched, setFetched] = useState(false)
-
-    if (!fetched) {
-        console.log("fetching data needed for the view");
-        // setFetched(true)
-        // getDataFromChromeStorage(TODOS_STORAGE_KEY, (prevTodos) => {
-        //     setTodos(prevTodos)
-        //     setFetched(true)
-        // })
-    }
-
-    
-    actions.log = () => {
-        console.log("logging, minimal action");
-    }
+    let currentTheme=""
+    const theme = getValueFromLocalStorage(THEME_KEY)
+    currentTheme = theme ? theme : ""
 
     return `<main class="menu principal">
-        <h1>Menu</h1>
-        ${Link("calendar.html", "Back to calendar")}
+        <section class="header">
+            <h1>Menu </h1>
+            <button class="button">
+            ${Link("calendar.html", "Back to calendar")}
+            </button>
+        </section>        
+        ${changeThemeComponent(currentTheme)}
         
-        ${changeThemeComponent()}
-        <div class="menu-options">
-            <a href="tasks.html" class="menu-option">Tasks</a>
-            <a href="settings.html" class="menu-option">Settings</a>
-        </div>
     </main>`
 }
 
 document.addEventListener("render", () => {
-    document.querySelector("#log-button").addEventListener('click', actions.log)
+    // document.querySelector("#log-button").addEventListener('click', actions.log)
 })

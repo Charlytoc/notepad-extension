@@ -2,12 +2,20 @@ window.stateValues = []
 let currentRefCount = 0;
 window.actions = {};
 
+const addThemeToBody = (newTheme) => {
+    // console.log(document.body.classList.value);
+    document.body.classList.add(`theme-${newTheme}`);
+    document.body.classList.add(`${newTheme}`);
+    saveDataToLocalStorage("theme", newTheme);
+}
+
 const makeTheme = (theme) => {
     if (!theme) {
         theme = getValueFromLocalStorage("theme");
     }
     addThemeToBody(theme);
 }
+
 const removePreviousThemes = () => {
     document.body.classList.forEach(className => {
         if (className.startsWith('theme-')) {
@@ -18,13 +26,6 @@ const removePreviousThemes = () => {
     });
 }
 
-const addThemeToBody = (newTheme) => {
-    // console.log(document.body.classList.value);
-    document.body.classList.add(`theme-${newTheme}`);
-    document.body.classList.add(`${newTheme}`);
-    saveDataToLocalStorage("theme", newTheme);
-}
-
 const listenForThemeChange = () => {
     document.querySelectorAll('.theme-option').forEach(option => {
         option.addEventListener('click', function() {
@@ -32,9 +33,8 @@ const listenForThemeChange = () => {
             // console.log(`desiredTheme: ${desiredTheme}`);
             // addThemeToBody(desiredTheme)
             saveDataToLocalStorage("theme", desiredTheme);
-            render();
             removePreviousThemes();
-            makeTheme(desiredTheme)
+            render();
         });
     });
 }
@@ -112,7 +112,7 @@ const navigation = (activeUrl) => {
     const windows = [
         {
             name: "calendar",
-            url: "calendar.html?hello=world"
+            url: "calendar.html"
         },
         {
             name: "easy-copies",
@@ -133,7 +133,7 @@ const navigation = (activeUrl) => {
     ]
      
     return `
-    <h2> Charlytoc's notepad 🗒️</h2>
+    <h2>Charlytoc's notepad</h2>
     <div class="navigation">
     ${windows.map((window) => {
         return `<a tabindex="-1" href="${window.url}" class="${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
@@ -199,6 +199,6 @@ function getDataFromChromeStorage(key, callback) {
 
 function saveDataToChromeStorage(key, data) {
   chrome.storage.local.set({ [key]: data }, function() {
-    console.log('Data saved ', data);
+    // console.log('Data saved ', data);
   });
 }

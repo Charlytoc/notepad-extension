@@ -11,22 +11,44 @@
 .todos-container {
   display: grid;
   width: 100vw;
-  gap: 10px;
-  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 0px 8px 0px 2px;
+  grid-template-columns: repeat(2, 1fr);
+
+  height: fit-content;
+  flex-direction: column;
 }
 
 
 .todo {
   background-color: var(--notes-bg-color);
   padding: 5px;
+  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  place-content: center;
   color: var(--color-action-contrast);
-  border-radius: var(--global-border-radious);
-  text-align: center;
+  border-radius: var(--global-border-radious); 
   background-color: var(--bg-unselected-object);
-
+  & h3 {
+    text-align: center;
+  }
+  & p {
+    color: var(--font-secondary-color);
+    font-weight: 300;
+  }
   & .todo-extra-info {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      text-align: left;
+      grid-template-columns: repeat(4, 1fr);
+  }
+  & button {
+    width: fit-content;
+    padding: 5px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
   }
 
 }

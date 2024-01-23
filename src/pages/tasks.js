@@ -52,19 +52,24 @@ const months = {
 
 const todoListComponent = (todos) => {
     return `
+    <h2>Todos</h2>
+        <section class="todos-container">
         ${todos.map((todo, index) => {
-        return `<div class="todo">
+            return `<div class="todo">
             <h3>${todo.title}</h3>
             <p>${todo.description}</p>
             <section class="todo-extra-info">
-                <span>${todo.time}</span>
-                <div>
-                    <input type="checkbox" ${todo.done ? "checked" : ""} />
-                </div>
+            <span>👀</span>
+            <span>${todo.time}</span>
+            <span>☑️</span>
+            <div>
+            <input type="checkbox" ${todo.done ? "checked" : ""} />
+            </div>
             </section>
             <button class="delete-todo-button" data-todo-index="${index}">Delete</button>
-        </div>`
-    }).join('')}
+            </div>`
+        }).join('')}
+        </section>
     `
 }
 
@@ -152,10 +157,8 @@ let html = () => {
             <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
             <button class="simple-button" id="add-todo">Add todo</button>
         </form>
-        <h2>Todos</h2>
-        <section class="todos-container">
+        
             ${todos && todos[month] && todos[month][day] ? todoListComponent(todos[month][day]) : ""}
-        </section>
         
     </main>`
 }

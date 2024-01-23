@@ -1,0 +1,31 @@
+.theme-palette {
+    width: 100%;
+    > ul {
+        display: flex;
+        > li {
+            padding: 8px;
+            width: 100%;
+            list-style-type: none;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid var(--color-remarkable);
+            
+            &:hover {
+                border: 1px solid var(--color-active);
+            }
+        }
+    }
+}
+
+.menu {
+    text-align: center;
+    > .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+    }
+}
+
+#dark {
+    background-color: var(black);
+}

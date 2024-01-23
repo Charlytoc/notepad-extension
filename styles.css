@@ -238,4 +238,19 @@ input[type="number"]::-webkit-outer-spin-button {
 .theme-palette {
   background-color: var(--bg-color);
   width: fit-content;
+  & .theme-option {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-action);
+      color: var(--color-action-contrast);
+    }
+  }
+}
+
+
+.button {
+  background-color: transparent;
+  border-radius: 8px;
+  padding: 7px;
 }
