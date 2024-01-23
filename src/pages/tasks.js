@@ -4,18 +4,18 @@ const timeToMinutes = (time) => {
 };
 
 const getMillisecondsToFire = (time, day, month) => {
-  const currentYear = new Date().getFullYear();
-  const [hours, minutes] = time.split(':').map(Number);
-  const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
-  // Calculate the difference in milliseconds
-  return date.getTime() - Date.now();
+    const currentYear = new Date().getFullYear();
+    const [hours, minutes] = time.split(':').map(Number);
+    const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
+    // Calculate the difference in milliseconds
+    return date.getTime() - Date.now();
 };
 
 const getDateInMilliseconds = (time, day, month) => {
-  const currentYear = new Date().getFullYear();
-  const [hours, minutes] = time.split(':').map(Number);
-  const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
-  return date.getTime();
+    const currentYear = new Date().getFullYear();
+    const [hours, minutes] = time.split(':').map(Number);
+    const date = new Date(currentYear, month, day, hours, minutes, 0, 0);
+    return date.getTime();
 };
 
 
@@ -55,27 +55,25 @@ const todoListComponent = (todos) => {
     <h2>Todos</h2>
         <section class="todos-container">
         ${todos.map((todo, index) => {
-            return `<div class="todo">
+        return `<div class="todo">
             <h3>${todo.title}</h3>
             <p>${todo.description}</p>
             <section class="todo-extra-info">
-            <span>👀</span>
-            <span>${todo.time}</span>
-            <span>☑️</span>
-            <div>
-            <input type="checkbox" ${todo.done ? "checked" : ""} />
-            </div>
+                <span>${todo.time}</span>
+                <div>
+                    <input class="done-checkbox" data-todo-index="${index}" type="checkbox" ${todo.done ? "checked" : ""} />
+                </div>
             </section>
             <button class="delete-todo-button" data-todo-index="${index}">Delete</button>
             </div>`
-        }).join('')}
+    }).join('')}
         </section>
     `
 }
 
 let html = () => {
     const date = new Date();
-    let day =date.getDate();
+    let day = date.getDate();
     let month = date.getMonth();
 
     const [todos, setTodos] = useState({})
@@ -92,10 +90,32 @@ let html = () => {
     actions.deleteTodo = (e) => {
         const todoIndex = e.target.dataset.todoIndex;
         const newTodos = todos;
-        clearAlarm(newTodos[todoIndex].title)
+        clearAlarm(newTodos[month][day][todoIndex].title)
         newTodos[month][day].splice(todoIndex, 1);
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
+    }
+    actions.markTodoAsDone = (e) => {
+        const todoIndex = e.target.dataset.todoIndex;
+        const newTodos = todos;
+        const todo = newTodos[month][day][todoIndex];
+
+        newTodos[month][day][todoIndex].done = e.target.checked;
+        saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
+        setTodos(newTodos);
+
+        if (e.target.checked) {
+            const dateInMilliseconds = getDateInMilliseconds(todo.time, day, month);
+
+            alarm(todo.title,
+                todo.description,
+                dateInMilliseconds,
+                Number(todo.period)
+            );
+        }
+        else {
+            clearAlarm(todo.title)
+        }
     }
 
     actions.addTodo = (e) => {
@@ -117,7 +137,7 @@ let html = () => {
         if (!newTodos[month][day]) {
             newTodos[month][day] = []
         }
-        
+
         const insertIndex = newTodos[month][day].findIndex(existingTodo =>
             timeToMinutes(existingTodo.time) > timeToMinutes(todoData.time)
         );
@@ -137,7 +157,7 @@ let html = () => {
             todoData.description,
             dateInMilliseconds,
             periodInMinutes
-            );
+        );
 
         setTodos(newTodos);
     }
@@ -167,6 +187,9 @@ document.addEventListener("render", () => {
     document.querySelector('#todo-form').addEventListener('submit', actions.addTodo)
     document.querySelectorAll('.delete-todo-button').forEach((button) => {
         button.addEventListener('click', actions.deleteTodo)
+    })
+    document.querySelectorAll('.done-checkbox').forEach((checkbox) => {
+        checkbox.addEventListener('change', actions.markTodoAsDone)
     })
     document.querySelector("#show-form-button").addEventListener('click', actions.showForm)
 })

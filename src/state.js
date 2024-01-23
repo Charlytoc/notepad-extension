@@ -180,6 +180,8 @@ const alarm = (title,message, dateInMilliseconds, periodInMinutes=5) => {
     retrieveFromLs("alarms", updateAlarms);
 
     chrome.alarms.create(title, { when: dateInMilliseconds, periodInMinutes: periodInMinutes });
+
+    console.log(`Alarm ${title} was created`);
 }
 
 const clearAlarm = (title) => {
