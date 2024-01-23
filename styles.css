@@ -33,7 +33,7 @@
 
 :root:has(body.dark) {
   --color-action: hsl(240, 46%, 53%);
-  --bg-color: hsl(240, 96%, 10%);
+  --bg-color: hsl(240, 100%, 5%);
   --color-active: var(--color-action);
   --font-color: white;
   --font-primary-color: var(--font-color);

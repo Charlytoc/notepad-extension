@@ -33,7 +33,7 @@ let html = () => {
     //     localStorage.setItem('LAST_WINDOW', CURRENT_WINDOW);
     // }
 
-    const data = JSON.parse(localStorage.getItem('data')) || [];
+    const copiesList = JSON.parse(localStorage.getItem('data')) || [];
 
     const easyCopy = {
         name: "",
@@ -49,13 +49,13 @@ let html = () => {
                 data.push(easyCopy);
                 localStorage.setItem('data', JSON.stringify(data));
                 location.reload()
-
             }
         }
     }
 
     actions.handleKeyup = (e) => {
         const index = parseInt(e.target.dataset.noteId);
+        const copy = copiesList[index]
         // I want to make something in delete is pressed
         if (e.keyCode === 46) {
             actions.deleteNote(e)
@@ -63,6 +63,9 @@ let html = () => {
         // I want to make something if enter is pressed
         if (e.keyCode === 13) {
             actions.copyNote(e)
+        }
+        if (e.keyCode === 32 && copy.link.includes("http")) {
+            chrome.tabs.create({ url: copy.link });
         }
         if (e.keyCode === 37) {
             if (index > 0) {
@@ -77,13 +80,13 @@ let html = () => {
             }
         }
         if (e.keyCode === 39) {
-            if (index < data.length - 1) {
+            if (index < copiesList.length - 1) {
                 const nextNote = document.querySelector(`[data-note-id="${index + 1}"]`);
                 nextNote.focus();
             }
         }
         if (e.keyCode === 40) {
-            if (index < data.length - 1) {
+            if (index < copiesList.length - 1) {
                 const nextNote = document.querySelector(`[data-note-id="${index + 3}"]`);
                 nextNote.focus();
             }
@@ -94,12 +97,14 @@ let html = () => {
     actions.addName = (e) => {
         easyCopy.name = e.target.value
     }
+
     actions.deleteNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
-        data.splice(index, 1);
-        localStorage.setItem('data', JSON.stringify(data))
+        copiesList.splice(index, 1);
+        localStorage.setItem('data', JSON.stringify(copiesList))
         location.reload()
     }
+    
     actions.notifyUser = (e) => {
         // notify({title: "Hello bro", message: "You are doing great!"})
         // alarm("Hello bro, this alarm will be fired was fired in 10 seconds", "You are doing great!", 1000)
@@ -107,7 +112,7 @@ let html = () => {
 
     actions.copyNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
-        const text = data[index].link
+        const text = copiesList[index].link
         navigator.clipboard.writeText(text)
             .then(() => {
                 const copyModal = document.querySelector(`#modal-${index}`);
@@ -124,7 +129,7 @@ let html = () => {
     <input  id="name-input" placeholder="Title of the new note" type="text" />
     <textarea rows=1  id="note-input" placeholder="Write here the content to save and press enter" type="text" ></textarea>
     <section class="note-container">
-    ${data.map(noteComponent).join(' ')}
+    ${copiesList.map(noteComponent).join(' ')}
     </section>
     </div>`;
 }

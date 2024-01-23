@@ -104,7 +104,7 @@ let html = () => {
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
 
-        if (e.target.checked) {
+        if (!e.target.checked) {
             const dateInMilliseconds = getDateInMilliseconds(todo.time, day, month);
 
             alarm(todo.title,
