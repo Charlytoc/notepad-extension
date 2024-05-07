@@ -1,19 +1,5 @@
 const TODOS_STORAGE_KEY = "TODOS_STORAGE"
 
-const toggleFormTodo = (action) => {
-    const actions = {
-        show: () => {
-            document.querySelector('#todo-form').style.display = "block";
-            document.querySelector('#show-form-button').style.display = "none";
-        },
-        hide: () => {
-            document.querySelector('#todo-form').style.display = "none";
-            document.querySelector('#show-form-button').style.display = "block";
-        }
-    }
-    actions[action]()
-}
-
 
 const months = {
     0: 'January',
@@ -29,27 +15,6 @@ const months = {
     10: 'November',
     11: 'December'
 };
-
-
-const todoListComponent = (todos) => {
-    return `
-        ${todos.map((todo, index) => {
-        return `<div class="todo">
-            <h3>${todo.title}</h3>
-            <p>${todo.description}</p>
-            <section class="todo-extra-info">
-                <span>${todo.time}</span>
-                <div>
-                    <input type="checkbox" ${todo.done ? "checked" : ""} />
-                </div>
-            </section>
-            <button class="delete-todo-button" data-todo-index="${index}">Delete</button>
-        </div>`
-    }).join('')}
-    `
-}
-
-
 
 
 let html = () => {
@@ -110,25 +75,32 @@ let html = () => {
         }
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
+        // toggleElementDisplay("hide", )
     }
 
     actions.showForm = () => {
-        toggleFormTodo('show')
+        toggleElementDisplay('show', "#todo-modal")
     }
 
     return `<main class="day principal">
         <div class="header">
             <a href="calendar.html">Back to calendar</a>
-            <h3>${day} of ${months[month]}</h3>
         </div>
         <button tabindex="1" class="simple-button self-center" id="show-form-button">Add a task</button>
-        <form id="todo-form">
+        ${Form(
+        {
+            innerHTML: `
+                <form id="todo-form">
         <input type="text" name="title" placeholder="Todo title">
         <textarea name="description" placeholder="Todo description"></textarea>
         <input type="time" name="time" placeholder="Todo time"/>
         <button class="simple-button" id="add-todo">Add todo</button>
-        </form>
-        <h2>Todos</h2>
+        </form>`,
+        identifier: "todo-modal"
+
+        }
+    )}
+        <h2>Todos for ${day} of ${months[month]}</h2>
         <section class="todos-container">
             ${todos && todos[month] && todos[month][day] ? todoListComponent(todos[month][day]) : ""}
         </section>

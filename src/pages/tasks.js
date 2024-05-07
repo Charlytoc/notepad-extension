@@ -21,19 +21,7 @@ const getDateInMilliseconds = (time, day, month) => {
 
 const TODOS_STORAGE_KEY = "TODOS_STORAGE"
 
-const toggleFormTodo = (action) => {
-    const actions = {
-        show: () => {
-            document.querySelector('#todo-form').style.display = "block";
-            document.querySelector('#show-form-button').style.display = "none";
-        },
-        hide: () => {
-            document.querySelector('#todo-form').style.display = "none";
-            document.querySelector('#show-form-button').style.display = "block";
-        }
-    }
-    actions[action]()
-}
+
 
 const months = {
     0: 'January',
@@ -50,28 +38,10 @@ const months = {
     11: 'December'
 };
 
-const todoListComponent = (todos) => {
-    return `
-    <h2>Todos</h2>
-        <section class="todos-container">
-        ${todos.map((todo, index) => {
-        return `<div class="todo">
-            <h3>${todo.title}</h3>
-            <p>${todo.description}</p>
-            <section class="todo-extra-info">
-                <span>${todo.time}</span>
-                <div>
-                    <input class="done-checkbox" data-todo-index="${index}" type="checkbox" ${todo.done ? "checked" : ""} />
-                </div>
-            </section>
-            <button class="delete-todo-button" data-todo-index="${index}">Delete</button>
-            </div>`
-    }).join('')}
-        </section>
-    `
-}
+
 
 let html = () => {
+    saveLastPageVisited("tasks")
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth();
@@ -126,6 +96,7 @@ let html = () => {
         for (const [key, value] of formData.entries()) {
             todoData[key] = value;
         }
+        console.log(todoData);
         todoData.done = false;
         let newTodos = {}
         if (todos) {
@@ -136,6 +107,12 @@ let html = () => {
         }
         if (!newTodos[month][day]) {
             newTodos[month][day] = []
+        }
+
+        if (!todoData.time || !todoData.period) {
+            toggleElementDisplay("hide", "#f-todo")
+            
+            return
         }
 
         const insertIndex = newTodos[month][day].findIndex(existingTodo =>
@@ -160,23 +137,30 @@ let html = () => {
         );
 
         setTodos(newTodos);
+        toggleElementDisplay('hide', "#f-todo")
     }
 
     actions.showForm = () => {
-        toggleFormTodo('show')
+        toggleElementDisplay('show', "#f-todo")
     }
 
-    return `<main class="day principal">
+    return `<main class="principal">
         ${navigation("tasks.html")}
 
-        <button tabindex="1" class="simple-button w-100" id="show-form-button">Add a task</button>
-        <form id="todo-form">
+        <button tabindex="1" class="button w-100" id="show-form-button">Add a task</button>
+        ${Form(
+        {
+            innerHTML: `
+                <form id="todo-form">
             <input type="text" name="title" placeholder="Todo title">
             <textarea name="description" placeholder="Todo description"></textarea>
             <input type="time" name="time" placeholder="Todo time"/>
             <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
             <button class="simple-button" id="add-todo">Add todo</button>
-        </form>
+        </form>`,
+            identifier: "f-todo",
+        }
+    )}
         
             ${todos && todos[month] && todos[month][day] ? todoListComponent(todos[month][day]) : ""}
         

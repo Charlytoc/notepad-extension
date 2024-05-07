@@ -1,5 +1,23 @@
 const STORAGE_KEY = "notetaker";
 
+
+const _footer = (note) => {
+    return `
+    <div id="footer">
+            <section>
+                <button id="back-button" class="button">Back</button>
+            </section>
+            <section>
+                <p>#${note.tags.join(' #')}</p>
+            </section>
+            <section>
+                <p>${note.created.slice(0, 10)}</p>
+            </section>
+        </div>
+        `
+}
+
+
 let html = () => {
     let params = new URLSearchParams(window.location.search);
     let noteIndex = params.get('index');
@@ -32,7 +50,8 @@ let html = () => {
     <main class="principal">
         <h1 contenteditable="true" data-editable="title">${note.title}</h1>
         <textarea id="scratchpad" type="text" data-editable="description">${note.content}</textarea>
-        <button id="back-button" class="button">Back</button>
+        ${_footer(note)}
+
     </main>
         `
         // <p>Tags: ${note.tags.join(', ')}</p>

@@ -1,22 +1,72 @@
 #notesList {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
-    > li {
-        border-radius: 5px;
-        padding: 10px;
-        margin: 5px;
-        background-color: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
+textarea {
+  width: 100%;
+  height: 100%;
+  resize: vertical;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  padding: 3px;
+}
+
+.note {
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  /* display: flex; */
+  & .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    & > * {
+      color: rgba(97, 97, 97, 0.286) !important;
+      flex: 1; /* Makes each child of footer grow to take equal space */
     }
+    & i:hover {
+      color: var(--color-action);
+    }
+
+    & button {
+      background-color: transparent;
+      border: none;
+      color: white;
+
+      &:hover {
+        color: var(--color-action);
+      }
+    }
+  }
 }
 
 
-textarea {
-    width: 100%;
-    min-height: 522px;
-    resize: vertical;
-    background-color: transparent;
-    backdrop-filter: blur(5px);
-    padding: 3px;
+#add-new-button {
+  position: fixed;
+  display: flex;
+  bottom: 10%;
+  padding: 20px;
+  right: 10%;
+  z-index: 1;
+  font-size: large;
+}
+
+@keyframes appear-from-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

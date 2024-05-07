@@ -5,11 +5,11 @@
       "hasStyles": true
     },
     {
-      "name": "copies",
+      "name": "day",
       "hasStyles": true
     },
     {
-      "name": "day",
+      "name": "copies",
       "hasStyles": true
     },
     {
@@ -21,7 +21,7 @@
       "hasStyles": true
     },
     {
-      "name": "notetaker",
+      "name": "note",
       "hasStyles": true
     },
     {
@@ -29,7 +29,7 @@
       "hasStyles": true
     },
     {
-      "name": "note",
+      "name": "notetaker",
       "hasStyles": true
     }
   ]

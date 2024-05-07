@@ -2,12 +2,12 @@
   "manifest_version": 3,
   "name": "Notes by Charlytoc",
   "description": "A simple note taking extension that saves your notes in your browser and help you remember things to do",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "background": {
     "service_worker": "src/background.js"
   },
   "action": {
-    "default_popup": "copies.html",
+    "default_popup": "copies.html?hello=world",
     "default_icon": "icon.png"
   },
   "icons": {

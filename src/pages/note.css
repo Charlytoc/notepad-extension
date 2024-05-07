@@ -14,3 +14,17 @@
     backdrop-filter: blur(5px);
     padding: 3px;
 }
+
+#footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    & p {
+        color: grey;
+        &:hover {
+            color: white;
+        }
+    }
+}

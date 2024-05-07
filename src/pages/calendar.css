@@ -1,27 +1,25 @@
-
 .grid-calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
 .grid-calendar div {
-    border: 1px solid var(--font-secondary-color); 
-    padding: 9px; 
-    text-align: center;
-  }
+  border: 1px solid var(--font-secondary-color);
+  padding: 9px;
+  text-align: center;
+}
 .today {
-    color: var(--color-action-contrast);
-    background-color: var(--color-action);
-    font-weight: bold;
-    font-size: 14px;
+  color: var(--color-action-contrast);
+  background-color: var(--color-action);
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .day-marker {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--font-secondary-color);
-    background-color: var(--unselected-notes-bg-color);
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--font-secondary-color);
+  background-color: var(--unselected-notes-bg-color);
 }
 
 .day {
-    cursor: pointer;
 }

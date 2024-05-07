@@ -29,10 +29,8 @@ ${modal(index)}
  `
 
 let html = () => {
-    // We must cache somethings in the application like the last view opened and data in each view
-
-
-
+    redirectToLastPage()
+    
     const copiesList = getDataFromLocalStorage(COPIES_STORAGE_KEY) || [];
 
     const easyCopy = {

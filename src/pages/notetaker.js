@@ -1,68 +1,115 @@
 const STORAGE_KEY = "notetaker"
 
+const addButton = () => {
+    return `<button class="button" id="add-new-button">
+    <span>+</span>
+    </button>`
+}
+
+
+
+const noteForm = `
+    <form id="note-form">
+    <h1>Add a new note</h1>
+    <input placeholder="Title" id="scratchpad" type="text" name="title"/>
+    <input type="text" placeholder="Tags" name="tags" />
+    <textarea placeholder="Content" name="content"></textarea>
+    <button class="button sz-big" id="save-button">Save</button>
+    </form>
+    `
+
+
+const notesContainer = (notes) => {
+
+    return `
+        <ul id="notesList">
+        ${notes && !(typeof notesArray === "string") && notes.map((note, index) => `
+        <li class="note" data-noteindex="${index}">
+        <h3>${note.title}</h3>
+        
+        <section class="footer">
+        <button class="delete-button">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+        <button class="open-button">
+            <i class="fa-brands fa-readme"></i>
+        </button>
+        </section>
+        </li>
+        `).join('')}
+        </ul>
+        `
+
+
+}
 
 let html = () => {
+    saveLastPageVisited("notetaker")
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
+
     if (!Array.isArray(notesArray)) notesArray = [];
-
-
-
-    actions.takeNotes = (e) => {
-        const noteTitle = e.target.value
-        const noteCreated = new Date().toISOString();
-        const noteTags = ["helloWorld", "goodbyeWorld"];
-        const newNote = { title: noteTitle, created: noteCreated, tags: noteTags };
-        const newNotesArray = [...notesArray, newNote];
-
-        saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
-    }
-
-    actions.populateNotes = () => {
-        const sampleNotes = [
-            { title: "Note 1", created: "2023-01-01", tags: ["tag1", "tag2"] },
-            { title: "Note 2", created: "2023-01-02", tags: ["tag2", "tag3"] },
-            { title: "Note 3", created: "2023-01-03", tags: ["tag3", "tag4"] },
-            { title: "Note 4", created: "2023-01-04", tags: ["tag4", "tag5"] },
-            { title: "Note 5", created: "2023-01-05", tags: ["tag5", "tag6"] }
-        ];
-        saveDataToLocalStorage(STORAGE_KEY, sampleNotes);
-    }
 
     actions.goToNotePage = (e) => {
         const noteIndex = e.target.closest('.note').dataset.noteindex;
         window.location.href = `note.html?index=${noteIndex}`;
     };
-    
 
     actions.deleteNote = (e) => {
         const noteIndex = e.target.closest('.note').dataset.noteindex;
         const newNotesArray = notesArray.filter((note, index) => index !== parseInt(noteIndex));
         saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+        // Reload the page
+        window.location.reload();
+    }
+
+    actions.save = (e) => {
+        e.preventDefault();
+        const noteForm = document.querySelector("#note-form")
+
+        const noteTitle = noteForm.title.value;
+        const noteContent = noteForm.content.value;
+
+
+        if (!noteTitle || !noteContent) {
+            window.location.reload();
+            return
+        }
+
+
+        const noteTags = noteForm.tags.value.split(',');
+        const noteCreated = new Date().toISOString();
+        const newNote = { title: noteTitle, content: noteContent, created: noteCreated, tags: noteTags };
+        const newNotesArray = [...notesArray, newNote];
+
+        saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+        // Reload the page
+        window.location.reload();
+    }
+
+    actions.displayForm = () => {
+        toggleElementDisplay("show", "#note-form-container");
     }
 
 
     return `
     <main class="principal">
         ${navigation("notetaker.html")}
-        <input id="scratchpad" type="text"/>
-        <ul id="notesList">
-            ${notesArray && !(typeof notesArray === "string") && notesArray.map((note, index) => `
-            <li class="note" data-noteindex="${index}">
-                <h3>${note.title}</h3>
-                <p>Created: ${note.created}</p>
-                <p>Tags: ${note.tags.join(', ')}</p>
-                <button class="delete-button">Delete</button>
-                <button class="open-button">Open</button>
-            </li>
-
-        `).join('')}
-        </ul>
-    </main>
-    `
+        ${addButton()}
+        ${notesContainer(notesArray)}
+        ${Form({
+        innerHTML: noteForm,
+        identifier: "note-form-container"
+    })}
+        </main>
+        `
 }
+// <p>${note.created}</p>
+// <p>Tags: ${note.tags.join(', ')}</p>
 
 document.addEventListener("render", () => {
-    document.querySelector("#scratchpad").addEventListener('change', actions.takeNotes);
+    // document.querySelector("#scratchpad").addEventListener('change', actions.takeNotes);
+    document.querySelector("#save-button").addEventListener('click', actions.save);
+    document.querySelector("#add-new-button").addEventListener('click', actions.displayForm);
     document.querySelector("button").addEventListener('click', actions.populateNotes);
     // Select all the .note and add a click event listener to listen the function action.populateNotes
     document.querySelectorAll('.open-button').forEach((button) => {

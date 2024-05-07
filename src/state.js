@@ -13,7 +13,7 @@ const makeTheme = (theme) => {
     if (!theme) {
         theme = getDataFromLocalStorage("theme");
     }
-    addThemeToBody(theme); 
+    addThemeToBody(theme);
 }
 
 const removePreviousThemes = () => {
@@ -37,6 +37,38 @@ const listenForThemeChange = () => {
             render();
         });
     });
+
+    document.querySelectorAll('.navigation-urls').forEach(option => {
+        option.addEventListener('click', function (event) {
+            event.preventDefault();
+            const _href = this.getAttribute('href');
+            deletePageCacheAndRedirect(_href.split('.')[0]);
+        });
+    });
+
+    document.addEventListener('mousemove', function (e) {
+        var follower = document.getElementById('cursor-follower');
+        follower.style.right = (window.innerWidth - e.clientX) + 'px';
+        follower.style.bottom = (window.innerHeight - e.clientY) + 'px';
+
+        // Obtener el elemento en la posición del cursor
+        var elementAtCursor = document.elementFromPoint(e.clientX, e.clientY);
+
+        // Obtener la clase del elemento
+        var elementClass = elementAtCursor.className;
+
+        if (elementClass.includes("button") || 
+        elementClass.includes("link") || elementClass.includes("clickeable") ){
+            follower.style.width = "20px";
+            follower.style.height = "20px";
+        }
+        else {
+            follower.style.width = "10px";
+            follower.style.height = "10px";
+        }
+    });
+
+
 }
 
 
@@ -46,6 +78,7 @@ const render = () => {
     document.querySelector('#root').innerHTML = html();
     currentRefCount = 0;
     document.dispatchEvent(RENDER_EVENT);
+
     makeTheme();
     listenForThemeChange();
 }
@@ -133,10 +166,10 @@ const navigation = (activeUrl) => {
     ]
 
     return `
-    <h2>Charlytoc's notepad</h2>
+    <h3 class="upper-section">Charlytoc's notepad</h3>
     <div class="navigation">
     ${views.map((window) => {
-        return `<a tabindex="-1" href="${window.url}" class="${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
+        return `<a tabindex="-1" href="${window.url}" class="navigation-urls link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
     </div>
     `
@@ -203,4 +236,31 @@ function saveDataToChromeStorage(key, data) {
     chrome.storage.local.set({ [key]: data }, function () {
         // console.log('Data saved ', data);
     });
+}
+
+
+function saveLastPageVisited(pageName) {
+    let _p = pageName + ".html";
+    saveDataToChromeStorage("lastPageVisited", _p);
+}
+
+function deleteDataFromChromeStorage(key, callback) {
+    chrome.storage.local.remove(key, callback);
+}
+
+function redirectToLastPage() {
+    getDataFromChromeStorage("lastPageVisited", function (url) {
+        if (!url) {
+            return
+        }
+        window.location.href = url;
+    }
+    );
+}
+
+function deletePageCacheAndRedirect(pageName) {
+    const _r = () => {
+        window.location.href = pageName + ".html";
+    }
+    deleteDataFromChromeStorage("lastPageVisited", _r);
 }
