@@ -11,9 +11,9 @@ const addThemeToBody = (newTheme) => {
 
 const makeTheme = (theme) => {
     if (!theme) {
-        theme = getValueFromLocalStorage("theme");
+        theme = getDataFromLocalStorage("theme");
     }
-    addThemeToBody(theme);
+    addThemeToBody(theme); 
 }
 
 const removePreviousThemes = () => {
@@ -28,8 +28,8 @@ const removePreviousThemes = () => {
 
 const listenForThemeChange = () => {
     document.querySelectorAll('.theme-option').forEach(option => {
-        option.addEventListener('click', function() {
-            const desiredTheme= this.getAttribute('data-theme')
+        option.addEventListener('click', function () {
+            const desiredTheme = this.getAttribute('data-theme')
             // console.log(`desiredTheme: ${desiredTheme}`);
             // addThemeToBody(desiredTheme)
             saveDataToLocalStorage("theme", desiredTheme);
@@ -92,7 +92,7 @@ function saveDataToLocalStorage(ls_key, data_to_save) {
   * @param {string} ls_key - The key to search for in the localStorage.
   * @returns {any} - The value associated with the provided key in the localStorage.
   */
-function getValueFromLocalStorage(ls_key) {
+function getDataFromLocalStorage(ls_key) {
     try {
         // Retrieve the value from the localStorage based on the provided key
         const value = localStorage.getItem(ls_key);
@@ -109,7 +109,7 @@ function getValueFromLocalStorage(ls_key) {
 
 
 const navigation = (activeUrl) => {
-    const windows = [
+    const views = [
         {
             name: "calendar",
             url: "calendar.html"
@@ -131,11 +131,11 @@ const navigation = (activeUrl) => {
             url: "menu.html"
         }
     ]
-     
+
     return `
     <h2>Charlytoc's notepad</h2>
     <div class="navigation">
-    ${windows.map((window) => {
+    ${views.map((window) => {
         return `<a tabindex="-1" href="${window.url}" class="${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
     }).join('')}
     </div>
@@ -173,7 +173,7 @@ function saveInLs(name, object) {
     chrome.storage.local.set({ [name]: object });
 }
 
-const alarm = (title,message, dateInMilliseconds, periodInMinutes=5) => {
+const alarm = (title, message, dateInMilliseconds, periodInMinutes = 5) => {
     const updateAlarms = (alarms) => {
         saveInLs("alarms", { ...alarms, [title]: message })
     }
@@ -194,13 +194,13 @@ const clearAlarm = (title) => {
 
 
 function getDataFromChromeStorage(key, callback) {
-  chrome.storage.local.get([key], function(result) {
-    callback(result[key]);
-  });
+    chrome.storage.local.get([key], function (result) {
+        callback(result[key]);
+    });
 }
 
 function saveDataToChromeStorage(key, data) {
-  chrome.storage.local.set({ [key]: data }, function() {
-    // console.log('Data saved ', data);
-  });
+    chrome.storage.local.set({ [key]: data }, function () {
+        // console.log('Data saved ', data);
+    });
 }

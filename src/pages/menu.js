@@ -27,8 +27,8 @@ const THEME_KEY = "theme"
 
 
 let html = () => {
-    let currentTheme=""
-    const theme = getValueFromLocalStorage(THEME_KEY)
+    let currentTheme = ""
+    const theme = getDataFromLocalStorage(THEME_KEY)
     currentTheme = theme ? theme : ""
 
     return `<main class="menu principal">

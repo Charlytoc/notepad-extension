@@ -1,3 +1,5 @@
+const COPIES_STORAGE_KEY = "copies"
+
 const modal = (id) => {
     return `
     <div id="modal-${id}" class="copied-modal">
@@ -27,13 +29,11 @@ ${modal(index)}
  `
 
 let html = () => {
-    // const CURRENT_WINDOW = 'HOME'
-    // const LAST_WINDOW = localStorage.getItem('LAST_WINDOW');
-    // if (LAST_WINDOW !== CURRENT_WINDOW) {
-    //     localStorage.setItem('LAST_WINDOW', CURRENT_WINDOW);
-    // }
+    // We must cache somethings in the application like the last view opened and data in each view
 
-    const copiesList = JSON.parse(localStorage.getItem('data')) || [];
+
+
+    const copiesList = getDataFromLocalStorage(COPIES_STORAGE_KEY) || [];
 
     const easyCopy = {
         name: "",
@@ -45,9 +45,8 @@ let html = () => {
             const inputValue = e.target.value
             easyCopy.link = inputValue
             if (inputValue) {
-                let data = JSON.parse(localStorage.getItem('data')) || [];
-                data.push(easyCopy);
-                localStorage.setItem('data', JSON.stringify(data));
+                copiesList.push(easyCopy);
+                saveDataToLocalStorage(COPIES_STORAGE_KEY, copiesList);
                 location.reload()
             }
         }
@@ -101,10 +100,10 @@ let html = () => {
     actions.deleteNote = (e) => {
         const index = parseInt(e.target.dataset.noteId);
         copiesList.splice(index, 1);
-        localStorage.setItem('data', JSON.stringify(copiesList))
+        saveDataToLocalStorage('copies', copiesList);
         location.reload()
     }
-    
+
     actions.notifyUser = (e) => {
         // notify({title: "Hello bro", message: "You are doing great!"})
         // alarm("Hello bro, this alarm will be fired was fired in 10 seconds", "You are doing great!", 1000)
