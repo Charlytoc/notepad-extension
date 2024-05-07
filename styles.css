@@ -77,8 +77,7 @@
 
 body {
   width: fit-content;
-  height: fit-content;
-
+  height: max-content;
   overflow-y: hidden;
 }
 

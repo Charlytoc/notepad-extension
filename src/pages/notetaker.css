@@ -16,6 +16,7 @@ textarea {
   border-radius: 5px;
   text-align: center;
   padding: 10px;
+  height: fit-content;
   margin: 5px;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
@@ -23,6 +24,11 @@ textarea {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  & h3 {
+    font-size: 1rem;
+    text-align: left;
+    width: 100%;
+  }
   /* display: flex; */
   & .footer {
     display: flex;
@@ -36,6 +42,15 @@ textarea {
 
     & button {
       border: 1px solid transparent;
+
+      &.delete-button {
+        color: var(--color-action);
+        &:hover {
+          color: var(--color-action-contrast);
+          background-color: var(--color-neon-red);
+        }
+      
+      }
 
       &:hover {
         border: 1px solid var(--color-action);

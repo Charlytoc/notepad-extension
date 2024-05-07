@@ -6,6 +6,9 @@ const _footer = (note) => {
     <div id="footer">
             <section>
                 <button id="back-button" class="button">Back</button>
+                <button class="delete-button clickeable button">
+                    <i class="fa-solid fa-trash clickeable"></i>
+                </button>
             </section>
             <section>
                 <p>#${note.tags.join(' #')}</p>
@@ -46,12 +49,19 @@ let html = () => {
         window.location.href = `notetaker.html`;
     }
 
+    
+    actions.deleteNote = (e) => {
+        const newNotesArray = notesArray.filter((note, index) => index !== parseInt(noteIndex));
+        saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+        // Reload the page
+        window.location.href = "notetaker.html";
+    }
+
     return `
     <main class="principal">
         <h1 contenteditable="true" data-editable="title">${note.title}</h1>
         <textarea id="scratchpad" type="text" data-editable="description">${note.content}</textarea>
         ${_footer(note)}
-
     </main>
         `
         // <p>Tags: ${note.tags.join(', ')}</p>
@@ -62,4 +72,8 @@ document.addEventListener("render", () => {
     document.querySelector("#scratchpad").addEventListener('change', actions.modifyNote);
     document.querySelector("#back-button").addEventListener('click', actions.goToNotesPage);
     document.querySelector("h1[contenteditable]").addEventListener('blur', actions.modifyNote);
+
+    document.querySelectorAll('.delete-button').forEach((button) => {
+        button.addEventListener('click', actions.deleteNote)
+    })
 })

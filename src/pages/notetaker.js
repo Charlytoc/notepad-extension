@@ -28,9 +28,6 @@ const notesContainer = (notes) => {
         <h3>${note.title}</h3>
         
         <section class="footer">
-        <button class="delete-button clickeabl button">
-            <i class="fa-solid fa-trash clickeable"></i>
-        </button>
         <button class="open-button clickeable button">
             <i class="fa-brands fa-readme clickeable"></i>
         </button>
@@ -54,13 +51,6 @@ let html = () => {
         window.location.href = `note.html?index=${noteIndex}`;
     };
 
-    actions.deleteNote = (e) => {
-        const noteIndex = e.target.closest('.note').dataset.noteindex;
-        const newNotesArray = notesArray.filter((note, index) => index !== parseInt(noteIndex));
-        saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
-        // Reload the page
-        window.location.reload();
-    }
 
     actions.save = (e) => {
         e.preventDefault();
@@ -117,7 +107,5 @@ document.addEventListener("render", () => {
     })
 
     // all the .delete-button should have a click listener to actions.deleteNote
-    document.querySelectorAll('.delete-button').forEach((button) => {
-        button.addEventListener('click', actions.deleteNote)
-    })
+    
 })
