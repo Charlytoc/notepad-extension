@@ -12,13 +12,14 @@
   --done-font-color: var(--color-action-contrast);
 
   /* Background color of the notes of all sections when they are active or selected */
-  --notes-bg-color: #e3e3e3;
+  --notes-bg-color:  rgba(255, 255, 255, 0.1);
 
   /* Background color of the notes of all sections when they are unselected or inactive */
   --unselected-notes-bg-color: rgba(226, 226, 226, 0.03);
 
   --notes-font-size: 18px;
-
+  --color-neon-green: #00ff00;
+  --color-neon-red: #ff0000;
   /* Font family for the titles */
   --font-family-title: "Noto Sans", sans-serif;
 
@@ -34,6 +35,7 @@
 
 :root:has(body.dark) {
   --color-action: hsl(240, 46%, 53%);
+  --color-action-clear: hsl(240, 47%, 16%);
   --bg-color: hsl(240, 100%, 5%);
   --color-active: var(--color-action);
   --font-color: white;
@@ -131,6 +133,9 @@ textarea {
   }
 }
 
+input[type="checkbox"] {
+  cursor: none;
+}
 .current {
   color: var(--color-action);
 }
@@ -287,16 +292,18 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 100%;
   background-color: transparent;
   backdrop-filter: blur(5px);
-  z-index: 10;
+  z-index: 5;
   text-align: center;
   
   > form {
     animation: appear-from-bottom 0.2s ease-in-out 1;
     height: 80vh;
     position: fixed;
+    border-top-left-radius: var(--global-border-radious);
+    border-top-right-radius: var(--global-border-radious);
     top: 20%;
     width: 100%;
-    background-color: var(--bg-color) !important;
+    background-color: var(--color-action-clear);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -310,11 +317,19 @@ input[type="number"]::-webkit-outer-spin-button {
   display: grid;
   width: 100vw;
   gap: 5px;
+  margin-top: 5px;
   padding: 0px 8px 0px 2px;
-  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-template-columns: 0.7fr 1fr;
 
   height: fit-content;
   flex-direction: column;
+
+  & .column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 
@@ -322,13 +337,13 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: var(--notes-bg-color);
   padding: 5px;
   box-sizing: border-box;
-  height: 100%;
+  height: fit-content;
   display: grid;
   place-content: center;
   z-index: 2;
   color: var(--color-action-contrast);
   border-radius: var(--global-border-radious); 
-  background-color: var(--bg-unselected-object);
+  background-color: var(--notes-bg-color);
   border: 1px solid var(--bg-unselected-object);
   > *:not(:first-child) {
     margin-top: 10px;
@@ -351,6 +366,28 @@ input[type="number"]::-webkit-outer-spin-button {
         text-align: center;
         color: var(--font-secondary-color);
       }
+      & code {
+        &.done {
+          color: var(--color-neon-green);
+        }
+        &.pending {
+          color: var(--color-neon-red);
+        }
+        padding: 2px;
+        background-color: #000000;
+      }
   }
 
+}
+
+
+@keyframes appear-from-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

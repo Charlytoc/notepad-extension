@@ -33,22 +33,27 @@ textarea {
       color: rgba(97, 97, 97, 0.286) !important;
       flex: 1; /* Makes each child of footer grow to take equal space */
     }
-    & i:hover {
-      color: var(--color-action);
-    }
 
     & button {
-      background-color: transparent;
-      border: none;
-      color: white;
+      border: 1px solid transparent;
 
       &:hover {
+        border: 1px solid var(--color-action);
         color: var(--color-action);
+        > i {
+          color: var(--color-action);
+        }
+      }
+      &:active {
+        border: 1px solid var(--color-action);
+        color: black;
+        > i {
+          color: black;
+        }
       }
     }
   }
 }
-
 
 #add-new-button {
   position: fixed;
@@ -58,15 +63,4 @@ textarea {
   right: 10%;
   z-index: 1;
   font-size: large;
-}
-
-@keyframes appear-from-bottom {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }

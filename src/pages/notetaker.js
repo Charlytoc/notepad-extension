@@ -24,15 +24,15 @@ const notesContainer = (notes) => {
     return `
         <ul id="notesList">
         ${notes && !(typeof notesArray === "string") && notes.map((note, index) => `
-        <li class="note" data-noteindex="${index}">
+        <li class="note " data-noteindex="${index}">
         <h3>${note.title}</h3>
         
         <section class="footer">
-        <button class="delete-button">
-            <i class="fa-solid fa-trash"></i>
+        <button class="delete-button clickeabl button">
+            <i class="fa-solid fa-trash clickeable"></i>
         </button>
-        <button class="open-button">
-            <i class="fa-brands fa-readme"></i>
+        <button class="open-button clickeable button">
+            <i class="fa-brands fa-readme clickeable"></i>
         </button>
         </section>
         </li>

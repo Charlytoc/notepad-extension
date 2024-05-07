@@ -48,8 +48,9 @@ const listenForThemeChange = () => {
 
     document.addEventListener('mousemove', function (e) {
         var follower = document.getElementById('cursor-follower');
-        follower.style.right = (window.innerWidth - e.clientX) + 'px';
-        follower.style.bottom = (window.innerHeight - e.clientY) + 'px';
+        follower.style.left = e.clientX + 'px';
+        follower.style.top = e.clientY + 'px';
+
 
         // Obtener el elemento en la posición del cursor
         var elementAtCursor = document.elementFromPoint(e.clientX, e.clientY);

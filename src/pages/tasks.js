@@ -110,9 +110,8 @@ let html = () => {
         }
 
         if (!todoData.time || !todoData.period) {
-            toggleElementDisplay("hide", "#f-todo")
-            
-            return
+            todoData.time = "00:00"
+            todoData.period = 1
         }
 
         const insertIndex = newTodos[month][day].findIndex(existingTodo =>
@@ -151,13 +150,14 @@ let html = () => {
         ${Form(
         {
             innerHTML: `
-                <form id="todo-form">
-            <input type="text" name="title" placeholder="Todo title">
-            <textarea name="description" placeholder="Todo description"></textarea>
-            <input type="time" name="time" placeholder="Todo time"/>
-            <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
-            <button class="simple-button" id="add-todo">Add todo</button>
-        </form>`,
+            <form id="todo-form">
+                <h2>Add a task</h2>
+                <input type="text" name="title" placeholder="Todo title">
+                <textarea name="description" placeholder="Todo description"></textarea>
+                <input type="time" name="time" placeholder="Todo time"/>
+                <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
+                <button class="simple-button" id="add-todo"><i class="fa-solid fa-plus"></i></button>
+            </form>`,
             identifier: "f-todo",
         }
     )}

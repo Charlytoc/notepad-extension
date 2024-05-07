@@ -31,30 +31,52 @@ const toggleElementDisplay = (action, selector) => {
     console.log("Toggling form todo", action);
 }
 
+
+const TodoComponent = (todo) => {
+    return`<div class="todo">
+                <h3>${todo.title}</h3>
+                <p>${todo.description}</p>
+                <section class="todo-extra-info">
+                    <div>
+                        <code class=" ${todo.done ? "done" : "pending"}">${todo.time}</code>
+                        <span>Every ${todo.period} min</span>
+                    </div>
+                    
+                    <div>
+                   
+                        <input class="done-checkbox clickeable" data-todo-index="${todo.index}" type="checkbox" ${todo.done ? "checked" : ""} />
+                    </div>
+                    <button class="delete-todo-button button" data-todo-index="${todo.index}">
+                        <i class="fas fa-trash clickeable"></i>
+    
+                    </button>
+                </section>
+                </div>`
+}
+
 const todoListComponent = (todos) => {
+    // Picar el array de todos en dos partes de igual o casi igual length
+    // y devolver dos columnas de todos
+    const indexedTodos = todos.map((todo, index) => {
+        return { ...todo, index }
+    })
+    const half = Math.ceil(indexedTodos.length / 2);
+    const firstHalf = indexedTodos.slice(0, half);
+    const secondHalf = indexedTodos.slice(half, todos.length);
+
     return `
         <section class="todos-container">
-        ${todos.map((todo, index) => {
-        return `<div class="todo">
-            <h3>${todo.title}</h3>
-            <p>${todo.description}</p>
-            <section class="todo-extra-info">
-                <div>
-                    <span>${todo.time}</span>
-                    <span>${todo.period}</span>
-                </div>
-                
-                <div>
-                ${todo.done ? "🟩" : "⬛"}
-                    <input class="done-checkbox" data-todo-index="${index}" type="checkbox" ${todo.done ? "checked" : ""} />
-                </div>
-                <button class="delete-todo-button button" data-todo-index="${index}">
-                    <i class="fas fa-trash"></i>
-
-                </button>
-            </section>
-            </div>`
+        <div class="column">
+        ${firstHalf.map((todo) => {
+        return TodoComponent(todo)
     }).join('')}
+        </div>
+        <div class="column">
+        ${secondHalf.map((todo) => {
+        return TodoComponent(todo)
+    }).join('')}
+        
+        </div>
         </section>
     `
 }
