@@ -33,7 +33,7 @@ const toggleElementDisplay = (action, selector) => {
 
 
 const TodoComponent = (todo) => {
-    return`<div class="todo">
+    return `<div class="todo">
                 <h3>${todo.title}</h3>
                 <p>${todo.description}</p>
                 <section class="todo-extra-info">
@@ -79,4 +79,17 @@ const todoListComponent = (todos) => {
         </div>
         </section>
     `
+}
+
+
+const Button = ({ extraClass, identifier, content }) => {
+    return `<button tabindex="1" class="button ${extraClass}" id="${identifier}">
+    ${content}
+    </button>`
+}
+
+const FloatingLeftButton = ({identifier}) => {
+    const extraClass = "fixed-right-bottom"
+    
+    return Button({ extraClass, identifier, content: "+" })
 }

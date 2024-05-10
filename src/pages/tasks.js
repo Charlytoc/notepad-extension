@@ -146,7 +146,7 @@ let html = () => {
     return `<main class="principal">
         ${navigation("tasks.html")}
 
-        <button tabindex="1" class="button w-100" id="show-form-button">Add a task</button>
+        ${FloatingLeftButton({identifier: "show-form-button"})}
         ${Form(
         {
             innerHTML: `

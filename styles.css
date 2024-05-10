@@ -84,7 +84,7 @@ body {
 #root {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 a {
@@ -142,7 +142,7 @@ input[type="checkbox"] {
 .principal {
   background-color: var(--bg-color);
   width: 500px;
-  min-height: 600px;
+  height: 600px;
   padding: 3px;
 }
 .upper-section {
@@ -377,6 +377,28 @@ input[type="number"]::-webkit-outer-spin-button {
       }
   }
 
+}
+
+.masonry {
+  display: grid;
+  grid-template-columns:0.50fr 1fr;
+  width: 100%;
+  gap: 5px;
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.fixed-right-bottom {
+  position: fixed;
+  display: flex;
+  bottom: 10%;
+  padding: 20px;
+  right: 10%;
+  z-index: 1;
+  font-size: large;
 }
 
 

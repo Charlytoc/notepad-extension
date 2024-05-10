@@ -1,7 +1,4 @@
-#notesList {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
+
 
 textarea {
   width: 100%;
@@ -17,12 +14,11 @@ textarea {
   text-align: center;
   padding: 10px;
   height: fit-content;
-  margin: 5px;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
   list-style-type: none;
   display: flex;
-  gap: 10px;
+  gap: 5px;
   flex-direction: column;
   & h3 {
     font-size: 1rem;
@@ -43,14 +39,14 @@ textarea {
     & button {
       border: 1px solid transparent;
 
-      &.delete-button {
+      /* &.delete-button {
         color: var(--color-action);
         &:hover {
           color: var(--color-action-contrast);
           background-color: var(--color-neon-red);
         }
       
-      }
+      } */
 
       &:hover {
         border: 1px solid var(--color-action);
@@ -70,12 +66,12 @@ textarea {
   }
 }
 
-#add-new-button {
-  position: fixed;
-  display: flex;
-  bottom: 10%;
-  padding: 20px;
-  right: 10%;
-  z-index: 1;
-  font-size: large;
+
+
+
+#notes-container {
+  /* background-color: red; */
+  height: 500px;
+  overflow-y: scroll;
+  padding-bottom: 150px;
 }

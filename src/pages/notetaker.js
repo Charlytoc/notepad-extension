@@ -1,13 +1,5 @@
 const STORAGE_KEY = "notetaker"
 
-const addButton = () => {
-    return `<button class="button" id="add-new-button">
-    <span>+</span>
-    </button>`
-}
-
-
-
 const noteForm = `
     <form id="note-form">
     <h1>Add a new note</h1>
@@ -19,22 +11,55 @@ const noteForm = `
     `
 
 
-const notesContainer = (notes) => {
+const createMasonry = (notes) => {
+    // Split the notes array into 2 arrays of similar length
+    
+    // Add the property masonryIndex to each note and assign it as the original index
+    notes.forEach((note, index) => note.masonryIndex = index);
+    const half = Math.ceil(notes.length / 2);
+    const firstHalf = notes.splice(0, half);
+    const secondHalf = notes.splice(-half);
 
     return `
-        <ul id="notesList">
-        ${notes && !(typeof notesArray === "string") && notes.map((note, index) => `
-        <li class="note " data-noteindex="${index}">
-        <h3>${note.title}</h3>
-        
-        <section class="footer">
-        <button class="open-button clickeable button">
-            <i class="fa-brands fa-readme clickeable"></i>
-        </button>
-        </section>
-        </li>
-        `).join('')}
-        </ul>
+        <div class="masonry">
+        <div class="column">
+        ${firstHalf.map((note) => `
+            <li class="note " data-noteindex="${note.masonryIndex}">
+            <h3>${note.title}</h3>
+            <section class="footer">
+            <button class="open-button clickeable button">
+                <i class="fa-brands fa-readme clickeable"></i>
+            </button>
+            </section>
+            </li>
+            `).join('')}
+        </div>
+        <div class="column">
+        ${secondHalf.map((note) => `
+            <li class="note " data-noteindex="${note.masonryIndex}">
+            <h3>${note.title}</h3>
+            <section class="footer">
+            <button class="open-button clickeable button">
+                <i class="fa-brands fa-readme clickeable"></i>
+            </button>
+            </section>
+            </li>
+            `).join('')}
+        </div>
+        </div>
+        `
+}
+
+
+
+const NotesContainer = ({notes}) => {
+
+    return `
+        <div id="notes-container">
+            <ul id="notesList">
+            ${notes && !(typeof notesArray === "string") && createMasonry(notes)}
+            </ul>
+        </div>
         `
 
 
@@ -45,6 +70,10 @@ let html = () => {
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
 
     if (!Array.isArray(notesArray)) notesArray = [];
+
+    const [query, setQuery] = useState("");
+
+    const filteredNotes = notesArray.filter(note => note.title.toLowerCase().includes(query));
 
     actions.goToNotePage = (e) => {
         const noteIndex = e.target.closest('.note').dataset.noteindex;
@@ -80,16 +109,25 @@ let html = () => {
         toggleElementDisplay("show", "#note-form-container");
     }
 
-
+    actions.filterNotes = () => {
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+        setQuery(searchTerm);
+    };
+    
     return `
     <main class="principal">
         ${navigation("notetaker.html")}
-        ${addButton()}
-        ${notesContainer(notesArray)}
+        <input value="${query}" type="text" id="search-input" placeholder="Search by title...">
+        ${NotesContainer({notes: filteredNotes})}
         ${Form({
-        innerHTML: noteForm,
-        identifier: "note-form-container"
-    })}
+            innerHTML: noteForm,
+            identifier: "note-form-container"
+        })}
+        ${FloatingLeftButton(
+            {
+                identifier: "add-new-button",
+            }
+        )}
         </main>
         `
 }
@@ -105,7 +143,9 @@ document.addEventListener("render", () => {
     document.querySelectorAll('.open-button').forEach((button) => {
         button.addEventListener('click', actions.goToNotePage)
     })
+    
+    document.querySelector("#search-input").addEventListener('input', actions.filterNotes);
 
     // all the .delete-button should have a click listener to actions.deleteNote
-    
+
 })
