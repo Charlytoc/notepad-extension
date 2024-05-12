@@ -34,7 +34,7 @@ const _footer = (note, mode) => {
     <div id="footer">
             <section>
                 <button id="back-button" class="button">Back</button>
-                <button class="delete-button clickeable button">
+                <button class="delete-button danger clickeable button">
                     <i class="fa-solid fa-trash clickeable"></i>
                 </button>
                 ${mode === "text" ? `<button id="ai-button" class=" clickeable button">
@@ -100,8 +100,6 @@ let html = () => {
 
     websocket.onmessage = function (message) {
         const messageData = JSON.parse(message.data);
-        console.log('New message:', messageData); // Log each message received from the server
-        // console.log('New message:', event.data); // Log each message received from the server
 
         const event = messageData.event
 
@@ -125,7 +123,7 @@ let html = () => {
     actions.sendPrompt = (e) => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
-        console.log("Prompt", prompt);
+
         websocket.send(JSON.stringify(
             {
                 system_prompt: `
@@ -138,7 +136,11 @@ let html = () => {
                 `
             }
         ))
+        
+        notify({ title: "AI is working!", message: "Wait, your note will be ready soon!" });
+
         toggleElementDisplay("hide", "#prompt-form");
+
     }
 
 
@@ -151,7 +153,7 @@ let html = () => {
     console.log("Rendering in mode", mode);
     return `
     <main class="principal">
-        <h1 contenteditable="true" data-editable="title">${note.title}</h1>
+        <h3 contenteditable="true" data-editable="title">${note.title}</h3>
         
         ${mode === "md"
             ? `<div id="preview">${mdToHtml(note.content)}</div>`
@@ -179,7 +181,7 @@ document.addEventListener("render", () => {
 
     document.querySelector("#mode-button").addEventListener('click', actions.changeMode);
     document.querySelector("#prompt-form").addEventListener('submit', actions.sendPrompt);
-    document.querySelector("h1[contenteditable]").addEventListener('blur', actions.modifyNote);
+    document.querySelector("h3[contenteditable]").addEventListener('blur', actions.modifyNote);
 
 
     document.querySelectorAll('.delete-button').forEach((button) => {

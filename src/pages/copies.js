@@ -9,18 +9,25 @@ const modal = (id) => {
 }
 
 const linkComponent = (href) => {
-    return `<a tabindex="-1" href="${href}" target="_blank"><i class="fa-solid fa-up-right-from-square clickeable"></i></a>`
+    return `
+    <button class="button">
+    <a tabindex="-1" href="${href}" target="_blank"><i class="fa-solid fa-up-right-from-square clickeable"></i></a>
+    </button >
+    `
+    
 }
+
+
 
 const noteComponent = (item, index) => `
 <div data-note-id=${index} tabindex=0 class="note">
 ${modal(index)}
 <p>${item.name}</p>
 <div>
-    <button class="" tabindex="-1">
+    <button class="button danger" tabindex="-1">
         <i data-note-id=${index} class="fa-solid fa-trash erase-note clickeable"></i>
     </button>
-    <button class="" tabindex="-1">
+    <button class="button" tabindex="-1">
         <i data-note-id=${index}  class="fa-solid fa-copy copy-note clickeable"></i>
     </button>
     ${item.link.includes("http") ? linkComponent(item.link) : ""}
@@ -129,9 +136,10 @@ let html = () => {
         }
     }
 
-    return `<div class="home principal">
+    return `<div class="principal">
     ${navigation('copies.html')}
     ${FloatingLeftButton({ identifier: "show-form-button" })}
+    <button class="button" id="notify">Notify something</button>
     <input value="${query}" autofocus type="text" id="search-input" placeholder="Search by title...">
     ${Form({
         innerHTML: `
@@ -143,6 +151,7 @@ let html = () => {
         `,
         identifier: "note-form-container"
     })}
+
     <section class="note-container">
     ${filteredCopies.map(noteComponent).join(' ')}
     </section>
@@ -162,11 +171,11 @@ document.addEventListener("render", () => {
     });
     document.querySelector("#show-form-button").addEventListener('click', actions.showForm);
     document.querySelector("#note-form").addEventListener('submit', actions.createNote);
-    
-    
+
+
     document.querySelector("#search-input").addEventListener('input', actions.filterNotes);
     // Focus on search input
-    const searchInput =document.querySelector("#search-input")
+    const searchInput = document.querySelector("#search-input")
     searchInput.focus();
     searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
     // document.querySelector("#search-input").focus();

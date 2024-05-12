@@ -1,49 +1,32 @@
 .note-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-  margin-top: 3px;
+  grid-template-columns: 0.80fr 1fr;
+  gap: 5px;
+  margin-top: 5px;
+  overflow-y: scroll !important;
+  max-height: 470px;
+  padding-bottom: 100px;
 }
 
 .note {
   padding: 5px;
-  color: var(--font-secondary-color);
   text-align: center;
-  display: grid;
-  place-content: center;
   position: relative;
-  gap: 3px;
-  font-weight: 200;
+  gap: 5px;
+  font-size: 18px !important;
   font-size: var(--font-size-medium);
   border-radius: var(--global-border-radious);
   background-color: var(--bg-unselected-object);
+  border: 2px solid transparent;
   &:hover,
   &:focus {
-    background-color: var(--color-active);
-    opacity: 0.8;
-    color: var(--color-action-contrast);
-    & > div:last-child button,
-    & > div:last-child a {
-      color: var(--color-action-contrast);
-      opacity: 1;
-    }
+    /* background-color: var(--color-active); */
+    /* opacity: 0.8; */
+    color: var(--color-action);
+    border: 2px solid var(--color-action);
   }
 }
 
-.note > div:last-child button,
-.note > div:last-child a {
-  background-color: transparent;
-  border: none;
-  color: var(--font-secondary-color);
-  margin-left: 10px;
-  display: inline-block;
-
-  &:hover {
-    color: var(--color-action-contrast);
-    scale: 1.3;
-    transition: all 0.2s ease-in-out;
-  }
-}
 
 .copied-modal {
   background-color: var(--color-action);

@@ -102,3 +102,15 @@ var html = converter.makeHtml(md);
     // var md = new Remarkable();
     // return md.render(md);
 }
+
+
+const notify = (opts) => {
+    chrome.notifications.create('', {
+        title: opts.title,
+        message: opts.message,
+        iconUrl: 'icon.png',
+        type: 'basic'
+    }, function (notificationId) {
+        console.log('Notification created with ID:', notificationId);
+    });
+}

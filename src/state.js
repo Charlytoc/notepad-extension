@@ -178,16 +178,6 @@ const navigation = (activeUrl) => {
 
 window.onload = render();
 
-const notify = (opts) => {
-    chrome.notifications.create('', {
-        title: opts.title,
-        message: opts.message,
-        iconUrl: 'icon.png',
-        type: 'basic'
-    }, function (notificationId) {
-        console.log('Notification created with ID:', notificationId);
-    });
-}
 
 function retrieveFromLs(name, callback) {
     // name: string - the key of the object to retrieve from chrome.storage.local

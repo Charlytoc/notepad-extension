@@ -39,15 +39,6 @@ textarea {
     & button {
       border: 1px solid transparent;
 
-      /* &.delete-button {
-        color: var(--color-action);
-        &:hover {
-          color: var(--color-action-contrast);
-          background-color: var(--color-neon-red);
-        }
-      
-      } */
-
       &:hover {
         border: 1px solid var(--color-action);
         color: var(--color-action);
