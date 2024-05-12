@@ -93,3 +93,12 @@ const FloatingLeftButton = ({identifier}) => {
     
     return Button({ extraClass, identifier, content: "+" })
 }
+
+const mdToHtml = (md) => {4
+
+    var converter = new showdown.Converter();
+var html = converter.makeHtml(md);
+    return html;
+    // var md = new Remarkable();
+    // return md.render(md);
+}

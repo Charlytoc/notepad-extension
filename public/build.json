@@ -1,7 +1,7 @@
 {
   "pages": [
     {
-      "name": "calendar",
+      "name": "copies",
       "hasStyles": true
     },
     {
@@ -9,15 +9,11 @@
       "hasStyles": true
     },
     {
-      "name": "copies",
-      "hasStyles": true
-    },
-    {
-      "name": "chat",
-      "hasStyles": true
-    },
-    {
       "name": "menu",
+      "hasStyles": true
+    },
+    {
+      "name": "calendar",
       "hasStyles": true
     },
     {
@@ -25,11 +21,11 @@
       "hasStyles": true
     },
     {
-      "name": "tasks",
+      "name": "notetaker",
       "hasStyles": true
     },
     {
-      "name": "notetaker",
+      "name": "tasks",
       "hasStyles": true
     }
   ]

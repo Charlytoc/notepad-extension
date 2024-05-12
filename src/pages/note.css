@@ -3,7 +3,7 @@
     justify-content: start;
     align-items: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
 }
 
 #scratchpad {
@@ -12,19 +12,48 @@
     resize: vertical;
     background-color: transparent;
     backdrop-filter: blur(5px);
-    padding: 3px;
+    padding: 10px;
 }
 
 #footer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
+    /* background-color: red; */
+    height: 15%;
     width: 100%;
+
     text-align: center;
     & p {
         color: grey;
         &:hover {
             color: white;
         }
+    }
+}
+
+#preview {
+    overflow-y: scroll;
+    background-color: rgba(53, 47, 72, 0.545);
+    padding: 10px;
+    width: 100%;
+    height: 450px;
+    border-radius: var(--global-border-radious);
+    > * {
+        margin-top: 10px;
+    
+    }
+    li {
+        margin-top: 10px;
+    }
+    code {
+        margin-top: 10px;
+    }
+
+}
+
+.delete-button {
+    &:hover {
+        background-color: darkred;
     }
 }
