@@ -57,6 +57,7 @@ const _footer = (note, mode) => {
 let html = () => {
     let params = new URLSearchParams(window.location.search);
     let noteIndex = params.get('index');
+    saveLastPageVisited("note.html"+`?index=${noteIndex}`);
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
     let mode = getDataFromLocalStorage(MODE_KEY);
 
@@ -140,7 +141,6 @@ let html = () => {
         notify({ title: "AI is working!", message: "Wait, your note will be ready soon!" });
 
         toggleElementDisplay("hide", "#prompt-form");
-
     }
 
 
@@ -150,10 +150,9 @@ let html = () => {
         window.location.reload();
     }
 
-    console.log("Rendering in mode", mode);
     return `
     <main class="principal">
-        <h3 contenteditable="true" data-editable="title">${note.title}</h3>
+        <h1 contenteditable="true" data-editable="title">${note.title}</h1>
         
         ${mode === "md"
             ? `<div id="preview">${mdToHtml(note.content)}</div>`

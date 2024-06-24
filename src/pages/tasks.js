@@ -41,7 +41,7 @@ const months = {
 
 
 let html = () => {
-    saveLastPageVisited("tasks")
+    saveLastPageVisited("tasks.html")
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth();
@@ -96,7 +96,7 @@ let html = () => {
         for (const [key, value] of formData.entries()) {
             todoData[key] = value;
         }
-        console.log(todoData);
+
         todoData.done = false;
         let newTodos = {}
         if (todos) {
@@ -124,9 +124,7 @@ let html = () => {
         }
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
 
-
         const dateInMilliseconds = getDateInMilliseconds(todoData.time, day, month);
-
         const periodInMinutes = Number(todoData.period) === 0 ? 1 : Number(todoData.period);
 
         alarm(todoData.title,
@@ -134,6 +132,12 @@ let html = () => {
             dateInMilliseconds,
             periodInMinutes
         );
+        notify(
+            {
+                title: `🟩 Todo: ${todoData.title}`,
+                message: `I will remember you at ${todoData.time} every ${todoData.period} minutes! 🤖`
+            }
+        )
 
         setTodos(newTodos);
         toggleElementDisplay('hide', "#f-todo")

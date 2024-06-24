@@ -139,7 +139,7 @@ let html = () => {
     return `<div class="principal">
     ${navigation('copies.html')}
     ${FloatingLeftButton({ identifier: "show-form-button" })}
-    <button class="button" id="notify">Notify something</button>
+    
     <input value="${query}" autofocus type="text" id="search-input" placeholder="Search by title...">
     ${Form({
         innerHTML: `

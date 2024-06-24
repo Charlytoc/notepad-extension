@@ -230,9 +230,8 @@ function saveDataToChromeStorage(key, data) {
 }
 
 
-function saveLastPageVisited(pageName) {
-    let _p = pageName + ".html";
-    saveDataToChromeStorage("lastPageVisited", _p);
+function saveLastPageVisited(pageUrl) {
+    saveDataToChromeStorage("lastPageVisited", pageUrl);
 }
 
 function deleteDataFromChromeStorage(key, callback) {

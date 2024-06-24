@@ -66,7 +66,7 @@ const NotesContainer = ({notes}) => {
 }
 
 let html = () => {
-    saveLastPageVisited("notetaker")
+    saveLastPageVisited("notetaker.html")
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
 
     if (!Array.isArray(notesArray)) notesArray = [];
