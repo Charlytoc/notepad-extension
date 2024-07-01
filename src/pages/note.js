@@ -1,22 +1,22 @@
 const STORAGE_KEY = "notetaker";
 const MODE_KEY = "mode";
 
-const websocket = new WebSocket('ws://localhost:8000/message');
+// const websocket = new WebSocket('ws://localhost:8000/message');
 
-websocket.onopen = function () {
-    console.log('WebSocket connection established');
-}
+// websocket.onopen = function () {
+//     console.log('WebSocket connection established');
+// }
 
 
 
-websocket.onerror = function (error) {
-    console.error('WebSocket error:', error);
-    websocket.close(); // Close the connection if an error occurs
-};
+// websocket.onerror = function (error) {
+//     console.error('WebSocket error:', error);
+//     websocket.close(); // Close the connection if an error occurs
+// };
 
-websocket.onclose = function () {
-    console.log('WebSocket connection closed');
-};
+// websocket.onclose = function () {
+//     console.log('WebSocket connection closed');
+// };
 
 
 
@@ -99,22 +99,22 @@ let html = () => {
     }
 
 
-    websocket.onmessage = function (message) {
-        const messageData = JSON.parse(message.data);
+    // websocket.onmessage = function (message) {
+    //     const messageData = JSON.parse(message.data);
 
-        const event = messageData.event
+    //     const event = messageData.event
 
-        if (event === "finish") {
-            let currentValue = document.querySelector("#scratchpad").value;
-            note.content = `${currentValue}`; // Append the received message to the note content
-            notesArray[noteIndex] = note; // Update the note in the array
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(notesArray)); // Save the updated notes array to local storage
-            return;
-        }
+    //     if (event === "finish") {
+    //         let currentValue = document.querySelector("#scratchpad").value;
+    //         note.content = `${currentValue}`; // Append the received message to the note content
+    //         notesArray[noteIndex] = note; // Update the note in the array
+    //         localStorage.setItem(STORAGE_KEY, JSON.stringify(notesArray)); // Save the updated notes array to local storage
+    //         return;
+    //     }
 
-        let currentValue = document.querySelector("#scratchpad").value;
-        document.querySelector("#scratchpad").value = currentValue += messageData.content;
-    };
+    //     let currentValue = document.querySelector("#scratchpad").value;
+    //     document.querySelector("#scratchpad").value = currentValue += messageData.content;
+    // };
 
 
     actions.generateAIContent = () => {
@@ -125,20 +125,20 @@ let html = () => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
 
-        websocket.send(JSON.stringify(
-            {
-                system_prompt: `
-                Title: ${note.title}
-                Content: ${note.content}
-                `,
-                prompt: `
-                TASKS FOR AI:
-                ${prompt}
-                `
-            }
-        ))
+        // websocket.send(JSON.stringify(
+        //     {
+        //         system_prompt: `
+        //         Title: ${note.title}
+        //         Content: ${note.content}
+        //         `,
+        //         prompt: `
+        //         TASKS FOR AI:
+        //         ${prompt}
+        //         `
+        //     }
+        // ))
         
-        notify({ title: "AI is working!", message: "Wait, your note will be ready soon!" });
+        notify({ title: "AI is not available at the moment!", message: "Wait, I'll give it the time soon!" });
 
         toggleElementDisplay("hide", "#prompt-form");
     }
@@ -180,7 +180,7 @@ document.addEventListener("render", () => {
 
     document.querySelector("#mode-button").addEventListener('click', actions.changeMode);
     document.querySelector("#prompt-form").addEventListener('submit', actions.sendPrompt);
-    document.querySelector("h3[contenteditable]").addEventListener('blur', actions.modifyNote);
+    document.querySelector("h1[contenteditable]").addEventListener('blur', actions.modifyNote);
 
 
     document.querySelectorAll('.delete-button').forEach((button) => {
