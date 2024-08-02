@@ -14,8 +14,8 @@ const noteForm = `
 const createMasonry = (notes) => {
     // Split the notes array into 2 arrays of similar length
     
-    // Add the property masonryIndex to each note and assign it as the original index
-    notes.forEach((note, index) => note.masonryIndex = index);
+    // // Add the property masonryIndex to each note and assign it as the original index
+    // notes.forEach((note, index) => note.masonryIndex = index);
     const half = Math.ceil(notes.length / 2);
     const firstHalf = notes.splice(0, half);
     const secondHalf = notes.splice(-half);
@@ -24,7 +24,7 @@ const createMasonry = (notes) => {
         <div class="masonry">
         <div class="column">
         ${firstHalf.map((note) => `
-            <li class="note " data-noteindex="${note.masonryIndex}">
+            <li class="note " data-noteindex="${note.index}">
             <h3>${note.title}</h3>
             <section class="footer">
             <button class="open-button clickeable button">
@@ -36,7 +36,7 @@ const createMasonry = (notes) => {
         </div>
         <div class="column">
         ${secondHalf.map((note) => `
-            <li class="note " data-noteindex="${note.masonryIndex}">
+            <li class="note " data-noteindex="${note.index}">
             <h3>${note.title}</h3>
             <section class="footer">
             <button class="open-button clickeable button">
@@ -69,8 +69,8 @@ let html = () => {
     saveLastPageVisited("notetaker.html")
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
 
+    // console.log(notesArray, "Notes from LS");
     if (!Array.isArray(notesArray)) notesArray = [];
-
     const [query, setQuery] = useState("");
 
     const filteredNotes = notesArray.filter(note => note.title.toLowerCase().includes(query));
@@ -99,8 +99,11 @@ let html = () => {
         const noteCreated = new Date().toISOString();
         const newNote = { title: noteTitle, content: noteContent, created: noteCreated, tags: noteTags };
         const newNotesArray = [...notesArray, newNote];
+        const indexedNotes = newNotesArray.map((note, index) => {
+            return {...note, index: index}
+        })
 
-        saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+        saveDataToLocalStorage(STORAGE_KEY, indexedNotes);
         // Reload the page
         window.location.reload();
     }
@@ -144,8 +147,9 @@ document.addEventListener("render", () => {
         button.addEventListener('click', actions.goToNotePage)
     })
     
-    document.querySelector("#search-input").addEventListener('input', actions.filterNotes);
+    const searchinput =  document.querySelector("#search-input")
+    searchinput.addEventListener('input', actions.filterNotes);
 
-    // all the .delete-button should have a click listener to actions.deleteNote
-
+    searchinput.focus()
+    searchinput.setSelectionRange(searchinput.value.length, searchinput.value.length);
 })

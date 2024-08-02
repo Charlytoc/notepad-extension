@@ -1,24 +1,6 @@
 const STORAGE_KEY = "notetaker";
 const MODE_KEY = "mode";
 
-// const websocket = new WebSocket('ws://localhost:8000/message');
-
-// websocket.onopen = function () {
-//     console.log('WebSocket connection established');
-// }
-
-
-
-// websocket.onerror = function (error) {
-//     console.error('WebSocket error:', error);
-//     websocket.close(); // Close the connection if an error occurs
-// };
-
-// websocket.onclose = function () {
-//     console.log('WebSocket connection closed');
-// };
-
-
 
 const PromptForm = `
     <form id="prompt-form">
@@ -43,6 +25,9 @@ const _footer = (note, mode) => {
 
                 <button id="mode-button" class="clickeable button">
                     ${mode === "md" ? "txt" : "md"}
+                </button>
+                <button id="download-button" class="clickeable button">
+                    Download
                 </button>
             </section>
             <section>
@@ -80,7 +65,6 @@ let html = () => {
         } else if (editableType === "title") {
             note.title = e.target.innerText;
         }
-
         const newNotesArray = notesArray;
         newNotesArray[noteIndex] = note;
         saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
@@ -92,29 +76,14 @@ let html = () => {
 
 
     actions.deleteNote = (e) => {
-        const newNotesArray = notesArray.filter((note, index) => index !== parseInt(noteIndex));
+        const newNotesArray = notesArray.filter((note, index) => note.index !== parseInt(noteIndex)).map((note, index)=>{
+            return {...note, index}
+        });
+
         saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
         // Reload the page
         window.location.href = "notetaker.html";
     }
-
-
-    // websocket.onmessage = function (message) {
-    //     const messageData = JSON.parse(message.data);
-
-    //     const event = messageData.event
-
-    //     if (event === "finish") {
-    //         let currentValue = document.querySelector("#scratchpad").value;
-    //         note.content = `${currentValue}`; // Append the received message to the note content
-    //         notesArray[noteIndex] = note; // Update the note in the array
-    //         localStorage.setItem(STORAGE_KEY, JSON.stringify(notesArray)); // Save the updated notes array to local storage
-    //         return;
-    //     }
-
-    //     let currentValue = document.querySelector("#scratchpad").value;
-    //     document.querySelector("#scratchpad").value = currentValue += messageData.content;
-    // };
 
 
     actions.generateAIContent = () => {
@@ -124,19 +93,6 @@ let html = () => {
     actions.sendPrompt = (e) => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
-
-        // websocket.send(JSON.stringify(
-        //     {
-        //         system_prompt: `
-        //         Title: ${note.title}
-        //         Content: ${note.content}
-        //         `,
-        //         prompt: `
-        //         TASKS FOR AI:
-        //         ${prompt}
-        //         `
-        //     }
-        // ))
         
         notify({ title: "AI is not available at the moment!", message: "Wait, I'll give it the time soon!" });
 
@@ -148,6 +104,15 @@ let html = () => {
         mode = mode === "md" ? "text" : "md";
         saveDataToLocalStorage(MODE_KEY, mode);
         window.location.reload();
+    }
+
+    actions.downloadNote = () => {
+        const element = document.createElement('a');
+        const file = new Blob([note.content], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = `${note.title}.txt`;
+        document.body.appendChild(element);
+        element.click();
     }
 
     return `
@@ -186,4 +151,6 @@ document.addEventListener("render", () => {
     document.querySelectorAll('.delete-button').forEach((button) => {
         button.addEventListener('click', actions.deleteNote)
     })
+
+    document.querySelector("#download-button").addEventListener('click', actions.downloadNote);
 })

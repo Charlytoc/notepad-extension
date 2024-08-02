@@ -86,7 +86,6 @@
         border-radius: var(--global-border-radious);
     }
     code {
-
         padding: 3px;
         background-color: black;
         color: var(--color-code);
