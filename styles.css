@@ -38,7 +38,7 @@
   --color-action: hsl(240, 46%, 53%);
   --color-secondary: hsl(240, 33%, 56%);
   --color-action-clear: hsl(240, 47%, 16%);
-  --bg-color: hsl(240, 100%, 5%);
+  --bg-color: hsl(0, 0%, 0%);
   --color-active: var(--color-action);
   --font-color: white;
   --font-primary-color: var(--font-color);
@@ -93,7 +93,7 @@ a {
   text-decoration: none;
   font-family: var(--font-family-text);
   cursor: none;
-
+  color: var(--color-action);
 }
 button {
   cursor: none;
@@ -114,14 +114,13 @@ h6 {
 h1 {
   text-align: center;
   margin-block: 10px;
-  text-shadow: 0 0 10px rgba(162, 162, 162, 0.51);
 }
 h2,h3 {
   /* text-align: center; */
   margin-block: 10px;
 }
 
-input,
+input[type="text"],
 textarea {
   font-family: var(--font-family-text);
   width: 100%;
@@ -170,7 +169,6 @@ blockquote {
   text-align: center;
   padding: 5px;
   font-weight: bold;
-  color: var(--color-action);
 }
 
 ::-webkit-scrollbar {
@@ -199,27 +197,6 @@ blockquote {
     color: var(--color-action-contrast) !important;
     background-color: var(--color-remarkable);
 
-    &::after,
-    &::before {
-      --border-radius: 10px;
-      content: "";
-      position: absolute;
-      width: var(--border-radius);
-      aspect-ratio: 1;
-    }
-
-    &::after {
-      --border-radius: 0 0 0 100vw;
-      /* box-shadow: 10px 10px 0 10px rgb(255, 0, 0); */
-      right: calc(var(--border-radius) * -1);
-      background-color: yellow;
-    }
-    &::before {
-      --border-radius: 100vw 0 0;
-      /* box-shadow: 10px 10px 0 10px rgb(255, 0, 0); */
-      left: calc(var(--border-radius) * -1);
-      background-color: purple;
-    }
   }
 
   &:hover {
@@ -271,9 +248,9 @@ input[type="number"]::-webkit-outer-spin-button {
   /* border: 1px solid rgba(0, 255, 149, 0.274); */
   border: 1px solid var(--color-remarkable);
 
-  color: rgba(0, 255, 149, 0.274) !important;
+  color: var(--color-action) !important;
   > * {
-    color: rgba(0, 255, 149, 0.274) !important;
+    color: var(--color-action) !important;
   }
   border-radius: 8px;
   padding: 7px;
@@ -407,7 +384,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .masonry {
   display: grid;
-  grid-template-columns: 0.7fr 1fr;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 5px;
   > div {
@@ -438,3 +415,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
+
+li input {
+  margin: 0 !important;
+}

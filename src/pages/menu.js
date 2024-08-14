@@ -35,7 +35,7 @@ let html = () => {
         <section class="header">
             <h1>Menu </h1>
             <button class="button">
-            ${Link("calendar.html", "Back to calendar")}
+            ${Link("tasks.html", "Back")}
             </button>
         </section>        
         ${changeThemeComponent(currentTheme)}

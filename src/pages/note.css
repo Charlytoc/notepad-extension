@@ -13,7 +13,7 @@
 
 #scratchpad {
     width: 100%;
-    min-height: 450px;
+    height: 100%;
     resize: vertical;
     background-color: transparent;
     backdrop-filter: blur(5px);
@@ -23,12 +23,13 @@
 
 #footer {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 0.5fr;
     align-items: center;
     /* background-color: red; */
-    height: 15%;
+    /* height: 15%; */
     width: 100%;
 
+    padding: 10px;
     text-align: center;
     & p {
         color: grey;

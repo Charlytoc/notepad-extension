@@ -1,12 +1,23 @@
 const STORAGE_KEY = "notetaker";
 const MODE_KEY = "mode";
+const GROQ_API_KEY = "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"
 
+const SYSTEM_PROMPT = (content) => `
+You are a helpfun note assistant.
+Your task is to return a revised version of a note following the changes the user asks for.
+
+This is the current content of the note:
+'''
+${content}
+'''
+
+`
 
 const PromptForm = `
     <form id="prompt-form">
     <h1>What you want the AI to do?</h1>
     <textarea name="prompt"></textarea>
-    <button class="button sz-big" type="submit">Save</button>
+    <button class="button sz-big" type="submit">Send</button>
     </form>
 `
 
@@ -42,7 +53,7 @@ const _footer = (note, mode) => {
 let html = () => {
     let params = new URLSearchParams(window.location.search);
     let noteIndex = params.get('index');
-    saveLastPageVisited("note.html"+`?index=${noteIndex}`);
+    saveLastPageVisited("note.html" + `?index=${noteIndex}`);
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
     let mode = getDataFromLocalStorage(MODE_KEY);
 
@@ -76,8 +87,8 @@ let html = () => {
 
 
     actions.deleteNote = (e) => {
-        const newNotesArray = notesArray.filter((note, index) => note.index !== parseInt(noteIndex)).map((note, index)=>{
-            return {...note, index}
+        const newNotesArray = notesArray.filter((note, index) => note.index !== parseInt(noteIndex)).map((note, index) => {
+            return { ...note, index }
         });
 
         saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
@@ -93,11 +104,39 @@ let html = () => {
     actions.sendPrompt = (e) => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
-        
-        notify({ title: "AI is not available at the moment!", message: "Wait, I'll give it the time soon!" });
-
+    
+        fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GROQ_API_KEY}`, // Make sure to set your API key as an environment variable
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                messages: [{
+                    role: 'system', content: SYSTEM_PROMPT(note.content)
+                },
+                { role: 'user', content: prompt }],
+                model: 'llama-3.1-70b-versatile'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const aiResponse = data.choices[0].message.content;
+            note.content += `\n\n${aiResponse}`; 
+            const newNotesArray = notesArray;
+            newNotesArray[noteIndex] = note;
+            saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+            notify({ title: "AI Response", message: aiResponse });
+            window.location.reload()
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            notify({ title: "Error", message: "Failed to get response from AI" });
+        });
+    
         toggleElementDisplay("hide", "#prompt-form");
     }
+    
 
 
     actions.changeMode = () => {

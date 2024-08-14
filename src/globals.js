@@ -13,8 +13,6 @@ const Form = ({
         ${innerHTML}
     </section>
     `
-
-    console.log("Returning form", _html);
     return _html
 }
 
@@ -47,7 +45,7 @@ const TodoComponent = (todo) => {
                         <input class="done-checkbox clickeable" data-todo-index="${todo.index}" type="checkbox" ${todo.done ? "checked" : ""} />
                     </div>
                     <button class="delete-todo-button button" data-todo-index="${todo.index}">
-                        <i class="fas fa-trash clickeable"></i>
+                        <i class="fas fa-trash clickeable" data-todo-index="${todo.index}"></i>
     
                     </button>
                 </section>
@@ -55,8 +53,6 @@ const TodoComponent = (todo) => {
 }
 
 const todoListComponent = (todos) => {
-    // Picar el array de todos en dos partes de igual o casi igual length
-    // y devolver dos columnas de todos
     const indexedTodos = todos.map((todo, index) => {
         return { ...todo, index }
     })
@@ -88,19 +84,19 @@ const Button = ({ extraClass, identifier, content }) => {
     </button>`
 }
 
-const FloatingLeftButton = ({identifier}) => {
+const FloatingLeftButton = ({ identifier }) => {
     const extraClass = "fixed-right-bottom"
-    
+
     return Button({ extraClass, identifier, content: "+" })
 }
 
-const mdToHtml = (md) => {4
+const mdToHtml = (md) => {
+    4
 
     var converter = new showdown.Converter();
-var html = converter.makeHtml(md);
+    converter.setOption('tasklists', true);
+    var html = converter.makeHtml(md);
     return html;
-    // var md = new Remarkable();
-    // return md.render(md);
 }
 
 
@@ -113,4 +109,36 @@ const notify = (opts) => {
     }, function (notificationId) {
         console.log('Notification created with ID:', notificationId);
     });
+}
+
+
+
+const navigation = (activeUrl) => {
+    const views = [
+        {
+            name: "copylinks",
+            url: "copies.html"
+        },
+        {
+            name: "tasks",
+            url: "tasks.html"
+        },
+        {
+            name: "notes",
+            url: "notetaker.html"
+        },
+        {
+            name: "⚙️",
+            url: "menu.html"
+        }
+    ]
+
+    return `
+    <h3 class="upper-section">Charlytoc's notepad</h3>
+    <div class="navigation">
+    ${views.map((window) => {
+        return `<a tabindex="-1" href="${window.url}" class="navigation-urls link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
+    }).join('')}
+    </div>
+    `
 }

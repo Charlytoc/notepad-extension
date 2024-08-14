@@ -18,10 +18,7 @@ const getDateInMilliseconds = (time, day, month) => {
     return date.getTime();
 };
 
-
-const TODOS_STORAGE_KEY = "TODOS_STORAGE"
-
-
+const TODOS_STORAGE_KEY = "TODOS_STORAGE";
 
 const months = {
     0: 'January',
@@ -38,39 +35,54 @@ const months = {
     11: 'December'
 };
 
-
-
 let html = () => {
-    saveLastPageVisited("tasks.html")
+    saveLastPageVisited("tasks.html");
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth();
 
-    const [todos, setTodos] = useState({})
-    const [fetched, setFetched] = useState(false)
+    const [todos, setTodos] = useState([]);
+    const [fetched, setFetched] = useState(false);
 
     if (!fetched) {
         getDataFromChromeStorage(TODOS_STORAGE_KEY, (prevTodos) => {
-            setTodos(prevTodos)
-            setFetched(true)
-        })
-
+            setTodos(prevTodos || []);
+            setFetched(true);
+        });
     }
+
+    actions.clearAllAlarms = () => {
+        chrome.alarms.clearAll((wasCleared) => {
+            console.log(wasCleared ? "All alarms were cleared successfully." : "Failed to clear alarms.");
+            if (wasCleared) {
+                notify({
+                    title: "🟩 Alarms Cleared",
+                    message: "All Chrome alarms have been cleared successfully! 🤖"
+                });
+            }
+        });
+    };
 
     actions.deleteTodo = (e) => {
         const todoIndex = e.target.dataset.todoIndex;
-        const newTodos = todos;
-        clearAlarm(newTodos[month][day][todoIndex].title)
-        newTodos[month][day].splice(todoIndex, 1);
+        console.log(e.target.dataset, "DATA SET");
+        console.log(e.target, "TARGET");
+        
+        console.log(todoIndex, "INDEX OF TODO TO DELETE");
+        
+        const newTodos = [...todos];
+        clearAlarm(newTodos[todoIndex].title);
+        newTodos.splice(todoIndex, 1);
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
-    }
+    };
+
     actions.markTodoAsDone = (e) => {
         const todoIndex = e.target.dataset.todoIndex;
-        const newTodos = todos;
-        const todo = newTodos[month][day][todoIndex];
+        const newTodos = [...todos];
+        const todo = newTodos[todoIndex];
 
-        newTodos[month][day][todoIndex].done = e.target.checked;
+        newTodos[todoIndex].done = e.target.checked;
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
 
@@ -82,11 +94,10 @@ let html = () => {
                 dateInMilliseconds,
                 Number(todo.period)
             );
+        } else {
+            clearAlarm(todo.title);
         }
-        else {
-            clearAlarm(todo.title)
-        }
-    }
+    };
 
     actions.addTodo = (e) => {
         e.preventDefault();
@@ -98,29 +109,20 @@ let html = () => {
         }
 
         todoData.done = false;
-        let newTodos = {}
-        if (todos) {
-            newTodos = todos
-        }
-        if (!newTodos[month]) {
-            newTodos[month] = {}
-        }
-        if (!newTodos[month][day]) {
-            newTodos[month][day] = []
-        }
+        const newTodos = [...todos];
 
         if (!todoData.time || !todoData.period) {
-            todoData.time = "00:00"
-            todoData.period = 1
+            todoData.time = "00:00";
+            todoData.period = 1;
         }
 
-        const insertIndex = newTodos[month][day].findIndex(existingTodo =>
+        const insertIndex = newTodos.findIndex(existingTodo =>
             timeToMinutes(existingTodo.time) > timeToMinutes(todoData.time)
         );
         if (insertIndex === -1) {
-            newTodos[month][day].push(todoData);
+            newTodos.push(todoData);
         } else {
-            newTodos[month][day].splice(insertIndex, 0, todoData);
+            newTodos.splice(insertIndex, 0, todoData);
         }
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
 
@@ -137,47 +139,50 @@ let html = () => {
                 title: `🟩 Todo: ${todoData.title}`,
                 message: `I will remember you at ${todoData.time} every ${todoData.period} minutes! 🤖`
             }
-        )
+        );
 
         setTodos(newTodos);
-        toggleElementDisplay('hide', "#f-todo")
-    }
+        toggleElementDisplay('hide', "#f-todo");
+    };
 
     actions.showForm = () => {
-        toggleElementDisplay('show', "#f-todo")
-    }
+        toggleElementDisplay('show', "#f-todo");
+    };
 
     return `<main class="principal">
-        ${navigation("tasks.html")}
-
-        ${FloatingLeftButton({identifier: "show-form-button"})}
-        ${Form(
+    ${navigation("tasks.html")}
+    <button class="simple-button" id="clear-alarms"><i class="fa-solid fa-trash"></i> Clear All Alarms</button>
+    ${FloatingLeftButton({ identifier: "show-form-button" })}
+    ${Form(
         {
             innerHTML: `
-            <form id="todo-form">
-                <h2>Add a task</h2>
-                <input type="text" name="title" placeholder="Todo title">
-                <textarea name="description" placeholder="Todo description"></textarea>
-                <input type="time" name="time" placeholder="Todo time"/>
-                <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
-                <button class="simple-button" id="add-todo"><i class="fa-solid fa-plus"></i></button>
-            </form>`,
+        <form id="todo-form">
+            <h2>Add a task</h2>
+            <input type="text" name="title" placeholder="Todo title">
+            <textarea name="description" placeholder="Todo description"></textarea>
+            <input type="time" name="time" placeholder="Todo time"/>
+            <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
+            <button class="simple-button" id="add-todo"><i class="fa-solid fa-plus"></i></button>
+        </form>
+        `, 
             identifier: "f-todo",
         }
     )}
-        
-            ${todos && todos[month] && todos[month][day] ? todoListComponent(todos[month][day]) : ""}
-        
-    </main>`
-}
+    
+        ${todos.length ? todoListComponent(todos) : ""}
+    
+</main>`;
+};
 
 document.addEventListener("render", () => {
-    document.querySelector('#todo-form').addEventListener('submit', actions.addTodo)
+    document.querySelector('#todo-form').addEventListener('submit', actions.addTodo);
     document.querySelectorAll('.delete-todo-button').forEach((button) => {
-        button.addEventListener('click', actions.deleteTodo)
-    })
+        button.addEventListener('click', actions.deleteTodo);
+    });
     document.querySelectorAll('.done-checkbox').forEach((checkbox) => {
-        checkbox.addEventListener('change', actions.markTodoAsDone)
-    })
-    document.querySelector("#show-form-button").addEventListener('click', actions.showForm)
-})
+        checkbox.addEventListener('change', actions.markTodoAsDone);
+    });
+    document.querySelector("#show-form-button").addEventListener('click', actions.showForm);
+
+    document.querySelector("#clear-alarms").addEventListener('click', actions.clearAllAlarms);
+});

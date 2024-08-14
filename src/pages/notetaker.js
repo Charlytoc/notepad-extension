@@ -11,45 +11,41 @@ const noteForm = `
     `
 
 
-const createMasonry = (notes) => {
-    // Split the notes array into 2 arrays of similar length
+    const createMasonry = (notes) => {
+
+        const oddNotes = notes.filter((note, index) => index % 2 !== 0);
+        const evenNotes = notes.filter((note, index) => index % 2 === 0);
     
-    // // Add the property masonryIndex to each note and assign it as the original index
-    // notes.forEach((note, index) => note.masonryIndex = index);
-    const half = Math.ceil(notes.length / 2);
-    const firstHalf = notes.splice(0, half);
-    const secondHalf = notes.splice(-half);
-
-    return `
-        <div class="masonry">
-        <div class="column">
-        ${firstHalf.map((note) => `
-            <li class="note " data-noteindex="${note.index}">
-            <h3>${note.title}</h3>
-            <section class="footer">
-            <button class="open-button clickeable button">
-                <i class="fa-brands fa-readme clickeable"></i>
-            </button>
-            </section>
-            </li>
-            `).join('')}
-        </div>
-        <div class="column">
-        ${secondHalf.map((note) => `
-            <li class="note " data-noteindex="${note.index}">
-            <h3>${note.title}</h3>
-            <section class="footer">
-            <button class="open-button clickeable button">
-                <i class="fa-brands fa-readme clickeable"></i>
-            </button>
-            </section>
-            </li>
-            `).join('')}
-        </div>
-        </div>
-        `
-}
-
+        return `
+            <div class="masonry">
+            <div class="column">
+            ${oddNotes.map((note) => `
+                <li class="note " data-noteindex="${note.index}">
+                <h3>${note.title}</h3>
+                <section class="footer">
+                <button class="open-button clickeable button">
+                    <i class="fa-brands fa-readme clickeable"></i>
+                </button>
+                </section>
+                </li>
+                `).join('')}
+            </div>
+            <div class="column">
+            ${evenNotes.map((note) => `
+                <li class="note " data-noteindex="${note.index}">
+                <h3>${note.title}</h3>
+                <section class="footer">
+                <button class="open-button clickeable button">
+                    <i class="fa-brands fa-readme clickeable"></i>
+                </button>
+                </section>
+                </li>
+                `).join('')}
+            </div>
+            </div>
+            `
+    }
+    
 
 
 const NotesContainer = ({notes}) => {

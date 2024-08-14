@@ -142,39 +142,7 @@ function getDataFromLocalStorage(ls_key) {
 }
 
 
-const navigation = (activeUrl) => {
-    const views = [
-        {
-            name: "calendar",
-            url: "calendar.html"
-        },
-        {
-            name: "easy-copies",
-            url: "copies.html"
-        },
-        {
-            name: "tasks for today",
-            url: "tasks.html"
-        },
-        {
-            name: "notetaker",
-            url: "notetaker.html"
-        },
-        {
-            name: "⚙️",
-            url: "menu.html"
-        }
-    ]
 
-    return `
-    <h3 class="upper-section">Charlytoc's notepad</h3>
-    <div class="navigation">
-    ${views.map((window) => {
-        return `<a tabindex="-1" href="${window.url}" class="navigation-urls link ${activeUrl === window.url ? "active" : ""}">${window.name}</a>`
-    }).join('')}
-    </div>
-    `
-}
 
 window.onload = render();
 
