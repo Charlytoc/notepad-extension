@@ -3,14 +3,11 @@ const MODE_KEY = "mode";
 const GROQ_API_KEY = "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"
 
 const SYSTEM_PROMPT = (content) => `
-You are a helpfun note assistant.
-Your task is to return a revised version of a note following the changes the user asks for.
-
+You are a helpful note assistant.
+Your task is to make the changes the user asks for in the note.
 This is the current content of the note:
-'''
-${content}
-'''
 
+${content}
 `
 
 const PromptForm = `
@@ -21,7 +18,6 @@ const PromptForm = `
     </form>
 `
 
-
 const _footer = (note, mode) => {
     return `
     <div id="footer">
@@ -30,10 +26,9 @@ const _footer = (note, mode) => {
                 <button class="delete-button danger clickeable button">
                     <i class="fa-solid fa-trash clickeable"></i>
                 </button>
-                ${mode === "text" ? `<button id="ai-button" class=" clickeable button">
+                <button id="ai-button" class="clickeable button">
                 <i class="fa-solid fa-robot clickeable"></i>
-                </button>` : ""}
-
+                </button>
                 <button id="mode-button" class="clickeable button">
                     ${mode === "md" ? "txt" : "md"}
                 </button>
@@ -42,13 +37,12 @@ const _footer = (note, mode) => {
                 </button>
             </section>
             <section>
-            <p>#${note.tags.join(' #')}</p>
+                <p contenteditable="true" data-editable="category">${note.category || "No category"}</p>
                 <p>${note.created.slice(0, 10)}</p>
             </section>
         </div>
-        `
+    `
 }
-
 
 let html = () => {
     let params = new URLSearchParams(window.location.search);
@@ -65,16 +59,17 @@ let html = () => {
     let note = notesArray[noteIndex];
 
     if (note === undefined) {
-        note = { title: "", created: "", tags: [] }
+        note = { title: "", created: "", category: "" }
     }
 
     actions.modifyNote = (e) => {
-        // the elemnt should also have a porperty data-editable
         const editableType = e.target.dataset.editable;
         if (editableType === "description") {
             note.content = e.target.value;
         } else if (editableType === "title") {
             note.title = e.target.innerText;
+        } else if (editableType === "category") {
+            note.category = e.target.innerText;
         }
         const newNotesArray = notesArray;
         newNotesArray[noteIndex] = note;
@@ -85,17 +80,14 @@ let html = () => {
         window.location.href = `notetaker.html`;
     }
 
-
     actions.deleteNote = (e) => {
         const newNotesArray = notesArray.filter((note, index) => note.index !== parseInt(noteIndex)).map((note, index) => {
             return { ...note, index }
         });
 
         saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
-        // Reload the page
         window.location.href = "notetaker.html";
     }
-
 
     actions.generateAIContent = () => {
         toggleElementDisplay("show", "#prompt-form");
@@ -104,11 +96,11 @@ let html = () => {
     actions.sendPrompt = (e) => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
-    
+
         fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${GROQ_API_KEY}`, // Make sure to set your API key as an environment variable
+                'Authorization': `Bearer ${GROQ_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -119,25 +111,23 @@ let html = () => {
                 model: 'llama-3.1-70b-versatile'
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            const aiResponse = data.choices[0].message.content;
-            note.content += `\n\n${aiResponse}`; 
-            const newNotesArray = notesArray;
-            newNotesArray[noteIndex] = note;
-            saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
-            notify({ title: "AI Response", message: aiResponse });
-            window.location.reload()
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            notify({ title: "Error", message: "Failed to get response from AI" });
-        });
-    
+            .then(response => response.json())
+            .then(data => {
+                const aiResponse = data.choices[0].message.content;
+                note.content += `\n\n${aiResponse}`;
+                const newNotesArray = notesArray;
+                newNotesArray[noteIndex] = note;
+                saveDataToLocalStorage(STORAGE_KEY, newNotesArray);
+                notify({ title: "AI Response", message: aiResponse });
+                window.location.reload()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                notify({ title: "Error", message: "Failed to get response from AI" });
+            });
+
         toggleElementDisplay("hide", "#prompt-form");
     }
-    
-
 
     actions.changeMode = () => {
         mode = mode === "md" ? "text" : "md";
@@ -159,7 +149,9 @@ let html = () => {
         <h1 contenteditable="true" data-editable="title">${note.title}</h1>
         
         ${mode === "md"
-            ? `<div id="preview">${mdToHtml(note.content)}</div>`
+            ?
+            `<div id="preview">${mdToHtml(note.content)}</div>`
+            // `<textarea id="scratchpad" type="text" data-editable="description">${note.content}</textarea>`
             : `<textarea id="scratchpad" type="text" data-editable="description">${note.content}</textarea>`
         }
         ${Form({
@@ -168,28 +160,25 @@ let html = () => {
         })}
         ${_footer(note, mode)}
     </main>
-        `
+    `
 }
 
 document.addEventListener("render", () => {
     try {
         document.querySelector("#scratchpad").addEventListener('change', actions.modifyNote);
-        document.querySelector("#ai-button").addEventListener('click', actions.generateAIContent);
-    } catch (error) {
-        console.log("Error", error);
     }
+    catch (e) {
+        console.log("Textarea not found");
 
-
+    }
+    document.querySelector("#ai-button").addEventListener('click', actions.generateAIContent);
     document.querySelector("#back-button").addEventListener('click', actions.goToNotesPage);
-
     document.querySelector("#mode-button").addEventListener('click', actions.changeMode);
     document.querySelector("#prompt-form").addEventListener('submit', actions.sendPrompt);
     document.querySelector("h1[contenteditable]").addEventListener('blur', actions.modifyNote);
-
-
+    document.querySelector("p[contenteditable]").addEventListener('blur', actions.modifyNote);
     document.querySelectorAll('.delete-button').forEach((button) => {
         button.addEventListener('click', actions.deleteNote)
     })
-
     document.querySelector("#download-button").addEventListener('click', actions.downloadNote);
 })

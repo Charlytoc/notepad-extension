@@ -65,11 +65,6 @@ let html = () => {
 
     actions.deleteTodo = (e) => {
         const todoIndex = e.target.dataset.todoIndex;
-        console.log(e.target.dataset, "DATA SET");
-        console.log(e.target, "TARGET");
-        
-        console.log(todoIndex, "INDEX OF TODO TO DELETE");
-        
         const newTodos = [...todos];
         clearAlarm(newTodos[todoIndex].title);
         newTodos.splice(todoIndex, 1);

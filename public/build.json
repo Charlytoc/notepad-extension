@@ -5,6 +5,10 @@
       "hasStyles": true
     },
     {
+      "name": "copies",
+      "hasStyles": true
+    },
+    {
       "name": "day",
       "hasStyles": true
     },
@@ -13,19 +17,19 @@
       "hasStyles": true
     },
     {
-      "name": "copies",
-      "hasStyles": true
-    },
-    {
       "name": "note",
       "hasStyles": true
     },
     {
-      "name": "tasks",
+      "name": "notetaker",
       "hasStyles": true
     },
     {
-      "name": "notetaker",
+      "name": "singleTask",
+      "hasStyles": true
+    },
+    {
+      "name": "tasks",
       "hasStyles": true
     }
   ]

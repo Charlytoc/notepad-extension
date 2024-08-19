@@ -66,3 +66,17 @@ textarea {
   overflow-y: scroll;
   padding-bottom: 150px;
 }
+
+
+.category-group {
+  text-align: center;
+}
+
+.category-title {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.category-title::first-letter {
+  color: var(--color-action);
+}
