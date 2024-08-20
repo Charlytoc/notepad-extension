@@ -31,6 +31,8 @@ let html = () => {
     const theme = getDataFromLocalStorage(THEME_KEY)
     currentTheme = theme ? theme : ""
 
+    const groqApiKey = getDataFromLocalStorage("GROQ_API_KEY") || ""
+
     return `<main class="menu principal">
         <section class="header">
             <h1>Menu </h1>
@@ -39,10 +41,20 @@ let html = () => {
             </button>
         </section>        
         ${changeThemeComponent(currentTheme)}
-        
+        <div class="groq-api-key">
+            <h2>GROQ API Key</h2>
+            <input type="text" id="groq-api-key-input" value="${groqApiKey}" />
+            <button class="button" id="save-groq-api-key-button">Change</button>
+        </div>
     </main>`
 }
 
+
 document.addEventListener("render", () => {
     // document.querySelector("#log-button").addEventListener('click', actions.log)
+    document.querySelector("#save-groq-api-key-button").addEventListener('click', () => {
+        const newApiKey = document.querySelector("#groq-api-key-input").value
+        saveDataToLocalStorage("GROQ_API_KEY", newApiKey)
+        window.location.reload()
+    })
 })

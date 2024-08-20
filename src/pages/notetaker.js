@@ -53,14 +53,17 @@ const NotesContainer = ({ notes, openedCategories }) => {
 
     return `
         <div id="notes-container">
-            ${categories.map(category => `
-                <div class="category-group" data-category="${category}">
-                    <h2 class="category-title">${category}</h2>
-                    <ul style="display: ${openedCategories.includes(category) ? 'block' : 'none'};">
-                        ${createMasonry(notes.filter(note => (note.category || "Uncategorized") === category))}
-                    </ul>
-                </div>
-            `).join('')}
+            ${categories.map(category => {
+                const categoryNotes = notes.filter(note => (note.category || "Uncategorized") === category);
+                return `
+                    <div class="category-group" data-category="${category}">
+                        <h2 class="category-title">${category} (${categoryNotes.length})</h2>
+                        <ul style="display: ${openedCategories.includes(category) ? 'block' : 'none'};">
+                            ${createMasonry(categoryNotes)}
+                        </ul>
+                    </div>
+                `;
+            }).join('')}
         </div>
     `;
 };

@@ -1,6 +1,6 @@
 const STORAGE_KEY = "notetaker";
 const MODE_KEY = "mode";
-const GROQ_API_KEY = "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"
+
 
 const SYSTEM_PROMPT = (content) => `
 You are a helpful note assistant.
@@ -49,6 +49,7 @@ let html = () => {
     let noteIndex = params.get('index');
     saveLastPageVisited("note.html" + `?index=${noteIndex}`);
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
+    const GROQ_API_KEY = getDataFromLocalStorage("GROQ_API_KEY")
     let mode = getDataFromLocalStorage(MODE_KEY);
 
     if (mode === null) {
