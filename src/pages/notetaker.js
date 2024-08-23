@@ -7,7 +7,6 @@ const noteForm = `
     <form id="note-form">
     <h1>Add a new note</h1>
     <input placeholder="Title" id="scratchpad" type="text" name="title"/>
-    <input type="text" placeholder="Tags" name="tags" />
     <input type="text" placeholder="Category" name="category" />
     <textarea placeholder="Content" name="content"></textarea>
     <button class="button sz-big" id="save-button">Save</button>
@@ -95,10 +94,9 @@ let html = () => {
             return;
         }
 
-        const noteTags = noteForm.tags.value.split(',');
         const noteCategory = noteForm.category.value;
         const noteCreated = new Date().toISOString();
-        const newNote = { title: noteTitle, content: noteContent, created: noteCreated, tags: noteTags, category: noteCategory };
+        const newNote = { title: noteTitle, content: noteContent, created: noteCreated, category: noteCategory };
         const newNotesArray = [...notesArray, newNote];
         const indexedNotes = newNotesArray.map((note, index) => {
             return { ...note, index: index };
