@@ -21,7 +21,7 @@ const createMasonry = (notes) => {
         <div class="masonry">
         <div class="column">
         ${evenNotes.map((note) => `
-            <li class="note" data-noteindex="${note.index}" draggable="true">
+            <li class="note" data-noteindex="${note.index}" draggable="true" tabindex="0">
             <h3>${note.title}</h3>
             <section class="footer">
             <button class="open-button clickeable button">

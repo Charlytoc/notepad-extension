@@ -14,6 +14,9 @@
   /* Background color of the notes of all sections when they are active or selected */
   --notes-bg-color: rgba(255, 255, 255, 0.1);
 
+
+  --link-bg:rgba(226, 226, 226, 0.03);
+  --highlight-bg: rgb(95, 38, 74);
   /* Background color of the notes of all sections when they are unselected or inactive */
   --unselected-notes-bg-color: rgba(226, 226, 226, 0.03);
 
@@ -30,6 +33,8 @@
   /* This is the border radious used in all elements for instance */
   --global-border-radious: 7px;
 
+  --notes-parent-padding: 20px;
+  --color-hovered: rgba(43, 43, 43, 0.31);
   color: var(--font-primary-color);
   cursor: none;
 }
@@ -45,7 +50,7 @@
   --font-secondary-color: #d3d1d1aa;
   --color-action-contrast: var(--font-primary-color);
   --color-remarkable: rgba(15, 141, 131, 0.523);
-  --bg-unselected-object: hsla(240, 46%, 53%, 0.166);
+  --bg-unselected-object: hsla(240, 99%, 41%, 0.166);
 
   --font-size-large: 18px;
   --font-size-medium: 14px;
@@ -163,7 +168,7 @@ blockquote {
   background-color: var(--bg-color);
   width: 500px;
   height: 600px;
-  padding: 3px;
+  padding: var(--notes-parent-padding);
 }
 .upper-section {
   text-align: center;
@@ -200,7 +205,7 @@ blockquote {
   }
 
   &:hover {
-    background-color: var(--color-action);
+    background-color: var(--highlight-bg);
     color: var(--color-action-contrast);
   }
 }
@@ -418,4 +423,27 @@ input[type="number"]::-webkit-outer-spin-button {
 
 li input {
   margin: 0 !important;
+}
+
+
+
+.note {
+  padding: 5px;
+  text-align: center;
+  position: relative;
+  gap: 5px;
+  font-size: 18px !important;
+  font-size: var(--font-size-medium);
+  border-radius: var(--global-border-radious);
+  /* background-color: var(--bg-unselected-object); */
+  background-color: var(--link-bg);
+  border: 2px solid transparent;
+  &:hover,
+  &:focus {
+    background-color: var(--color-hovered);
+    box-shadow: 1px 1px 1px rgb(0, 253, 38);
+    /* opacity: 0.8; */
+    color: var(--color-action);
+    border: 2px solid var(--color-action);
+  }
 }

@@ -8,24 +8,6 @@
   padding-bottom: 100px;
 }
 
-.note {
-  padding: 5px;
-  text-align: center;
-  position: relative;
-  gap: 5px;
-  font-size: 18px !important;
-  font-size: var(--font-size-medium);
-  border-radius: var(--global-border-radious);
-  background-color: var(--bg-unselected-object);
-  border: 2px solid transparent;
-  &:hover,
-  &:focus {
-    /* background-color: var(--color-active); */
-    /* opacity: 0.8; */
-    color: var(--color-action);
-    border: 2px solid var(--color-action);
-  }
-}
 
 
 .copied-modal {

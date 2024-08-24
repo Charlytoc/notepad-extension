@@ -59,9 +59,9 @@ textarea {
 
 
 
-
 #notes-container {
-  /* background-color: red; */
+  background-image: url('../assets/background.png');
+  background-size: contain;
   height: 500px;
   overflow-y: scroll;
   padding-bottom: 150px;
@@ -69,13 +69,11 @@ textarea {
 
 
 .category-group {
-  text-align: center;
+  background-color: rgba(220, 220, 220, 0.149);
+  padding: 10px;
+  margin-block: 5px;
 }
 
-.category-title {
-  display: inline-block;
-  margin: 0 auto;
-}
 
 .category-title::first-letter {
   color: var(--color-action);
