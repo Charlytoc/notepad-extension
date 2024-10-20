@@ -32,6 +32,7 @@ let html = () => {
     currentTheme = theme ? theme : ""
 
     const groqApiKey = getDataFromLocalStorage("GROQ_API_KEY") || ""
+    const openaiApiKey = getDataFromLocalStorage("OPENAI_API_KEY") || ""
 
     return `<main class="menu principal">
         <section class="header">
@@ -46,6 +47,11 @@ let html = () => {
             <input type="text" id="groq-api-key-input" value="${groqApiKey}" />
             <button class="button" id="save-groq-api-key-button">Change</button>
         </div>
+        <div class="openai-api-key">
+            <h2>OpenAI API Key</h2>
+            <input type="text" id="openai-api-key-input" value="${openaiApiKey}" />
+            <button class="button" id="save-openai-api-key-button">Change</button>
+        </div>
     </main>`
 }
 
@@ -55,6 +61,11 @@ document.addEventListener("render", () => {
     document.querySelector("#save-groq-api-key-button").addEventListener('click', () => {
         const newApiKey = document.querySelector("#groq-api-key-input").value
         saveDataToLocalStorage("GROQ_API_KEY", newApiKey)
+        window.location.reload()
+    })
+    document.querySelector("#save-openai-api-key-button").addEventListener('click', () => {
+        const newApiKey = document.querySelector("#openai-api-key-input").value
+        saveDataToLocalStorage("OPENAI_API_KEY", newApiKey)
         window.location.reload()
     })
 })

@@ -2,21 +2,38 @@ const STORAGE_KEY = "notetaker";
 const MODE_KEY = "mode";
 
 
-const SYSTEM_PROMPT = (content) => `
+
+const SYSTEM_PROMPT = (content, title)  => `
 You are a helpful note assistant.
 Your task is to make the changes the user asks for in the note.
 This is the current content of the note:
-
+"""
 ${content}
+"""
+
+And this is the note title
+"""
+${title}
+"""
+
+
+Please do what the user asks for and return the continuation of the note. If a complete refactor is needed, return the complete note.
 `
 
 const PromptForm = `
-    <form id="prompt-form">
-    <h1>What you want the AI to do?</h1>
-    <textarea name="prompt"></textarea>
-    <button class="button sz-big" type="submit">Send</button>
-    </form>
+<form id="prompt-form">
+<h1>What you want the AI to do?</h1>
+<textarea name="prompt"></textarea>
+<select name="ai-provider">
+    <option value="groq">GROQ</option>
+    <option value="openai">OpenAI</option>
+</select>
+<label for="temperature">Temperature:</label>
+<input type="number" id="temperature" name="temperature" min="0" max="1" step="0.1" value="0.7">
+<button class="button sz-big" type="submit">Send</button>
+</form>
 `
+
 
 const _footer = (note, mode) => {
     return `
@@ -50,6 +67,7 @@ let html = () => {
     saveLastPageVisited("note.html" + `?index=${noteIndex}`);
     let notesArray = getDataFromLocalStorage(STORAGE_KEY);
     const GROQ_API_KEY = getDataFromLocalStorage("GROQ_API_KEY")
+
     let mode = getDataFromLocalStorage(MODE_KEY);
 
     if (mode === null) {
@@ -94,22 +112,38 @@ let html = () => {
         toggleElementDisplay("show", "#prompt-form");
     };
 
+
+    
     actions.sendPrompt = (e) => {
         e.preventDefault();
         const prompt = document.querySelector("#prompt-form textarea").value;
-
-        fetch('https://api.groq.com/openai/v1/chat/completions', {
+        const aiProvider = document.querySelector("#prompt-form select[name='ai-provider']").value;
+        const temperature = parseFloat(document.querySelector("#prompt-form input[name='temperature']").value);
+    
+        let apiUrl, apiKey, model;
+        if (aiProvider === "groq") {
+            apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
+            apiKey = getDataFromLocalStorage("GROQ_API_KEY");
+            model = 'llama-3.1-70b-versatile';
+        } else if (aiProvider === "openai") {
+            apiUrl = 'https://api.openai.com/v1/chat/completions';
+            apiKey = getDataFromLocalStorage("OPENAI_API_KEY");
+            model = 'gpt-4o-mini';
+        }
+    
+        fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${GROQ_API_KEY}`,
+                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 messages: [{
-                    role: 'system', content: SYSTEM_PROMPT(note.content)
+                    role: 'system', content: SYSTEM_PROMPT(note.content, note.title)
                 },
                 { role: 'user', content: prompt }],
-                model: 'llama-3.1-70b-versatile'
+                model: model,
+                temperature: temperature
             })
         })
             .then(response => response.json())
@@ -126,9 +160,11 @@ let html = () => {
                 console.error('Error:', error);
                 notify({ title: "Error", message: "Failed to get response from AI" });
             });
-
+    
         toggleElementDisplay("hide", "#prompt-form");
     }
+    
+    
 
     actions.changeMode = () => {
         mode = mode === "md" ? "text" : "md";

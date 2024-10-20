@@ -33,10 +33,11 @@
   /* This is the border radious used in all elements for instance */
   --global-border-radious: 7px;
 
-  --notes-parent-padding: 20px;
+  --notes-parent-padding: 5px;
   --color-hovered: rgba(43, 43, 43, 0.31);
   color: var(--font-primary-color);
   cursor: none;
+
 }
 
 :root:has(body.dark) {
@@ -58,6 +59,7 @@
   color: var(--font-color);
   font-family: var(--font-text);
   color-scheme: dark;
+  --dynamic-color: rgba(63, 63, 63, 0.151);
 }
 :root:has(body.light) {
   --color-action: rgb(255, 142, 187);

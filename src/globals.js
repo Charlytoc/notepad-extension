@@ -44,11 +44,12 @@ const TodoComponent = (todo) => {
                    
                         <input class="done-checkbox clickeable" data-todo-index="${todo.index}" type="checkbox" ${todo.done ? "checked" : ""} />
                     </div>
+                    <button class="edit-todo-button clickeable" data-todo-index="${todo.index}"><i class="fa-solid fa-edit"></i> Edit</button>
                     <button class="delete-todo-button button" data-todo-index="${todo.index}">
                         <i class="fas fa-trash clickeable" data-todo-index="${todo.index}"></i>
     
                     </button>
-                </section>
+                </section>  
                 </div>`
 }
 
