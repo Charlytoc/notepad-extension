@@ -6,10 +6,15 @@ function retrieveFromLs(name, callback) {
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
     const notifyMessage = (alarms) => {
-        const message = alarms[alarm.name];
+        console.log(alarm, "alarm");
+        
+        const alarmInfo = alarms[alarm.name];
+
+        console.log(alarmInfo, "alarmInfo");
+
         chrome.notifications.create('', {
-            title: alarm.name,
-            message: message,
+            title: String(alarmInfo.title),
+            message: String(alarmInfo.message),
             iconUrl: '../icon.png',
             type: 'basic'
         });

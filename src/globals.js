@@ -68,6 +68,7 @@ const TodoComponent = (todo) => {
             <input type="text" name="title" placeholder="Todo title" value="${todo.title}">
             <textarea name="description" placeholder="Todo description">${todo.description}</textarea>
             <input type="time" name="time" placeholder="Todo time" value="${todo.time}"/>
+            <input class="hidden" type="text" name="hash" placeholder="Todo hash" value="${todo.hash}"/>
             <p>Remember me every <input type="number" class="cm-1" name="period" min="0" max="1440" value="${todo.period}"/> minutes</p>
             <input type="text" name="category" placeholder="Todo category" value="${todo.category}"/>
             <button type="submit" class="simple-button" id="edit-todo"><i class="fa-solid fa-check"></i></button>
@@ -81,7 +82,6 @@ const todoListComponent = (todos) => {
     const indexedTodos = todos.map((todo, index) => {
         return { ...todo, index }
     })
-    console.log(indexedTodos);
 
     const half = Math.ceil(indexedTodos.length / 2);
     const firstHalf = indexedTodos.slice(0, half);

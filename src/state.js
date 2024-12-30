@@ -58,8 +58,8 @@ const listenForThemeChange = () => {
         // Obtener la clase del elemento
         var elementClass = elementAtCursor.className;
 
-        if (elementClass.includes("button") || 
-        elementClass.includes("link") || elementClass.includes("clickeable") ){
+        if (elementClass.includes("button") ||
+            elementClass.includes("link") || elementClass.includes("clickeable")) {
             follower.style.width = "20px";
             follower.style.height = "20px";
         }
@@ -164,20 +164,20 @@ function saveInLs(name, object) {
     chrome.storage.local.set({ [name]: object });
 }
 
-const alarm = (title, message, dateInMilliseconds, periodInMinutes = 5) => {
+const alarm = (hash, title, message, dateInMilliseconds, periodInMinutes = 5) => {
     const updateAlarms = (alarms) => {
-        saveInLs("alarms", { ...alarms, [title]: message })
+        saveInLs("alarms", { ...alarms, [hash]: { title, message, dateInMilliseconds, periodInMinutes } })
     }
     retrieveFromLs("alarms", updateAlarms);
 
-    chrome.alarms.create(title, { when: dateInMilliseconds, periodInMinutes: periodInMinutes });
+    chrome.alarms.create(hash, { when: dateInMilliseconds, periodInMinutes: periodInMinutes });
 
     console.log(`Alarm ${title} was created`);
 }
 
-const clearAlarm = (title) => {
-    chrome.alarms.clear(title, function (wasCleared) {
-        console.log(`Alarm ${title} was cleared: ${wasCleared}`);
+const clearAlarm = (hash) => {
+    chrome.alarms.clear(hash, function (wasCleared) {
+        console.log(`Alarm ${hash} was cleared: ${wasCleared}`);
     });
 }
 

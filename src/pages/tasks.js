@@ -3,6 +3,10 @@ const timeToMinutes = (time) => {
     return hours * 60 + minutes;
 };
 
+const generateRandomHash = () => {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
 const getMillisecondsToFire = (time, day, month) => {
     const currentYear = new Date().getFullYear();
     const [hours, minutes] = time.split(':').map(Number);
@@ -60,6 +64,12 @@ let html = () => {
                     message: "All Chrome alarms have been cleared successfully! 🤖"
                 });
             }
+            else {
+                notify({
+                    title: "🟥 Alarms Not Cleared",
+                    message: "Failed to clear alarms. Please try again later. 🤖"
+                });
+            }
         });
     };
 
@@ -82,17 +92,28 @@ let html = () => {
         setTodos(newTodos);
 
         if (!e.target.checked) {
-            const dateInMilliseconds = getDateInMilliseconds(todo.time, day, month);
-
-            alarm(todo.title,
-                todo.description,
-                dateInMilliseconds,
-                Number(todo.period)
-            );
+            setAlarm(todo);
         } else {
-            clearAlarm(todo.title);
+            clearAlarm(todo.hash);
         }
     };
+
+    const setAlarm = (todo) => {
+        // Remove previous alarm if it exists
+        clearAlarm(todo.hash);
+
+        // Set new alarm
+        const dateInMilliseconds = getDateInMilliseconds(todo.time, day, month);
+        const periodInMinutes = Number(todo.period) === 0 ? 1 : Number(todo.period);
+        alarm(todo.hash, todo.title, todo.description, dateInMilliseconds, periodInMinutes);
+
+        notify(
+            {
+                title: `🟩 Todo: ${todo.title}`,
+                message: `I will remember you at ${todo.time} every ${todo.period} minutes! 🤖`
+            }
+        );
+    }
 
     actions.addTodo = (e) => {
         e.preventDefault();
@@ -102,6 +123,8 @@ let html = () => {
         for (const [key, value] of formData.entries()) {
             todoData[key] = value;
         }
+
+        todoData.hash = generateRandomHash();
 
         todoData.done = false;
         const newTodos = [...todos];
@@ -121,20 +144,7 @@ let html = () => {
         }
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
 
-        const dateInMilliseconds = getDateInMilliseconds(todoData.time, day, month);
-        const periodInMinutes = Number(todoData.period) === 0 ? 1 : Number(todoData.period);
-
-        alarm(todoData.title,
-            todoData.description,
-            dateInMilliseconds,
-            periodInMinutes
-        );
-        notify(
-            {
-                title: `🟩 Todo: ${todoData.title}`,
-                message: `I will remember you at ${todoData.time} every ${todoData.period} minutes! 🤖`
-            }
-        );
+        setAlarm(todoData);
 
         setTodos(newTodos);
         toggleElementDisplay('hide', "#f-todo");
@@ -154,20 +164,20 @@ let html = () => {
         const todoIndex = e.target.dataset.todoIndex;
         const form = document.querySelector(`#edit-todo-form-${todoIndex} > form`);
 
-        console.log(form, "form", todoIndex, "todoIndex");
-        
-
         const formData = new FormData(form);
         const todoData = {};
         for (const [key, value] of formData.entries()) {
             todoData[key] = value;
         }
 
+
         const newTodos = [...todos];
         newTodos[todoIndex] = todoData;
         saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
         setTodos(newTodos);
         toggleElementDisplay('hide', `#edit-todo-form-${todoIndex}`);
+
+        setAlarm(todoData);
     }
 
     return `<main class="principal">
@@ -210,7 +220,7 @@ document.addEventListener("render", () => {
         button.addEventListener('click', actions.showEditForm);
     });
 
-    document.querySelector(".todo-editor").addEventListener('submit', actions.editTodo);
+    document.querySelector(".todo-editor")?.addEventListener('submit', actions.editTodo);
 
     document.querySelector("#clear-alarms").addEventListener('click', actions.clearAllAlarms);
 });

@@ -193,18 +193,18 @@ blockquote {
 }
 
 .navigation-urls {
-  border-radius: var(--global-border-radious);
   display: block;
+  width: 100%;
+  text-align: center;
   padding: 5px;
 
   &.active {
-    /* position: relative; */
     color: var(--color-action-contrast) !important;
-    background-color: var(--color-remarkable);
+    border-bottom: 1px solid var(--color-action-contrast);
   }
 
   &:hover {
-    background-color: var(--highlight-bg);
+    background-color: var(--link-bg);
     color: var(--color-action-contrast);
   }
 }
@@ -444,4 +444,8 @@ li input {
     color: var(--color-action);
     border: 2px solid var(--color-action);
   }
+}
+
+.hidden {
+  display: none;
 }
