@@ -14,8 +14,7 @@
   /* Background color of the notes of all sections when they are active or selected */
   --notes-bg-color: rgba(255, 255, 255, 0.1);
 
-
-  --link-bg:rgba(226, 226, 226, 0.03);
+  --link-bg: rgba(226, 226, 226, 0.03);
   --highlight-bg: rgb(95, 38, 74);
   /* Background color of the notes of all sections when they are unselected or inactive */
   --unselected-notes-bg-color: rgba(226, 226, 226, 0.03);
@@ -37,7 +36,6 @@
   --color-hovered: rgba(43, 43, 43, 0.31);
   color: var(--font-primary-color);
   cursor: none;
-
 }
 
 :root:has(body.dark) {
@@ -122,7 +120,8 @@ h1 {
   text-align: center;
   margin-block: 10px;
 }
-h2,h3 {
+h2,
+h3 {
   /* text-align: center; */
   margin-block: 10px;
 }
@@ -160,7 +159,6 @@ blockquote {
   border-left: 2px solid var(--font-secondary-color);
   padding-left: 10px;
 }
-
 
 .current {
   color: var(--color-action);
@@ -203,7 +201,6 @@ blockquote {
     /* position: relative; */
     color: var(--color-action-contrast) !important;
     background-color: var(--color-remarkable);
-
   }
 
   &:hover {
@@ -345,7 +342,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .todo {
   background-color: var(--notes-bg-color);
-  padding: 5px;
   box-sizing: border-box;
   height: fit-content;
   display: grid;
@@ -370,6 +366,7 @@ input[type="number"]::-webkit-outer-spin-button {
     text-align: left;
     gap: 10px;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
     > * {
       flex-grow: 1;
@@ -377,14 +374,16 @@ input[type="number"]::-webkit-outer-spin-button {
       color: var(--font-secondary-color);
     }
     & code {
+      padding: 2px;
+      background-color: #000000;
+    }
+    & span {
       &.done {
         color: var(--color-neon-green);
       }
       &.pending {
         color: var(--color-neon-red);
       }
-      padding: 2px;
-      background-color: #000000;
     }
   }
 }
@@ -422,12 +421,9 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
-
 li input {
   margin: 0 !important;
 }
-
-
 
 .note {
   padding: 5px;

@@ -73,7 +73,6 @@ const listenForThemeChange = () => {
 }
 
 
-// const API_URL = 'https://rigobot.herokuapp.com'
 const RENDER_EVENT = new Event('render')
 const render = () => {
     document.querySelector('#root').innerHTML = html();

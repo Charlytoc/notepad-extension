@@ -144,6 +144,32 @@ let html = () => {
         toggleElementDisplay('show', "#f-todo");
     };
 
+    actions.showEditForm = (e) => {
+        const todoIndex = e.target.dataset.todoIndex;
+        toggleElementDisplay('show', `#edit-todo-form-${todoIndex}`);
+    }
+
+    actions.editTodo = (e) => {
+        e.preventDefault();
+        const todoIndex = e.target.dataset.todoIndex;
+        const form = document.querySelector(`#edit-todo-form-${todoIndex} > form`);
+
+        console.log(form, "form", todoIndex, "todoIndex");
+        
+
+        const formData = new FormData(form);
+        const todoData = {};
+        for (const [key, value] of formData.entries()) {
+            todoData[key] = value;
+        }
+
+        const newTodos = [...todos];
+        newTodos[todoIndex] = todoData;
+        saveDataToChromeStorage(TODOS_STORAGE_KEY, newTodos);
+        setTodos(newTodos);
+        toggleElementDisplay('hide', `#edit-todo-form-${todoIndex}`);
+    }
+
     return `<main class="principal">
     ${navigation("tasks.html")}
     <button class="simple-button" id="clear-alarms"><i class="fa-solid fa-trash"></i> Clear All Alarms</button>
@@ -156,10 +182,11 @@ let html = () => {
             <input type="text" name="title" placeholder="Todo title">
             <textarea name="description" placeholder="Todo description"></textarea>
             <input type="time" name="time" placeholder="Todo time"/>
-            <p>Remember me every <input type="number" class="cm-1" name="period"/> minutes</p>
+            <p>Remember me every <input type="number" class="cm-1" name="period" min="0" max="1440"/> minutes</p>
+            <input type="text" name="category" placeholder="Todo category"/>
             <button class="simple-button" id="add-todo"><i class="fa-solid fa-plus"></i></button>
         </form>
-        `, 
+        `,
             identifier: "f-todo",
         }
     )}
@@ -178,6 +205,12 @@ document.addEventListener("render", () => {
         checkbox.addEventListener('change', actions.markTodoAsDone);
     });
     document.querySelector("#show-form-button").addEventListener('click', actions.showForm);
+
+    document.querySelectorAll(".edit-todo-button").forEach((button) => {
+        button.addEventListener('click', actions.showEditForm);
+    });
+
+    document.querySelector(".todo-editor").addEventListener('submit', actions.editTodo);
 
     document.querySelector("#clear-alarms").addEventListener('click', actions.clearAllAlarms);
 });

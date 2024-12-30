@@ -8,8 +8,12 @@ const Form = ({
     innerHTML = "",
     identifier = ""
 }) => {
+
+
+
     const _html = `
     <section id="${identifier}" class="modal-form">
+
         ${innerHTML}
     </section>
     `
@@ -30,26 +34,46 @@ const toggleElementDisplay = (action, selector) => {
 }
 
 
+// <button class="edit-todo-button clickeable" data-todo-index="${todo.index}"><i class="fa-solid fa-edit"></i> Edit</button>
 const TodoComponent = (todo) => {
+
     return `<div class="todo">
-                <h3>${todo.title}</h3>
-                <p>${todo.description}</p>
+                <h3 >${todo.title}</h3>
+                <p >${todo.description}</p>
                 <section class="todo-extra-info">
                     <div>
-                        <code class=" ${todo.done ? "done" : "pending"}">${todo.time}</code>
-                        <span>Every ${todo.period} min</span>
+                        <span>Will notify at</span>
+                        <code >${todo.time}</code>
+                        <span>every ${todo.period} min</span>
                     </div>
                     
+           
+          
                     <div>
-                   
-                        <input class="done-checkbox clickeable" data-todo-index="${todo.index}" type="checkbox" ${todo.done ? "checked" : ""} />
-                    </div>
-                    <button class="edit-todo-button clickeable" data-todo-index="${todo.index}"><i class="fa-solid fa-edit"></i> Edit</button>
                     <button class="delete-todo-button button" data-todo-index="${todo.index}">
                         <i class="fas fa-trash clickeable" data-todo-index="${todo.index}"></i>
     
                     </button>
+                    <button class="edit-todo-button button" data-todo-index="${todo.index}">
+                            <i class="fas fa-edit clickeable" data-todo-index="${todo.index}"></i>
+                        </button>
+                        <input class="done-checkbox clickeable" data-todo-index="${todo.index}" type="checkbox" ${todo.done ? "checked" : ""} />
+                        <span class=" ${todo.done ? "done" : "pending"}">${todo.done ? "DONE" : "PENDING"}</span>
+                    </div>
                 </section>  
+                ${Form({
+        innerHTML: `
+                <form class="todo-editor" data-todo-index="${todo.index}">
+            <h2>Edit task</h2>
+            <input type="text" name="title" placeholder="Todo title" value="${todo.title}">
+            <textarea name="description" placeholder="Todo description">${todo.description}</textarea>
+            <input type="time" name="time" placeholder="Todo time" value="${todo.time}"/>
+            <p>Remember me every <input type="number" class="cm-1" name="period" min="0" max="1440" value="${todo.period}"/> minutes</p>
+            <input type="text" name="category" placeholder="Todo category" value="${todo.category}"/>
+            <button type="submit" class="simple-button" id="edit-todo"><i class="fa-solid fa-check"></i></button>
+        </form>
+        `, identifier: `edit-todo-form-${todo.index}`
+    })}
                 </div>`
 }
 
@@ -57,6 +81,8 @@ const todoListComponent = (todos) => {
     const indexedTodos = todos.map((todo, index) => {
         return { ...todo, index }
     })
+    console.log(indexedTodos);
+
     const half = Math.ceil(indexedTodos.length / 2);
     const firstHalf = indexedTodos.slice(0, half);
     const secondHalf = indexedTodos.slice(half, todos.length);
